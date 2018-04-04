@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "entando-frontend-libraries",
+  "license": "LGPL-2.1",
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "clean": "lerna clean",
+    "lint": "lerna exec npm run lint",
+    "test": "lerna exec npm run test",
+    "precommit": "npm run lint && npm run test"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lerna": "^2.9.1"
+  }
+}

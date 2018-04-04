@@ -1,0 +1,66 @@
+{
+  "name": "@entando/router",
+  "version": "1.0.0",
+  "license": "LGPL-2.1",
+  "description": "router used with redux for entando frontend applications",
+  "keywords": [
+    "entando",
+    "router",
+    "redux"
+  ],
+  "repository": "https://github.com/entando/frontend-libraries",
+  "scripts": {
+    "test": "jest --env=jsdom",
+    "lint": "eslint ./modules",
+    "coverage": "jest --env=jsdom --coverage"
+  },
+  "files": [
+    "modules",
+    "!test"
+  ],
+  "main": "modules/index.js",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "flux-standard-action": "^2.0.1",
+    "jest": "^22.4.3",
+    "react-dom": "^16.3.0",
+    "redux-mock-store": "^1.5.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "modules"
+    ],
+    "collectCoverageFrom": [
+      "modules/**/*.{js}"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/?(*.)(spec|test).{js}"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "dependencies": {
+    "history": "^4.7.2",
+    "path-to-regexp": "^2.2.0",
+    "react": "^16.3.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
+  }
+}

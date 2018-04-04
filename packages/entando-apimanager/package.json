@@ -1,0 +1,63 @@
+{
+  "name": "@entando/apimanager",
+  "version": "1.0.0",
+  "license": "LGPL-2.1",
+  "description": "api manager used in entando consoles",
+  "keywords": [
+    "entando",
+    "apimanager"
+  ],
+  "repository": "https://github.com/entando/frontend-libraries",
+  "scripts": {
+    "test": "jest --env=jsdom",
+    "lint": "eslint ./modules",
+    "coverage": "jest --env=jsdom --coverage"
+  },
+  "files": [
+    "modules",
+    "!test"
+  ],
+  "main": "modules/index.js",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "jest": "^22.4.3",
+    "jest-localstorage-mock": "^2.2.0",
+    "redux-mock-store": "^1.5.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "modules"
+    ],
+    "collectCoverageFrom": [
+      "modules/**/*.{js}"
+    ],
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/?(*.)(spec|test).{js}"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "dependencies": {
+    "@entando/router": "^1.0.0",
+    "@entando/utils": "^1.0.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
+  }
+}
