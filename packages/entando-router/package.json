@@ -12,17 +12,21 @@
   "scripts": {
     "test": "jest --env=jsdom",
     "lint": "eslint ./modules",
-    "coverage": "jest --env=jsdom --coverage"
+    "coverage": "jest --env=jsdom --coverage",
+    "build": "babel modules -d dist",
+    "prepublish": "npm run build"
   },
   "files": [
-    "modules",
-    "!test"
+    "dist",
+    "!test",
+    "modules"
   ],
-  "main": "modules/index.js",
+  "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",

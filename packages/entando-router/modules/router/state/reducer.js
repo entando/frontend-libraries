@@ -1,4 +1,4 @@
-import { NOTIFY_CHANGE } from 'router/state/types';
+import { NOTIFY_CHANGE } from './types';
 
 export default (state = {}, action = null) => {
   if (!action) {

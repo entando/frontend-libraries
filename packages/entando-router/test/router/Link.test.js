@@ -3,12 +3,11 @@ import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import Link from 'router/components/Link';
-import { gotoPath, routeToPath } from 'router/router';
+import { gotoPath, routeToPath } from '../../modules/router/router';
 
 configure({ adapter: new Adapter() });
 
-jest.mock('router/router');
-
+jest.mock('../../modules/router/router');
 
 const CLASS_NAME = 'randomClassName';
 const MOCK_ROUTE = 'fakeRoute';

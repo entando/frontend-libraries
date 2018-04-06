@@ -1,5 +1,6 @@
-import { SET_USER, UNSET_USER } from 'state/current-user/types';
 import { isEmpty } from '@entando/utils';
+
+import { SET_USER, UNSET_USER } from './types';
 
 const getInitialState = () => ({
   username: localStorage.getItem('username'),

@@ -1,7 +1,7 @@
 import { gotoRoute } from '@entando/router';
 
-import { SET_USER, UNSET_USER } from 'state/current-user/types';
-import { getLoginPage, getLandingPage } from 'api/apiManager';
+import { SET_USER, UNSET_USER } from './types';
+import { getLoginPage, getLandingPage } from '../../api/apiManager';
 
 export const setUser = user => ({
   type: SET_USER,

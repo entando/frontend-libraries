@@ -1,4 +1,4 @@
-import { SET_API } from 'state/api/types';
+import { SET_API } from './types';
 
 const initialState = {
   useMocks: true,

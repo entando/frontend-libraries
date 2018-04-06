@@ -13,7 +13,7 @@ run `npm i @entando/utils`
 Every helper is imported in the following manner:
 
 ```js
-import { <helper> } from '@entando/utils`
+import { <helper> } from '@entando/utils'
 ```
 
 the `<helper>` name always matches the one in the title of the following sections. Each title also contains the expected arguments and the return type of helper in between square brackets.
@@ -148,7 +148,7 @@ The resulting string is prepended by a `?`, or empty if no query string could be
 Every helper is imported in the following manner:
 
 ```js
-import { <helper> } from '@entando/utils`
+import { <helper> } from '@entando/utils'
 ```
 
 Every helper returns a react component.

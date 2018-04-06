@@ -9,6 +9,16 @@ describe('exports all utilities', () => {
     expect(utils).toHaveProperty('throttle', expect.any(Function));
   });
 
+  describe('fromattedText', () => {
+    it('exports formattedText', () => {
+      expect(utils).toHaveProperty('formattedText', expect.any(Function));
+    });
+
+    it('exports setCurrentLocale', () => {
+      expect(utils).toHaveProperty('setCurrentLocale', expect.any(Function));
+    });
+  });
+
   describe('numeric', () => {
     it('exports isInteger', () => {
       expect(utils).toHaveProperty('isInteger', expect.any(Function));

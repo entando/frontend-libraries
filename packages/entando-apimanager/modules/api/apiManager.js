@@ -1,10 +1,10 @@
 import 'whatwg-fetch';
 import { throttle, isEmpty } from '@entando/utils';
 
-import { buildResponse, buildErrorResponse } from 'api/responseFactory';
-import { useMocks, getDomain } from 'state/api/selectors';
-import { logoutUser } from 'state/current-user/actions';
-import { getToken } from 'state/current-user/selectors';
+import { buildResponse, buildErrorResponse } from './responseFactory';
+import { useMocks, getDomain } from '../state/api/selectors';
+import { logoutUser } from '../state/current-user/actions';
+import { getToken } from '../state/current-user/selectors';
 
 export const METHODS = {
   GET: 'GET',

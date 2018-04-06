@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { omit } from 'lodash';
 
-import { gotoPath, routeToPath } from 'router/router';
+import { gotoPath, routeToPath } from '../router';
 
 const Link = (props) => {
   const {

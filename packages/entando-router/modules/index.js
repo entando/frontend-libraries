@@ -1,6 +1,6 @@
-export { default as routerReducer } from 'router/state/reducer';
-export { default as Link } from 'router/components/Link';
-export { config as routerConfig, gotoRoute } from 'router/router';
+export { default as routerReducer } from './router/state/reducer';
+export { default as Link } from './router/components/Link';
+export { config as routerConfig, gotoRoute } from './router/router';
 export {
   setRouterSelector,
   getRouter,
@@ -8,4 +8,4 @@ export {
   getRoute,
   getParams,
   getSearchParams,
-} from 'router/state/selectors';
+} from './router/state/selectors';
