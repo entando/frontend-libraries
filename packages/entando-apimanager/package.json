@@ -1,6 +1,6 @@
 {
   "name": "@entando/apimanager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "LGPL-2.1",
   "description": "api manager used in entando consoles",
   "keywords": [
@@ -61,8 +61,8 @@
     ]
   },
   "dependencies": {
-    "@entando/router": "^1.0.0",
-    "@entando/utils": "^1.0.0",
+    "@entando/router": "^1.0.1",
+    "@entando/utils": "^1.0.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1"
