@@ -8,7 +8,8 @@
     "lint": "lerna run lint",
     "test": "lerna run test",
     "build": "lerna run build",
-    "precommit": "npm run lint && npm run test"
+    "precommit": "npm run lint && npm run test",
+    "publish": "lerna publish --yes"
   },
   "devDependencies": {
     "husky": "^0.14.3",
