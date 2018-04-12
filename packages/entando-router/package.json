@@ -19,7 +19,7 @@
   "files": [
     "dist",
     "!test",
-    "modules"
+    "!modules"
   ],
   "main": "dist/index.js",
   "publishConfig": {
