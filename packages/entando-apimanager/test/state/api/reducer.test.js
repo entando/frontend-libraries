@@ -55,6 +55,11 @@ describe('api reducer', () => {
         const state = reducer(defaultState, setApi({ domain: '//domain.com/entando-sample', useMocks: true }));
         expect(state).toHaveProperty('domain', '//domain.com/entando-sample');
       });
+
+      it('should assign the domain status with localhost and port', () => {
+        const state = reducer(defaultState, setApi({ domain: 'http://localhost:8080/test', useMocks: true }));
+        expect(state).toHaveProperty('domain', 'http://localhost:8080/test');
+      });
     });
 
     describe('useMocks', () => {
