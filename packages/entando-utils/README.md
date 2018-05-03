@@ -59,7 +59,7 @@ addFilter(filter);
 `addFilter()` converts a filter object into the query string equivalent:
 
 ```js
-'filters[0][attribute]=code&filters[0][operator]=like&filters[0][value]=test_code'
+'filters[0].attribute=code&filters[0].operator=like&filters[0].value=test_code'
 ```
 
 The method itself doe snot validate any of the values in the object.
