@@ -31,13 +31,13 @@ const filters = {
 };
 
 const SORTING_OK = 'sort=code&direction=ASC';
-const FILTER_OK = 'filters[0][attribute]=code&filters[0]' +
-'[operator]=like&filters[0][value]=test_code';
-const FILTERS_OK = 'filters[0][attribute]=code&filters[0]' +
-'[operator]=eq&filters[0][value]=test_code' +
-'&filters[1][attribute]=value&filters[1][operator]=eq' +
-'&filters[1][value]=test&filters[2][attribute]=type' +
-'&filters[2][operator]=eq&filters[2][value]=type';
+const FILTER_OK = 'filters.0.[attribute]=code&filters.0.' +
+'[operator]=like&filters.0.[value]=test_code';
+const FILTERS_OK = 'filters.0.[attribute]=code&filters.0.' +
+'[operator]=eq&filters.0.[value]=test_code' +
+'&filters.1.[attribute]=value&filters.1.[operator]=eq' +
+'&filters.1.[value]=test&filters.2.[attribute]=type' +
+'&filters.2.[operator]=eq&filters.2.[value]=type';
 const QUERY_STRING_OK = `?${SORTING_OK}&${FILTERS_OK}`;
 
 describe('test convertToQueryString', () => {

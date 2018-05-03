@@ -17,9 +17,9 @@ export const addFilter = (filterValues) => {
     attribute, pos, operator, value,
   } = filterValues;
   const filter = [
-    `filters[${pos}][attribute]=${attribute}`,
-    `filters[${pos}][operator]=${operator}`,
-    `filters[${pos}][value]=${value}`,
+    `filters.${pos}.[attribute]=${attribute}`,
+    `filters.${pos}.[operator]=${operator}`,
+    `filters.${pos}.[value]=${value}`,
   ];
 
   return filter.join('&');
