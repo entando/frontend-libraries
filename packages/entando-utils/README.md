@@ -141,6 +141,14 @@ converToQueryString(filters);
 
 The resulting string is prepended by a `?`, or empty if no query string could be generated.
 
+### setCurrentLocale(locale)
+
+Sets the current locale for the formattedText method.
+
+### formattedText(id, defaultMessage, values) [IntlMessageFormat]
+
+Returns a `IntlMessageFormat` object containing the translation for the given message id.
+
 ---
 
 ## React Helpers
