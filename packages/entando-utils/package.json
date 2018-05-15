@@ -1,6 +1,6 @@
 {
   "name": "@entando/utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "LGPL-2.1",
   "description": "various utilites used in entando fronted projects",
   "keywords": [
