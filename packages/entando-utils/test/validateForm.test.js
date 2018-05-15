@@ -59,6 +59,13 @@ describe('util/validateForm', () => {
       expect(foo).toHaveProperty('type', 'Error');
       expect(foo).toHaveProperty('props.id', 'validateForm.number');
     });
+
+    it('fails if does not contain only numbers', () => {
+      foo = isNumber('23a3');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.number');
+    });
+
     it('pass', () => {
       foo = isNumber(1);
       expect(foo).toBeUndefined();
