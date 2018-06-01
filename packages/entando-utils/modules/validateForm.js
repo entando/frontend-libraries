@@ -19,7 +19,7 @@ export const minLength = min => value =>
     /> : undefined);
 
 export const isNumber = value =>
-  (/^(\d)+$/.test(value) ? undefined : <FormattedMessage id="validateForm.number" />);
+  (/^(\d)*$/.test(value) ? undefined : <FormattedMessage id="validateForm.number" />);
 
 const number = value => !Number.isNaN(parseFloat(value));
 
