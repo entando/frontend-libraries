@@ -1,0 +1,45 @@
+@import "../patternfly.scss";
+
+.BrandMenu {
+  background: $color-pf-black-900;
+
+  .BrandMenu__navbar-brand {
+    padding: 3px 0;
+  }
+
+
+  // Bootstrap overrides
+
+  .DropdownMenuItem,
+  .LinkMenuItem,
+  .FirstLevelMenuItem {
+    // sass-lint:disable class-name-format
+    &.pull-right {
+      float: none;
+    }
+    @media (min-width: $screen-sm-min) {
+      &.pull-right {
+        float: right;
+      }
+    }
+    // sass-lint:enable class-name-format
+  }
+
+  .DropdownMenuItem {
+    height: 43px;
+  }
+
+  .BrandMenu__submenu {
+    .DropdownMenuItem {
+      height: 33px;
+    }
+  }
+
+  // overriding rule .navbar-pf .navbar-primary.persistent-secondary > li.active
+  // sass-lint:disable class-name-format, force-element-nesting
+  .navbar-pf .navbar-primary.persistent-secondary > .DropdownMenuItem.active {
+    position: relative;
+    margin-bottom: 0;
+  }
+  // sass-lint:enable class-name-format, force-element-nesting
+}

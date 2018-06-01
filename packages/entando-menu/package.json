@@ -1,0 +1,67 @@
+{
+  "name": "@entando/utils",
+  "version": "1.0.3",
+  "license": "LGPL-2.1",
+  "description": "various utilites used in entando fronted projects",
+  "keywords": [
+    "entando",
+    "utilities"
+  ],
+  "repository": "https://github.com/entando/frontend-libraries",
+  "scripts": {
+    "test": "jest --env=jsdom",
+    "lint": "eslint ./modules",
+    "coverage": "jest --env=jsdom --coverage",
+    "build": "babel modules -d dist",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist",
+    "!test",
+    "!modules"
+  ],
+  "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "jest": "^22.4.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "modules",
+      "test"
+    ],
+    "collectCoverageFrom": [
+      "modules/**/*.{js}"
+    ],
+    "testMatch": [
+      "<rootDir>/test/**/?(*.)(spec|test).{js}"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ]
+  },
+  "dependencies": {
+    "react": "^16.3.0",
+    "react-intl": "^2.4.0"
+  }
+}
