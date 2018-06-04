@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import AdminAppSwitch from 'ui/menu/AdminAppSwitch';
+import AdminAppSwitch from 'AdminAppSwitch';
 
 describe('ui/menu/AdminAppSwitch', () => {
   let component;

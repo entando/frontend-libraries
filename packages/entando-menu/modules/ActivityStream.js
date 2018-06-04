@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
 
-import 'sass/menu/ActivityStream.scss';
+import 'ActivityStream.scss';
 
 class ActivityStream extends Component {
   constructor(props) {

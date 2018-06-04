@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import ProjectLink from 'ui/menu/ProjectLink';
+import ProjectLink from 'ProjectLink';
 
 const PROJECT_LINK = 'http://www.entando.com';
 const PROJECT_NAME = 'Entando Portal';

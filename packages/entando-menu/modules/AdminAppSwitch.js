@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 
 import { OverlayTrigger, Popover } from 'patternfly-react';
 
-import 'sass/menu/AdminAppSwitch.scss';
-
+import 'AdminAppSwitch.scss';
 
 const popover = () => (
   <Popover id="popover-admin-app-switch" title="">

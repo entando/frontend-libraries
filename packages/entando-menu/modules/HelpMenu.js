@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
 
-import 'sass/menu/HelpMenu.scss';
+import 'HelpMenu.scss';
 
 const HELP_TEXT_PROPERTY = 'menu.help.text';
 

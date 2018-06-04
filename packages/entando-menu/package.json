@@ -1,6 +1,6 @@
 {
-  "name": "@entando/utils",
-  "version": "1.0.3",
+  "name": "@entando/menu",
+  "version": "0.1.0",
   "license": "LGPL-2.1",
   "description": "various utilites used in entando fronted projects",
   "keywords": [
@@ -45,8 +45,12 @@
     "moduleDirectories": [
       "node_modules",
       "modules",
-      "test"
+      "test",
+      "sass"
     ],
+    "moduleNameMapper": {
+      "\\.scss$": "<rootDir>/__mocks__/styleMock.js"
+    },
     "collectCoverageFrom": [
       "modules/**/*.{js}"
     ],
@@ -61,6 +65,8 @@
     ]
   },
   "dependencies": {
+    "@entando/router": "^1.0.1",
+    "patternfly-react": "^1.19.1",
     "react": "^16.3.0",
     "react-intl": "^2.4.0"
   }

@@ -4,7 +4,7 @@ import { Panel, Form, Button, Row, Col } from 'react-bootstrap';
 
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 
-import 'sass/menu/Notification.scss';
+import 'Notification.scss';
 
 class Notification extends Component {
   constructor(props) {

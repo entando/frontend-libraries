@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import UserDropdown from 'ui/menu/UserDropdown';
+import UserDropdown from 'UserDropdown';
 
 const USERNAME = 'Pippo';
 

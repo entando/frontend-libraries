@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import HelpMenu from 'ui/menu/HelpMenu';
+import HelpMenu from 'HelpMenu';
 
 const HELP_TEXT = 'Help';
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 import { shallow, mount } from 'enzyme';
 
-import DropdownMenuItem from 'ui/menu/menu-item/DropdownMenuItem';
+import DropdownMenuItem from 'menu-item/DropdownMenuItem';
 
 
 const LABEL = <b>Label</b>;

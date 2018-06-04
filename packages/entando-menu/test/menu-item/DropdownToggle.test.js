@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow, mount } from 'enzyme';
-import DropdownToggle from 'ui/menu/menu-item/DropdownToggle';
+import DropdownToggle from 'menu-item/DropdownToggle';
 
 const eventMock = {
   preventDefault: jest.fn(),

@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 import { shallow } from 'enzyme';
 
-import LinkMenuItem from 'ui/menu/menu-item/LinkMenuItem';
+import LinkMenuItem from 'menu-item/LinkMenuItem';
 
 const ID = 'item-id';
 const LABEL = 'Link label';

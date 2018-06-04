@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from 'react-bootstrap';
 
-import DropdownToggle from 'ui/menu/menu-item/DropdownToggle';
+import DropdownToggle from 'menu-item/DropdownToggle';
 
 
 class DropdownMenuItem extends Component {

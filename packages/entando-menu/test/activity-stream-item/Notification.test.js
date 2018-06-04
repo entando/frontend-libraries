@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow, mount } from 'enzyme';
-import Notification from 'ui/menu/activity-stream-item/Notification';
+import Notification from 'activity-stream-item/Notification';
 
 const NOTIFICATION = (<Notification
   key="notification2"

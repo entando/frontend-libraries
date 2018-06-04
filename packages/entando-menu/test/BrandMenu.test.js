@@ -1,8 +1,8 @@
 import React from 'react';
-import 'test/EnzymeInit';
+import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import BrandMenu from 'ui/menu/BrandMenu';
+import BrandMenu from 'BrandMenu';
 
 const TITLE = 'Title';
 const CHILD_ID = 'child-id';
