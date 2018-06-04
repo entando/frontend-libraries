@@ -25,6 +25,7 @@ The resulting state will be:
   api: {
     useMocks: false,
     domain: null,
+    updated: false,
   },
   currentUser: {
     username: null,
@@ -60,6 +61,8 @@ The store should contain both the `api` and `currentUser` reducers.
 `setApi()` is used to switch the use of mocks on or off. `useMocks` can only be set to false if a domain is being passed.
 
 `domain` has to be a valid domain main, which can omit the protocol. It is possible to add up to one directory, but the domain should not have trailing slashes.
+
+The `wasUpdated` selector will return a boolean to indicate whether or not the `setApi` action was successful.
 
 ---
 

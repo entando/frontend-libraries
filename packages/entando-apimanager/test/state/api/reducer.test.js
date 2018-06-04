@@ -12,6 +12,7 @@ describe('api reducer', () => {
     expect(typeof defaultState).toBe('object');
     expect(defaultState).toHaveProperty('domain', null);
     expect(defaultState).toHaveProperty('useMocks', true);
+    expect(defaultState).toHaveProperty('updated', false);
   });
 
   describe('after action setApi', () => {
@@ -39,6 +40,11 @@ describe('api reducer', () => {
       it('should assign the domain status for 3rd level domains', () => {
         const state = reducer(defaultState, setApi({ domain: '//sub.domain.com', useMocks: true }));
         expect(state).toHaveProperty('domain', '//sub.domain.com');
+      });
+
+      it('should assign the domain status for convoluted valid domains', () => {
+        const state = reducer(defaultState, setApi({ domain: '//entando-sample-service-entando-sample-project.192.168.42.8.nip.io', useMocks: true }));
+        expect(state).toHaveProperty('domain', '//entando-sample-service-entando-sample-project.192.168.42.8.nip.io');
       });
 
       it('should assign the domain status with explicit protocol', () => {
@@ -76,6 +82,19 @@ describe('api reducer', () => {
       it('should assign the useMocks status to false only if a valid domain is specified', () => {
         const state = reducer(defaultState, setApi({ domain: 'domain', useMocks: 'false' }));
         expect(state).toHaveProperty('useMocks', true);
+      });
+    });
+
+    describe('updated', () => {
+      it('should have an updated property with a true value if successful', () => {
+        const state = reducer(defaultState, setApi({ domain: '//domain.com', useMocks: false }));
+        expect(state).toHaveProperty('updated', true);
+      });
+
+      it('should have an updated property with a false value if not successful', () => {
+        let state = reducer(defaultState, setApi({ domain: '//domain.com', useMocks: false }));
+        state = reducer(state, setApi({ domain: false, useMocks: false }));
+        expect(state).toHaveProperty('updated', false);
       });
     });
   });
