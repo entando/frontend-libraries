@@ -1,11 +1,14 @@
 {
-  "name": "@entando/apimanager",
-  "version": "1.0.5",
+  "name": "@entando/messages",
+  "version": "0.1.0",
   "license": "LGPL-2.1",
-  "description": "api manager used in entando consoles",
+  "description": "messages redux states for errors and toasts",
   "keywords": [
     "entando",
-    "apimanager"
+    "messages",
+    "errors",
+    "toasts",
+    "redux"
   ],
   "repository": "https://github.com/entando/frontend-libraries",
   "scripts": {
@@ -29,6 +32,7 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
@@ -61,14 +65,21 @@
       "env"
     ],
     "plugins": [
-      "transform-object-rest-spread"
+      "transform-object-rest-spread",
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./modules"
+          ]
+        }
+      ]
     ]
   },
   "dependencies": {
-    "@entando/router": "^1.0.1",
-    "@entando/utils": "^1.0.4",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "uuid": "^3.2.1"
   }
 }
