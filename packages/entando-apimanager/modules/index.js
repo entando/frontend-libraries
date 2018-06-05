@@ -9,4 +9,4 @@ export { loginUser, logoutUser } from './state/current-user/actions';
 export { getUsername, getToken } from './state/current-user/selectors';
 export { default as api } from './state/api/reducer';
 export { setApi } from './state/api/actions';
-export { getApi, useMocks, getDomain } from './state/api/selectors';
+export { getApi, useMocks, getDomain, wasUpdated } from './state/api/selectors';
