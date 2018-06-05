@@ -1,6 +1,6 @@
 # apiManager
 
-This is a router used with redux in the entando projects.
+This is the api manager used in the entando projects.
 
 ## Installation instructions
 
