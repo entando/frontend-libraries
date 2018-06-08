@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
-import { throttle, isEmpty } from '@entando/utils';
+import { throttle, isEmpty, formattedText } from '@entando/utils';
+import { addToast, TOAST_ERROR } from '@entando/messages';
 
 import { buildResponse, buildErrorResponse } from './responseFactory';
 import { useMocks, getDomain } from '../state/api/selectors';
@@ -141,10 +142,29 @@ export const makeRealRequest = (request, page) => {
     getCompleteRequestUrl(request, page),
     getRequestParams(request),
   ).then((response) => {
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('noJsonReturned');
+    }
     if (response.status === 401) {
       store.dispatch(logoutUser());
+      throw new Error('permissionDenied');
+    } else if (response.status.toString().startsWith(5)) {
+      throw new Error('serverError');
     }
     return response;
+  }).catch((e) => {
+    store.dispatch(addToast(
+      formattedText(
+        `app.${e.message}`,
+        null,
+        { domain: getDomain(store.getState()) },
+      ),
+      TOAST_ERROR,
+    ));
+    // eslint-disable-next-line no-console
+    console.error(e);
+    throw e;
   });
 };
 
