@@ -158,3 +158,17 @@ the current page requested.
 
 #### pageSize
 the maximum number of items that each page should contain.
+
+---
+
+## Throws
+
+`apimanager` automatically checks if the returned response is not a 500, is of content-type json and that the token is not expired.
+
+If any of these happen the library will add a toast using the `@entando/messages` package and throw an error that can be caught in the actual method using `makeRequest` or `makeRealRequest`.
+
+The errors being thrown are either:
+
+- noJsonReturned
+- permissionDenied
+- serverError
