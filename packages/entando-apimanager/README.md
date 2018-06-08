@@ -1,6 +1,6 @@
 # apiManager
 
-This is a router used with redux in the entando projects.
+This is the api manager used in the entando projects.
 
 ## Installation instructions
 
@@ -25,6 +25,7 @@ The resulting state will be:
   api: {
     useMocks: false,
     domain: null,
+    updated: false,
   },
   currentUser: {
     username: null,
@@ -60,6 +61,8 @@ The store should contain both the `api` and `currentUser` reducers.
 `setApi()` is used to switch the use of mocks on or off. `useMocks` can only be set to false if a domain is being passed.
 
 `domain` has to be a valid domain main, which can omit the protocol. It is possible to add up to one directory, but the domain should not have trailing slashes.
+
+The `wasUpdated` selector will return a boolean to indicate whether or not the `setApi` action was successful.
 
 ---
 
@@ -155,3 +158,17 @@ the current page requested.
 
 #### pageSize
 the maximum number of items that each page should contain.
+
+---
+
+## Throws
+
+`apimanager` automatically checks if the returned response is not a 500, is of content-type json and that the token is not expired.
+
+If any of these happen the library will add a toast using the `@entando/messages` package and throw an error that can be caught in the actual method using `makeRequest` or `makeRealRequest`.
+
+The errors being thrown are either:
+
+- noJsonReturned
+- permissionDenied
+- serverError

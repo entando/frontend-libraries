@@ -66,5 +66,9 @@ describe('exports all apiManager functionalities', () => {
     it('exports getDomain selector', () => {
       expect(apiManager).toHaveProperty('getDomain', expect.any(Function));
     });
+
+    it('exports wasUpdated selector', () => {
+      expect(apiManager).toHaveProperty('wasUpdated', expect.any(Function));
+    });
   });
 });

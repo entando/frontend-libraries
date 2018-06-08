@@ -11,3 +11,8 @@ export const getDomain = createSelector(
   getApi,
   api => api.domain,
 );
+
+export const wasUpdated = createSelector(
+  getApi,
+  api => api.updated,
+);

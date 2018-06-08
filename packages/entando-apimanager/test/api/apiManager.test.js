@@ -1,5 +1,6 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { addToast } from '@entando/messages';
 
 import { config, makeRequest, getLoginPage, getLandingPage, METHODS } from 'api/apiManager';
 import { logoutUser } from 'state/current-user/actions';
@@ -40,9 +41,18 @@ const validRequest = {
   mockResponse: MOCKED_GOOD_RESPONSE,
 };
 
+const mockResponse = (payload, ok = true, status = 200, contentType = 'application/json') => ({
+  headers: {
+    get: () => [contentType],
+  },
+  ok,
+  status,
+  payload,
+});
+
 const fetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
   new Promise((resolve) => {
-    resolve(REAL_GOOD_RESPONSE);
+    resolve(mockResponse(REAL_GOOD_RESPONSE.payload));
   })
 ));
 
@@ -327,7 +337,7 @@ describe('apiManager', () => {
     });
 
     describe('authentication', () => {
-      it('returns 403 if the request requires authentication and no token was found', (done) => {
+      it('returns 401 if the request requires authentication and no token was found', (done) => {
         const result = makeRequest({
           ...validRequest,
           useAuthentication: true,
@@ -368,19 +378,18 @@ describe('apiManager', () => {
         }).catch(done.fail);
       });
 
-      it('redirects and unset the user if fetch returns a 401', (done) => {
+      it('throws an exception, adds a toast, redirects and unsets the user if fetch returns a 401', (done) => {
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
-            resolve({ ok: false, status: 401 });
+            resolve(mockResponse(null, false, 401));
           })
         ));
 
-        const store = mockStore({
+        config(mockStore({
           ...REAL,
           currentUser: { token: '395d491d59fba6c5d3a371c9549d7015' },
-        });
-
-        config(store);
+        }));
 
         const result = makeRequest({
           ...validRequest,
@@ -388,10 +397,69 @@ describe('apiManager', () => {
         });
         expect(customFetch).toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
-        result.then(() => {
+        expect(result).rejects.toThrowError('permissionDenied');
+        result.then(done.fail).catch(() => {
           expect(logoutUser).toHaveBeenCalled();
+          expect(consoleError).toHaveBeenCalled();
+          expect(addToast).toHaveBeenCalled();
+          consoleError.mockReset();
+          consoleError.mockRestore();
           done();
-        }).catch(done.fail);
+        });
+
+        customFetch.mockReset();
+        customFetch.mockRestore();
+      });
+    });
+
+    describe('bad content-type', () => {
+      jest.clearAllMocks();
+      it('throws an exception and adds a toast if the returned content type is not json', (done) => {
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+          new Promise((resolve) => {
+            resolve(mockResponse(null, true, 200, 'text/html'));
+          })
+        ));
+
+        const result = makeRequest(validRequest);
+        expect(customFetch).toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        expect(result).rejects.toThrowError('noJsonReturned');
+        result.then(done.fail).catch(() => {
+          expect(consoleError).toHaveBeenCalled();
+          expect(addToast).toHaveBeenCalled();
+          consoleError.mockReset();
+          consoleError.mockRestore();
+          done();
+        });
+
+        customFetch.mockReset();
+        customFetch.mockRestore();
+      });
+    });
+
+    describe('500', () => {
+      jest.clearAllMocks();
+      it('throws an exception and adds a toast if any 5xx status is returned', (done) => {
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+          new Promise((resolve) => {
+            resolve(mockResponse(null, false, 500));
+          })
+        ));
+
+        const result = makeRequest(validRequest);
+        expect(customFetch).toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        expect(result).rejects.toThrowError('serverError');
+        result.then(done.fail).catch(() => {
+          expect(consoleError).toHaveBeenCalled();
+          expect(addToast).toHaveBeenCalled();
+          consoleError.mockReset();
+          consoleError.mockRestore();
+          done();
+        });
 
         customFetch.mockReset();
         customFetch.mockRestore();
