@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "history": "^4.7.2",
+    "lodash": "^4.17.10",
     "path-to-regexp": "^2.2.0",
     "react": "^16.3.0",
     "redux": "^3.7.2",
