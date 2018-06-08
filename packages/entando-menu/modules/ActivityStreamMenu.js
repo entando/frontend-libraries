@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const ActivityStreamMenu = ({ onClickToggle }) => {
   const onClick = (ev) => {
     ev.preventDefault();

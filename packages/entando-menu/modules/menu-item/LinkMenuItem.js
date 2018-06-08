@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from '@entando/router';
 
-
 const LinkMenuItem = ({
   id, label, active, route, params, searchParams, className, onClick, pullRight,
 }) => {

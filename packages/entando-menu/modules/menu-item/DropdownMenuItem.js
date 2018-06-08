@@ -4,7 +4,6 @@ import { Dropdown } from 'react-bootstrap';
 
 import DropdownToggle from 'menu-item/DropdownToggle';
 
-
 class DropdownMenuItem extends Component {
   constructor(props) {
     super(props);

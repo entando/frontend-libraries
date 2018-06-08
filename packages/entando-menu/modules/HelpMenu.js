@@ -1,12 +1,7 @@
 import React from 'react';
-
 import { OverlayTrigger, Popover } from 'patternfly-react';
-
 import PropTypes from 'prop-types';
-
 import { FormattedMessage } from 'react-intl';
-
-import 'HelpMenu.scss';
 
 const HELP_TEXT_PROPERTY = 'menu.help.text';
 
