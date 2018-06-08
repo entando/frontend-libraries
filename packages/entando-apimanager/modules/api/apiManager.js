@@ -132,6 +132,14 @@ const getCompleteRequestUrl = (request, page) => {
   );
 };
 
+const normalizeErrorMessage = (message) => {
+  if (['noJsonReturned', 'permissionDenied'].includes(message)) {
+    return message;
+  }
+
+  return 'serverError';
+};
+
 export const makeRealRequest = (request, page) => {
   validateRequest(request);
   if (request.useAuthentication && !getAuthenticationToken()) {
@@ -156,7 +164,7 @@ export const makeRealRequest = (request, page) => {
   }).catch((e) => {
     store.dispatch(addToast(
       formattedText(
-        `app.${e.message}`,
+        `app.${normalizeErrorMessage(e.message)}`,
         null,
         { domain: getDomain(store.getState()) },
       ),
