@@ -1,6 +1,6 @@
 {
   "name": "@entando/router",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "LGPL-2.1",
   "description": "router used with redux for entando frontend applications",
   "keywords": [
