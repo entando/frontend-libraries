@@ -1,0 +1,26 @@
+.AdminAppSwitch {
+  text-align: center;
+}
+
+.AdminAppSwitch__ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.AdminAppSwitch__li {
+  margin-top: 10px;
+}
+
+.AdminAppSwitch__a,
+.AdminAppSwitch__a:hover  {
+  color: $color-pf-black-500;
+  text-decoration: none;
+}
+
+.AdminAppSwitch__a:hover  {
+  font-weight: bold;
+}
+
+.AdminAppSwitch__i {
+  color: $color-pf-black-100;
+}

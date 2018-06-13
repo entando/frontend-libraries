@@ -1,0 +1,14 @@
+.ActivityStream {
+  // sass-lint:disable class-name-format
+  .drawer-pf {
+    top: 30px;
+    height: calc(100vh - 46px );
+    overflow: hidden;
+    z-index: 999;
+  }
+  // sass-lint:enable class-name-format
+
+  &__container {
+    overflow-y: auto;
+  }
+}

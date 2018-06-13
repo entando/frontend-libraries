@@ -1,0 +1,26 @@
+.HelpMenu {
+  text-align: center;
+}
+
+.HelpMenu__ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.HelpMenu__li {
+  margin-top: 10px;
+}
+
+.HelpMenu__a,
+.HelpMenu__a:hover  {
+  color: $color-pf-black-500;
+  text-decoration: none;
+}
+
+.HelpMenu__a:hover  {
+  font-weight: bold;
+}
+
+.HelpMenu__i {
+  color: $color-pf-black-100;
+}
