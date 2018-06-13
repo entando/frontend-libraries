@@ -1,0 +1,87 @@
+$bg-size: cover;
+
+.LoginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  display: flex;
+
+  &__header {
+    margin: 0 auto;
+    padding: 0 0 20px 0;
+  }
+
+  .LoginPage__brand {
+    height: 24px;
+    margin: 0 0 24px 0;
+  }
+
+  &__title {
+    color: $color-pf-white;
+    font-size: 36px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    margin: -31px 0 25px 0;
+    color: $color-pf-white;
+    font-size: 36px;
+    font-weight: 100;
+    text-transform: uppercase;
+
+  }
+
+  &__abstract {
+    margin: 0 0 35px 0;
+    color: $color-pf-white;
+    font-weight: 100;
+  }
+
+  &__spacer {
+    width: 84px;
+    height: 13px;
+    margin: 31px 0 35px 0;
+    background: $color-pf-blue-400;
+  }
+
+  &__copywright {
+    color: $color-pf-white;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  &__entando {
+    color: $color-pf-blue-400;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  &__left-wrapper {
+    width: 66%;
+    margin: auto;
+    color: $color-pf-white;
+  }
+
+  &__right-wrapper {
+    width: 66%;
+    margin: auto;
+    color: $color-pf-white;
+  }
+
+  @media (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
+    .LoginPage__right-wrapper,
+    .LoginPage__left-wrapper {
+      width: 92%;
+    }
+  }
+  @media (max-width: $screen-lg-min) {
+    .LoginPage__right-wrapper,
+    .LoginPage__left-wrapper {
+      width: 89%;
+    }
+  }
+}
