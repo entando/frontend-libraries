@@ -16,8 +16,7 @@ module.exports = {
         "moduleDirectory": [
           "node_modules",
           "modules",
-          "test",
-          "sass"
+          "test"
         ]
       }
     }

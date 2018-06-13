@@ -24,8 +24,8 @@ class BrandMenu extends Component {
     let firstLevelMenu = null;
     if (children) {
       // pass onClick and active props to the children
-      const enhancedChildren = React.Children.map(children, child =>
-        React.cloneElement(
+      const enhancedChildren = React.Children.map(children, child => (
+        !child ? null : React.cloneElement(
           child,
           {
             onClick: () => {
@@ -37,7 +37,7 @@ class BrandMenu extends Component {
             },
             active: (child.props.id === this.state.activeMenu),
           },
-        ));
+        )));
       // create the menu
       firstLevelMenu = (
         <ul

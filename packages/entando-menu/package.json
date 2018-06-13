@@ -2,25 +2,27 @@
   "name": "@entando/menu",
   "version": "0.1.0",
   "license": "LGPL-2.1",
-  "description": "various utilites used in entando fronted projects",
+  "description": "react components used to render menus in entando projects",
   "keywords": [
     "entando",
-    "utilities"
+    "menu",
+    "react"
   ],
   "repository": "https://github.com/entando/frontend-libraries",
   "scripts": {
     "test": "jest --env=jsdom",
     "lint": "eslint ./modules",
     "coverage": "jest --env=jsdom --coverage",
-    "build": "babel modules -d dist",
+    "build": "babel modules -d dist/js && node-sass --output-style compressed sass/index.scss -o dist/css",
     "prepublish": "npm run build"
   },
   "files": [
     "dist",
     "!test",
-    "!modules"
+    "!modules",
+    "!sass"
   ],
-  "main": "dist/index.js",
+  "main": "dist/js/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -29,6 +31,7 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "eslint": "^4.19.1",
@@ -36,7 +39,8 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "node-sass": "^4.9.0"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -45,12 +49,8 @@
     "moduleDirectories": [
       "node_modules",
       "modules",
-      "test",
-      "sass"
+      "test"
     ],
-    "moduleNameMapper": {
-      "\\.scss$": "<rootDir>/__mocks__/styleMock.js"
-    },
     "collectCoverageFrom": [
       "modules/**/*.{js}"
     ],
@@ -62,6 +62,16 @@
     "presets": [
       "env",
       "react"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./modules"
+          ]
+        }
+      ]
     ]
   },
   "dependencies": {

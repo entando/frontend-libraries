@@ -25,9 +25,10 @@ const ProjectLink = props => (
   </li>
 );
 
-export default ProjectLink;
 
 ProjectLink.propTypes = {
   projectLink: PropTypes.string.isRequired,
   projectName: PropTypes.string.isRequired,
 };
+
+export default ProjectLink;
