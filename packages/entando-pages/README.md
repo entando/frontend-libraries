@@ -61,3 +61,20 @@ The component expects the following props:
 ```
 
 if the `gotoHome` function is passed the page will render a button that will call the given function when the user clicks on it.
+
+---
+
+## locales
+
+This package also exports locales for the labels used within it.
+
+To add these labels to an existing project merge them with the project labels:
+
+```js
+import { locales } from '@entando/pages';
+
+// enLocale and itLocale are the project own locales.
+
+enLocale.messages = { ...enLocale.messages, ...locales.en.messages };
+itLocale.messages = { ...itLocale.messages, ...locales.it.messages };
+```
