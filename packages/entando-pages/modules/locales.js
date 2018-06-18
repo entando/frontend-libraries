@@ -1,0 +1,38 @@
+export default {
+  en: {
+    locale: 'en',
+    messages: {
+      'fl.pages.login.button': 'Login',
+      'fl.pages.login.lang.it': 'Italiano',
+      'fl.pages.login.lang.en': 'English',
+      'fl.pages.login.username.placeholder': 'Username',
+      'fl.pages.login.password.placeholder': 'Password',
+      'fl.pages.loginPage.title': 'the leading dxp platform',
+      'fl.pages.loginPage.subtitle': 'for cloud native applications',
+      'fl.pages.loginPage.abstract': 'Entando is the lightest, open source Digital Experience Platform (DXP) for modern applications. Entando harmonizes customer experience across the omnichannel applying the techniques of modern software practices to enterprise applications. Learn quickly, develop easily, deploy rapidly.',
+      'fl.pages.loginPage.copywright': 'Copyright 2018',
+      'fl.pages.loginPage.entando': 'Entando',
+      'fl.pages.notfoundPage.title': '404',
+      'fl.pages.notfoundPage.abstract': 'The requested page was not found',
+      'fl.pages.notfoundPage.gotoHomeButton': 'Go to Home',
+    },
+  },
+  it: {
+    locale: 'it',
+    messages: {
+      'fl.pages.login.button': 'Login',
+      'fl.pages.login.lang.it': 'Italiano',
+      'fl.pages.login.lang.en': 'English',
+      'fl.pages.login.username.placeholder': 'Nome Utente',
+      'fl.pages.login.password.placeholder': 'Password',
+      'fl.pages.loginPage.title': 'the leading dxp platform',
+      'fl.pages.loginPage.subtitle': 'for cloud native applications',
+      'fl.pages.loginPage.abstract': 'Entando is the lightest, open source Digital Experience Platform (DXP) for modern applications. Entando harmonizes customer experience across the omnichannel applying the techniques of modern software practices to enterprise applications. Learn quickly, develop easily, deploy rapidly.',
+      'fl.pages.loginPage.copywright': 'Copyright 2018',
+      'fl.pages.loginPage.entando': 'Entando',
+      'fl.pages.notfoundPage.title': '404',
+      'fl.pages.notfoundPage.abstract': 'la pagina richiesta non è stata trovata',
+      'fl.pages.notfoundPage.gotoHomeButton': 'Vai alla Home',
+    },
+  },
+};

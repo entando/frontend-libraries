@@ -5,10 +5,10 @@ import { formattedText } from '@entando/utils';
 
 import { Form, Col, FormGroup, FormControl, Button, Alert } from 'patternfly-react';
 
-const LOGIN_USERNAME_LABEL = 'fcc.login.username.placeholder';
-const LOGIN_PASSWORD_LABEL = 'fcc.login.password.placeholder';
-const LOGIN_BUTTON = 'fcc.login.button';
-const LOGIN_LANG_BUTTON = { it: 'fcc.login.lang.it', en: 'fcc.login.lang.en' };
+const LOGIN_USERNAME_LABEL = 'fl.pages.login.username.placeholder';
+const LOGIN_PASSWORD_LABEL = 'fl.pages.login.password.placeholder';
+const LOGIN_BUTTON = 'fl.pages.login.button';
+const LOGIN_LANG_BUTTON = { it: 'fl.pages.login.lang.it', en: 'fl.pages.login.lang.en' };
 
 
 class LoginForm extends Component {

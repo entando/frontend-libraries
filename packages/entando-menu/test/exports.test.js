@@ -52,4 +52,12 @@ describe('exports all menu components', () => {
   it('exports LinkMenuItem', () => {
     expect(menu).toHaveProperty('LinkMenuItem', expect.any(Function));
   });
+
+  it('exports locales', () => {
+    expect(menu).toHaveProperty('locales');
+    expect(menu).toHaveProperty('locales.it', expect.any(Object));
+    expect(menu).toHaveProperty('locales.it.locale', 'it');
+    expect(menu).toHaveProperty('locales.en', expect.any(Object));
+    expect(menu).toHaveProperty('locales.en.locale', 'en');
+  });
 });

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const linkTitle = projectName => (
   <FormattedMessage
-    id="menu.goToProject"
+    id="fl.menu.goToProject"
     defaultMessage="Go to {projectName}"
     values={{
       projectName,
