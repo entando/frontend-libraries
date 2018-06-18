@@ -20,13 +20,13 @@ describe('ui/table/TableDragLayer', () => {
       const component = shallow(<TableDragLayer PreviewRenderer={PreviewRendererMock} />);
       expect(component.exists()).toBe(true);
     });
-    xit('does not render anything if not dragging (default)', () => {
+    it('does not render anything if not dragging (default)', () => {
       const component = shallow(<TableDragLayer PreviewRenderer={PreviewRendererMock} />);
       expect(component.children().length).toBe(0);
     });
   });
 
-  xdescribe('when dragging', () => {
+  describe('when dragging', () => {
     let component;
     beforeEach(() => {
       component = shallow(<TableDragLayer isDragging PreviewRenderer={PreviewRendererMock} />);
@@ -41,7 +41,7 @@ describe('ui/table/TableDragLayer', () => {
     });
   });
 
-  xdescribe('react-dnd collect() function', () => {
+  describe('react-dnd collect() function', () => {
     const result = collect(monitorMock);
     const propNames = ['item', 'initialOffset', 'differenceOffset', 'isDragging'];
 
@@ -52,7 +52,7 @@ describe('ui/table/TableDragLayer', () => {
     });
   });
 
-  xdescribe('react-dnd getItemStyles() function', () => {
+  describe('react-dnd getItemStyles() function', () => {
     const propsMock = {
       initialOffset: { x: 5, y: 10 },
       differenceOffset: { x: 1, y: 2 },
