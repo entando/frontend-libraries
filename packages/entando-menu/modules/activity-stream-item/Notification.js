@@ -79,7 +79,7 @@ class Notification extends Component {
           <Row className="Notification__comment-section">
             <Panel.Toggle componentClass="a" className="pull-right Notification__comment-section">
               <FormattedMessage
-                id="fcc.activityStream.writeComment"
+                id="fl.menu.activityStream.writeComment"
               />
             </Panel.Toggle>
           </Row>
@@ -96,7 +96,7 @@ class Notification extends Component {
                   <Button type="submit" className="pull-right" bsStyle="primary">
                     <FormattedMessage
                       className="pull-right"
-                      id="fcc.activityStream.submit"
+                      id="fl.menu.activityStream.submit"
                     />
                   </Button>
                 </Col>

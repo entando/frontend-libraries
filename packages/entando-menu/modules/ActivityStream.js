@@ -51,7 +51,7 @@ class ActivityStream extends Component {
             </a>
             <h3 className="text-center">
               <FormattedMessage
-                id="fcc.activityStream.drawer"
+                id="fl.menu.activityStream.drawer"
               />
             </h3>
           </div>

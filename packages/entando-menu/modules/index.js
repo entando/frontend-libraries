@@ -10,3 +10,4 @@ export { default as DropdownMenuItem } from 'menu-item/DropdownMenuItem';
 export { default as DropdownToggle } from 'menu-item/DropdownToggle';
 export { default as FirstLevelMenuItem } from 'menu-item/FirstLevelMenuItem';
 export { default as LinkMenuItem } from 'menu-item/LinkMenuItem';
+export { default as locales } from 'locales';
