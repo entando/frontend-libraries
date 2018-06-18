@@ -16,4 +16,12 @@ describe('exports all pages components', () => {
   it('exports NotFoundPage', () => {
     expect(pages).toHaveProperty('NotFoundPage', expect.any(Function));
   });
+
+  it('exports locales', () => {
+    expect(pages).toHaveProperty('locales');
+    expect(pages).toHaveProperty('locales.it', expect.any(Object));
+    expect(pages).toHaveProperty('locales.it.locale', 'it');
+    expect(pages).toHaveProperty('locales.en', expect.any(Object));
+    expect(pages).toHaveProperty('locales.en.locale', 'en');
+  });
 });

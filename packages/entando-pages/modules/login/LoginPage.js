@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Col } from 'patternfly-react';
 
-const LOGINPAGE_TITLE = 'fcc.loginPage.title';
-const LOGINPAGE_SUBTITLE = 'fcc.loginPage.subtitle';
-const LOGINPAGE_ABSTRACT = 'fcc.loginPage.abstract';
-const LOGINPAGE_COPYWRIGHT = 'fcc.loginPage.copywright';
-const LOGINPAGE_ENTANDO = 'fcc.loginPage.entando';
+const LOGINPAGE_TITLE = 'fl.pages.loginPage.title';
+const LOGINPAGE_SUBTITLE = 'fl.pages.loginPage.subtitle';
+const LOGINPAGE_ABSTRACT = 'fl.pages.loginPage.abstract';
+const LOGINPAGE_COPYWRIGHT = 'fl.pages.loginPage.copywright';
+const LOGINPAGE_ENTANDO = 'fl.pages.loginPage.entando';
 
 const background = {
   background: 'url(images/bg-login.jpg)',

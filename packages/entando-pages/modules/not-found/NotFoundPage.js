@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Grid, Row, Col, Button } from 'patternfly-react';
 
-const NOTFOUNDPAGE_TITLE = 'fcc.notfoundPage.title';
-const NOTFOUNDPAGE_ABSTRACT = 'fcc.notfoundPage.abstract';
-const GOTO_HOME_BUTTON = 'fcc.notfoundPage.gotoHomeButton';
+const NOTFOUNDPAGE_TITLE = 'fl.pages.notfoundPage.title';
+const NOTFOUNDPAGE_ABSTRACT = 'fl.pages.notfoundPage.abstract';
+const GOTO_HOME_BUTTON = 'fl.pages.notfoundPage.gotoHomeButton';
 
 
 const NotFoundPage = ({ gotoHome }) => {
