@@ -15,6 +15,7 @@ run `npm i @entando/router`
 ```js
 {
   "mode": "browser", // history mode, can be 'hash' or 'browser'
+  "pathPrefix": "my-web-context",
   "routes": [
     { "name": "homePage", "path": "/" },
     { "name": "about", "path": "/about" },
@@ -24,6 +25,7 @@ run `npm i @entando/router`
 }
 ```
 - **mode** the history type. Can be 'hash' or 'browser' (default: 'browser')
+- **pathPrefix** optional value to be added to the beginning of every path in order to run app in sub-folder (e.g., '/appbuilder')
 - **routes** an array of objects representing the routes.
   - **name** the route unique name
   - **path** the route path pattern
