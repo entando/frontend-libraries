@@ -267,7 +267,6 @@ describe('router', () => {
   });
 
   describe('config() with pathPrefix', () => {
-    let subscription;
     const CONFIG = {
       mode: 'browser',
       routes: ROUTES,
@@ -281,10 +280,7 @@ describe('router', () => {
     it('should transform the routes', () => {
       const mockStore = {
         dispatch: jest.fn(),
-        subscribe: jest.fn()
-          .mockImplementation((func) => {
-            subscription = func;
-          }),
+        subscribe: jest.fn(),
         getState: () => ({ router: { location: { } } }),
       };
 
@@ -295,6 +291,7 @@ describe('router', () => {
       routes.forEach((route, i) => {
         expect(route.name).toBe(ROUTES[i].name);
         expect(route.path).toBe(ROUTES[i].path);
+        expect(route.path).toMatch(/^\/appbuilder.*/);
 
         expect(route.re instanceof RegExp).toBe(true);
         expect(typeof route.getPath === 'function').toBe(true);
