@@ -12,6 +12,7 @@ let isTimeTraveling = false;
 
 let routes = null;
 let routeNotFound = null;
+let pathPrefix = null;
 
 export const getHistory = () => history;
 
@@ -23,6 +24,9 @@ export function setRoutes(rts) {
   for (i = 0; i < cnt; i += 1) {
     keys = [];
     route = rts[i];
+    if (pathPrefix) {
+      route.path = pathPrefix + route.path;
+    }
     route.re = pathToRegexp(route.path, keys);
     route.keys = keys;
     route.getPath = compile(route.path);
@@ -148,8 +152,12 @@ export const configStore = (reduxStore) => {
 
 
 export const config = (reduxStore, locConfig) => {
+  pathPrefix = locConfig.pathPrefix || null; // Used in setRoutes, so set this first
   setRoutes(locConfig.routes);
   routeNotFound = locConfig.notFoundRoute;
+  if (pathPrefix) {
+    routeNotFound.path = pathPrefix + routeNotFound.path;
+  }
   setMode(locConfig.mode);
   configStore(reduxStore);
 };
