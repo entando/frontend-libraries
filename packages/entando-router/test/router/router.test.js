@@ -265,4 +265,41 @@ describe('router', () => {
       subscription();
     });
   });
+
+  describe('config() with pathPrefix', () => {
+    let subscription;
+    const CONFIG = {
+      mode: 'browser',
+      routes: ROUTES,
+      notFoundRoute: { name: 'notFound', path: '/404' },
+      pathPrefix: '/appbuilder',
+    };
+    let routes;
+    beforeEach(() => {
+      routes = setRoutes(ROUTES);
+    });
+    it('should transform the routes', () => {
+      const mockStore = {
+        dispatch: jest.fn(),
+        subscribe: jest.fn()
+          .mockImplementation((func) => {
+            subscription = func;
+          }),
+        getState: () => ({ router: { location: { } } }),
+      };
+
+      config(mockStore, CONFIG);
+
+      expect(Array.isArray(routes)).toBe(true);
+      expect(routes.length).toBe(3);
+      routes.forEach((route, i) => {
+        expect(route.name).toBe(ROUTES[i].name);
+        expect(route.path).toBe(ROUTES[i].path);
+
+        expect(route.re instanceof RegExp).toBe(true);
+        expect(typeof route.getPath === 'function').toBe(true);
+        expect(Array.isArray(route.keys)).toBe(true);
+      });
+    });
+  });
 });
