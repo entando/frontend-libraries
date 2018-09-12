@@ -14,6 +14,9 @@ let store;
 const LANDING_PAGE = 'landingPage';
 const LOGIN_PAGE = 'loginPage';
 
+jest.spyOn(Storage.prototype, 'setItem');
+jest.spyOn(Storage.prototype, 'removeItem');
+
 describe('current-user actions', () => {
   beforeEach(() => {
     store = mockStore();
