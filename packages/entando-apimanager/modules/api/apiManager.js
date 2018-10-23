@@ -108,6 +108,7 @@ const getRequestParams = (request) => {
     method: request.method,
     headers: {
       'Content-Type': request.contentType || 'application/json',
+      ...request.headers,
     },
   };
   if (request.method === METHODS.POST || request.method === METHODS.PUT) {

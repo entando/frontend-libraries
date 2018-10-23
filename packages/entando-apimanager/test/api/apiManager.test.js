@@ -336,6 +336,31 @@ describe('apiManager', () => {
       }).catch(done.fail);
     });
 
+    it('attaches additional headers when specified', (done) => {
+      const result = makeRequest({
+        uri: '/api/test',
+        method: METHODS.GET,
+        mockResponse: MOCKED_GOOD_RESPONSE,
+        headers: { ciao: 'whatever', 'Other-Stuff': 'my-stuff' },
+      });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test',
+        {
+          method: METHODS.GET,
+          headers: {
+            'Content-Type': 'application/json',
+            ciao: 'whatever',
+            'Other-Stuff': 'my-stuff',
+          },
+        },
+      );
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+        done();
+      }).catch(done.fail);
+    });
+
     describe('authentication', () => {
       it('returns 401 if the request requires authentication and no token was found', (done) => {
         const result = makeRequest({
