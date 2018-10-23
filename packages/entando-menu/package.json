@@ -1,6 +1,6 @@
 {
   "name": "@entando/menu",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "license": "LGPL-2.1",
   "description": "react components used to render menus in entando projects",
   "keywords": [
@@ -75,7 +75,7 @@
     ]
   },
   "dependencies": {
-    "@entando/router": "^1.1.1",
+    "@entando/router": "^1.1.2",
     "patternfly-react": "^1.19.1",
     "react": "^16.3.0",
     "react-intl": "^2.4.0"
