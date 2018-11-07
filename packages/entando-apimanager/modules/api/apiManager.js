@@ -76,7 +76,7 @@ export const makeMockRequest = (request, page = defaultPage) => {
   validateRequest(request);
   const errors = getErrors(request.errors, request);
   const statusCode = getMockResponseStatusCode(errors);
-  if (statusCode === 401) {
+  if (statusCode === 401 || statusCode === 503) {
     store.dispatch(logoutUser());
   }
   return new Promise(resolve => throttle(() => (
@@ -159,7 +159,12 @@ export const makeRealRequest = (request, page) => {
       store.dispatch(logoutUser());
       throw new Error('permissionDenied');
     } else if (response.status.toString().startsWith(5)) {
-      throw new Error('serverError');
+      if (response.status === 503) {
+        store.dispatch(logoutUser());
+        throw new Error('serviceUnavailable');
+      } else {
+        throw new Error('serverError');
+      }
     }
     return response;
   }).catch((e) => {

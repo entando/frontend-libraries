@@ -490,5 +490,33 @@ describe('apiManager', () => {
         customFetch.mockRestore();
       });
     });
+
+    describe('503', () => {
+      jest.clearAllMocks();
+      it('throws an exception and adds a toast if any 503 status is returned', (done) => {
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
+          new Promise((resolve) => {
+            resolve(mockResponse(null, false, 503));
+          })
+        ));
+
+        const result = makeRequest(validRequest);
+        expect(customFetch).toHaveBeenCalled();
+        expect(result).toBeInstanceOf(Promise);
+        expect(result).rejects.toThrowError('serviceUnavailable');
+        result.then(done.fail).catch(() => {
+          expect(logoutUser).toHaveBeenCalled();
+          expect(consoleError).toHaveBeenCalled();
+          expect(addToast).toHaveBeenCalled();
+          consoleError.mockReset();
+          consoleError.mockRestore();
+          done();
+        });
+
+        customFetch.mockReset();
+        customFetch.mockRestore();
+      });
+    });
   });
 });
