@@ -94,7 +94,7 @@ Api requests are being done using any of the `apiManager` available methods:
 
 Each method accepts the same arguments: a `request` object and a `page` object.
 
-the `apiManager` also exports a `METHODS` constant containing all the available verbs.
+the `apiManager` also exports a `METHODS` constant containing all the available verbs (POST, PUT, DELETE, GET and PATCH).
 
 ### Request Object
 
@@ -106,6 +106,9 @@ The request object has the following properties:
   method: METHODS.POST,
   mockResponse: BODY_OK,
   contentType: 'application/x-www-form-urlencoded',
+  headers: {
+    'Other-Stuff': 'my-stuff',
+  },
   body: {
     username: 'admin',
     password: 'admin',
@@ -130,6 +133,9 @@ If an array is being returned the `responseFactory` will automatically generate 
 
 #### contentType [optional]
 the default value is `application/json` but it can be overwritten.
+
+#### headers [optional]
+additional headers sent with the request.
 
 #### body [optional]
 this object is only being submitted as part of the request if it is either a POST or a PUT.

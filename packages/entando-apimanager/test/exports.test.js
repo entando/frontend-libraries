@@ -20,6 +20,7 @@ describe('exports all apiManager functionalities', () => {
         POST: 'POST',
         PUT: 'PUT',
         DELETE: 'DELETE',
+        PATCH: 'PATCH',
       });
     });
   });

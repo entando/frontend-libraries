@@ -12,6 +12,7 @@ export const METHODS = {
   POST: 'POST',
   PUT: 'PUT',
   DELETE: 'DELETE',
+  PATCH: 'PATCH',
 };
 
 let store = null;
@@ -111,7 +112,7 @@ const getRequestParams = (request) => {
       ...request.headers,
     },
   };
-  if (request.method === METHODS.POST || request.method === METHODS.PUT) {
+  if ([METHODS.POST, METHODS.PUT, METHODS.PATCH].includes(request.method)) {
     requestParams.body = getParsedBody(request.contentType, request.body);
   }
   if (request.useAuthentication) {

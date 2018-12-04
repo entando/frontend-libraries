@@ -122,6 +122,11 @@ describe('apiManager', () => {
       const badRequest = () => { makeRequest({ uri: '/api/test', mockResponse: {}, method: METHODS.PUT }); };
       expect(badRequest).toThrowError('invalid request object');
     });
+
+    it('has to be defined if the request is PATCH', () => {
+      const badRequest = () => { makeRequest({ uri: '/api/test', mockResponse: {}, method: METHODS.PATCH }); };
+      expect(badRequest).toThrowError('invalid request object');
+    });
   });
 
   describe('mock request', () => {
@@ -278,7 +283,7 @@ describe('apiManager', () => {
       );
     });
 
-    it('sends the body when the request is post', (done) => {
+    it('sends the body when the request is POST', (done) => {
       const result = makeRequest({
         uri: '/api/test',
         method: METHODS.POST,
@@ -292,6 +297,66 @@ describe('apiManager', () => {
         '//google.com/api/test',
         {
           method: METHODS.POST,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: 'test',
+            password: 'test',
+          }),
+        },
+      );
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('sends the body when the request is PUT', (done) => {
+      const result = makeRequest({
+        uri: '/api/test',
+        method: METHODS.PUT,
+        mockResponse: MOCKED_GOOD_RESPONSE,
+        body: {
+          username: 'test',
+          password: 'test',
+        },
+      });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test',
+        {
+          method: METHODS.PUT,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: 'test',
+            password: 'test',
+          }),
+        },
+      );
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('sends the body when the request is PATCH', (done) => {
+      const result = makeRequest({
+        uri: '/api/test',
+        method: METHODS.PATCH,
+        mockResponse: MOCKED_GOOD_RESPONSE,
+        body: {
+          username: 'test',
+          password: 'test',
+        },
+      });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/api/test',
+        {
+          method: METHODS.PATCH,
           headers: {
             'Content-Type': 'application/json',
           },
