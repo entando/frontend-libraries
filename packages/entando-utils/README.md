@@ -149,6 +149,12 @@ Sets the current locale for the formattedText method.
 
 Returns a `IntlMessageFormat` object containing the translation for the given message id.
 
+### getMonthDayYearFormat(date, locale) [string]
+
+`getMonthDayYearFormat` expect any valid `date` string/integer as the first argument, and any valid `locale` as the second argument. Locale defaults to `en-us` if not specified.
+
+Returns a string in this format: "January, 12, 2018".
+
 ---
 
 ## React Helpers

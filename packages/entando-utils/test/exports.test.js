@@ -118,4 +118,10 @@ describe('exports all utilities', () => {
       expect(utils).toHaveProperty('matchPassword', expect.any(Function));
     });
   });
+
+  describe('dates', () => {
+    it('exports getMonthDayYearFormat', () => {
+      expect(utils).toHaveProperty('getMonthDayYearFormat', expect.any(Function));
+    });
+  });
 });
