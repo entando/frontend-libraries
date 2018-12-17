@@ -60,7 +60,6 @@
     ]
   },
   "dependencies": {
-    "moment": "^2.23.0",
     "react": "^16.3.0",
     "react-intl": "^2.4.0"
   }
