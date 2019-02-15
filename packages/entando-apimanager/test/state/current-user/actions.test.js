@@ -1,6 +1,5 @@
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { gotoRoute } from '@entando/router';
 
 import { config } from 'api/apiManager';
 import { setUser, unsetUser, loginUser, logoutUser } from 'state/current-user/actions';
@@ -11,8 +10,8 @@ const mockStore = configureMockStore(middlewares);
 
 let store;
 
-const LANDING_PAGE = 'landingPage';
-const LOGIN_PAGE = 'loginPage';
+const LANDING_PAGE = jest.fn();
+const LOGIN_PAGE = jest.fn();
 
 jest.spyOn(Storage.prototype, 'setItem');
 jest.spyOn(Storage.prototype, 'removeItem');
@@ -60,7 +59,7 @@ describe('current-user actions', () => {
       expect(action).toHaveProperty('payload.user.token', 'asdf123');
       expect(localStorage.setItem).toHaveBeenCalledWith('username', 'admin');
       expect(localStorage.setItem).toHaveBeenCalledWith('token', 'asdf123');
-      expect(gotoRoute).toHaveBeenCalledWith(LANDING_PAGE);
+      expect(LANDING_PAGE).toHaveBeenCalled();
     });
   });
 
@@ -74,7 +73,7 @@ describe('current-user actions', () => {
       expect(action).toHaveProperty('payload.user.token', null);
       expect(localStorage.removeItem).toHaveBeenCalledWith('username');
       expect(localStorage.removeItem).toHaveBeenCalledWith('token');
-      expect(gotoRoute).toHaveBeenCalledWith(LOGIN_PAGE);
+      expect(LOGIN_PAGE).toHaveBeenCalled();
     });
   });
 });

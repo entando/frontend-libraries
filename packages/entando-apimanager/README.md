@@ -52,9 +52,9 @@ store.dispatch(setApi({
 The `config()` method expect a redux store as the first parameter.
 The store should contain both the `api` and `currentUser` reducers.
 
-`loginPage` is the parameter passed to `@entando/router gotoRoute()` when the `logoutUser()` action is being used.
+`loginPage` is the callback used to redirect the user to the login page when the `logoutUser()` action is being used.
 
-`landingPage` is the parameter passed to `@entando/router gotoRoute()` when the `loginUser()` action is being used.
+`landingPage` is the callback used to redirect the user to the landing page when the `loginUser()` action is being used.
 
 ### setApi({domain: null, useMocks: true})
 

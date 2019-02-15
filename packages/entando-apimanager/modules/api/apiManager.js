@@ -16,11 +16,11 @@ export const METHODS = {
 };
 
 let store = null;
-let loginPage = null;
-let landingPage = null;
+let loginPage = () => {};
+let landingPage = () => {};
 
-export const getLoginPage = () => loginPage;
-export const getLandingPage = () => landingPage;
+export const goToLoginPage = () => loginPage;
+export const goToLandingPage = () => landingPage;
 
 const defaultPage = { page: 1, pageSize: 10 };
 
@@ -67,7 +67,7 @@ const getMockResponseStatusCode = (errors) => {
   return 200;
 };
 
-export const config = (reduxStore, newLoginPage = null, newLandingPage = null) => {
+export const config = (reduxStore, newLoginPage = () => {}, newLandingPage = () => {}) => {
   store = reduxStore;
   landingPage = newLandingPage;
   loginPage = newLoginPage;

@@ -1,7 +1,5 @@
-import { gotoRoute } from '@entando/router';
-
 import { SET_USER, UNSET_USER } from './types';
-import { getLoginPage, getLandingPage } from '../../api/apiManager';
+import { goToLoginPage, goToLandingPage } from '../../api/apiManager';
 
 export const setUser = user => ({
   type: SET_USER,
@@ -30,7 +28,7 @@ export const loginUser = (username, token) => (dispatch) => {
 
   localStorage.setItem('username', username);
   localStorage.setItem('token', token);
-  gotoRoute(getLandingPage());
+  goToLandingPage()();
 };
 
 export const logoutUser = () => (dispatch) => {
@@ -38,5 +36,5 @@ export const logoutUser = () => (dispatch) => {
 
   localStorage.removeItem('username');
   localStorage.removeItem('token');
-  gotoRoute(getLoginPage());
+  goToLoginPage()();
 };
