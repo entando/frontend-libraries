@@ -2,7 +2,7 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { addToast } from '@entando/messages';
 
-import { config, makeRequest, getLoginPage, getLandingPage, METHODS } from 'api/apiManager';
+import { config, makeRequest, goToLoginPage, goToLandingPage, METHODS } from 'api/apiManager';
 import { logoutUser } from 'state/current-user/actions';
 
 jest.unmock('api/apiManager');
@@ -63,15 +63,17 @@ describe('apiManager', () => {
   });
 
   it('can get login page', () => {
-    expect(getLoginPage()).toBe(null);
-    config(mockStore(MOCKED), 'newLogin');
-    expect(getLoginPage()).toBe('newLogin');
+    expect(goToLoginPage).toEqual(expect.any(Function));
+    const newLogin = jest.fn();
+    config(mockStore(MOCKED), newLogin);
+    expect(goToLoginPage()).toBe(newLogin);
   });
 
   it('can get landing page', () => {
-    expect(getLandingPage()).toBe(null);
-    config(mockStore(MOCKED), null, 'newLanding');
-    expect(getLandingPage()).toBe('newLanding');
+    expect(goToLandingPage).toEqual(expect.any(Function));
+    const newLanding = jest.fn();
+    config(mockStore(MOCKED), null, newLanding);
+    expect(goToLandingPage()).toBe(newLanding);
   });
 
   it('cannot make a request if request is not an object', () => {

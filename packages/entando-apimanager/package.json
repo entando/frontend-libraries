@@ -66,7 +66,6 @@
   },
   "dependencies": {
     "@entando/messages": "^1.0.4",
-    "@entando/router": "^1.1.2",
     "@entando/utils": "^1.1.0",
     "lodash": "^4.17.10",
     "redux": "^3.7.2",
