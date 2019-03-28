@@ -27,26 +27,22 @@ const LoginPage = ({ children }) => (
             <img src="images/entando-logo.svg" alt="" />
           </div>
           <p className="LoginPage__title">
-            <FormattedMessage id={LOGINPAGE_TITLE} defaultMessage="the dxp platform" />
+            <FormattedMessage id={LOGINPAGE_TITLE} defaultMessage="the leading platform" />
           </p>
           <p className="LoginPage__subtitle">
-            <FormattedMessage id={LOGINPAGE_SUBTITLE} defaultMessage="for the dxp platform" />
+            <FormattedMessage id={LOGINPAGE_SUBTITLE} defaultMessage="for cloud native applications" />
           </p>
           <div className="LoginPage__spacer" />
           <p className="LoginPage__abstract">
             <FormattedMessage
               id={LOGINPAGE_ABSTRACT}
-              defaultMessage="Entando is the lightest, open source Digital Experience Platform
-              (DXP) for modern applications. Entando harmonizes customer
-              experience across the omnichannel applying the techniques
-              of modern software practices to enterprise applications.
-              Learn quickly, develop easily, deploy rapidly."
+              defaultMessage="Entando is the lightest open source Digital Transformation Platform for Modern Applications. We help customers bring to production enterprise applications that are lightweight, cloud native, and highly customized, and do so significantly faster than their competitors. Learn quickly, develop easily, deploy rapidly."
             />
           </p>
           <div className="LoginPage__copywright" >
             <FormattedMessage
               id={LOGINPAGE_COPYWRIGHT}
-              defaultMessage="Copyright 2018 Entando"
+              defaultMessage="Copyright 2019 Entando"
             />
             <span className="LoginPage__entando">&nbsp;
               <FormattedMessage
