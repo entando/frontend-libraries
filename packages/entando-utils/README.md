@@ -62,7 +62,27 @@ addFilter(filter);
 'filters[0].attribute=code&filters[0].operator=like&filters[0].value=test_code'
 ```
 
-The method itself doe snot validate any of the values in the object.
+Also, if the value property is multi-value (an array), `value` in query string will be converted into `allowedValues`. For example, if you have such filter:
+
+```js
+const filter = {
+  attribute: 'code',
+  value: ['test', 'code'],
+  operator: FILTER_OPERATORS.EQUAL,
+  pos: 1,
+};
+
+addFilter(filter);
+```
+
+This will result into this query string below:
+
+```js
+'filters[1].attribute=code&filters[1].operator=eq&filters[1].allowedValues[0]=test&filters[1].allowedValues[1]=code'
+```
+
+
+The method itself does not validate any of the values in the object.
 
 ### setSorting(sorting) [array]
 

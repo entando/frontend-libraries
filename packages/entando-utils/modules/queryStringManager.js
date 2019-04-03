@@ -19,8 +19,14 @@ export const addFilter = (filterValues) => {
   const filter = [
     `filters[${pos}].attribute=${attribute}`,
     `filters[${pos}].operator=${operator}`,
-    `filters[${pos}].value=${value}`,
   ];
+  if (Array.isArray(value)) {
+    filter.push(...value.map((val, idx) => (
+      `filters[${pos}].allowedValues[${idx}]=${val}`
+    )));
+  } else {
+    filter.push(`filters[${pos}].value=${value}`);
+  }
 
   return filter.join('&');
 };
