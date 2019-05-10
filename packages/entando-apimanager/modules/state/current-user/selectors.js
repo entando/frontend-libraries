@@ -11,3 +11,8 @@ export const getToken = createSelector(
   getCurrentUser,
   user => user.token,
 );
+
+export const getTokenRefresh = createSelector(
+  getCurrentUser,
+  user => user.tokenRefresh,
+);

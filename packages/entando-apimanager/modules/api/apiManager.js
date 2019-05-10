@@ -1,11 +1,12 @@
 import 'whatwg-fetch';
 import { throttle, isEmpty, formattedText } from '@entando/utils';
 import { addToast, TOAST_ERROR } from '@entando/messages';
+import { configure, authorize } from '@shoutem/fetch-token-intercept';
 
 import { buildResponse, buildErrorResponse } from './responseFactory';
 import { useMocks, getDomain } from '../state/api/selectors';
-import { logoutUser } from '../state/current-user/actions';
-import { getToken } from '../state/current-user/selectors';
+import { logoutUser, setTokenCredentials } from '../state/current-user/actions';
+import { getToken, getTokenRefresh } from '../state/current-user/selectors';
 
 export const METHODS = {
   GET: 'GET',
@@ -18,6 +19,7 @@ export const METHODS = {
 let store = null;
 let loginPage = () => {};
 let landingPage = () => {};
+let refreshToken = null;
 
 export const goToLoginPage = () => loginPage;
 export const goToLandingPage = () => landingPage;
@@ -48,6 +50,10 @@ const getAuthenticationToken = () => (
   getToken(store.getState())
 );
 
+const getRefreshToken = () => (
+  getTokenRefresh(store.getState())
+);
+
 const getErrors = (errorsCallback, request) => {
   let errors = [];
   if (request.useAuthentication && !getAuthenticationToken()) {
@@ -67,10 +73,51 @@ const getMockResponseStatusCode = (errors) => {
   return 200;
 };
 
-export const config = (reduxStore, newLoginPage = () => {}, newLandingPage = () => {}) => {
+export const authIntercept = () => {
+  if (getAuthenticationToken()) {
+    authorize(getRefreshToken(), getAuthenticationToken());
+  }
+};
+
+const beginInterceptSetup = () => {
+  const configIntercept = {
+    // specify if request should be intercepted here we intercept
+    // all requests
+    shouldIntercept: () => refreshToken !== null,
+    // add authorization to request
+    authorizeRequest: (request, accessToken) => {
+      const authstring = request.headers.get('Authorization').split(' ')[0];
+      if (authstring !== 'Basic') {
+        request.headers.set('Authorization', `Bearer ${accessToken}`);
+      }
+      return request;
+    },
+    // create a request for renewing access token
+    createAccessTokenRequest: token => refreshToken(token),
+    // extract the new access token from response
+    parseAccessToken: (response) => {
+      store.dispatch(setTokenCredentials(response.access_token, response.refresh_token));
+      authIntercept();
+      return response.token;
+    },
+  };
+  configure(configIntercept);
+};
+
+export const config = (
+  reduxStore,
+  newLoginPage = () => {},
+  newLandingPage = () => {},
+  newRefreshToken = null,
+) => {
   store = reduxStore;
   landingPage = newLandingPage;
   loginPage = newLoginPage;
+  if (newRefreshToken) {
+    refreshToken = newRefreshToken;
+    beginInterceptSetup();
+    authIntercept();
+  }
 };
 
 export const makeMockRequest = (request, page = defaultPage) => {
