@@ -19,7 +19,7 @@ export const METHODS = {
 let store = null;
 let loginPage = () => {};
 let landingPage = () => {};
-let refreshToken = null;
+let refreshTokenConfig = null;
 
 export const goToLoginPage = () => loginPage;
 export const goToLandingPage = () => landingPage;
@@ -127,13 +127,19 @@ export const authIntercept = () => {
 const beginInterceptSetup = () => {
   const configIntercept = {
     // specify if request should be intercepted here we intercept
-    // intercepts only if refreshToken object props is specified
-    shouldIntercept: () => refreshToken !== null,
+    // intercepts only if refreshTokenConfig object props is specified
+    shouldIntercept: () => refreshTokenConfig !== null,
     // no need to change auth params, so just return as it is
-    authorizeRequest: request => request,
+    authorizeRequest: (request, accessToken) => {
+      const authstring = request.headers.get('Authorization').split(' ')[0];
+      if (authstring !== 'Basic') {
+        request.headers.set('Authorization', `Bearer ${accessToken}`);
+      }
+      return request;
+    },
     // create a `Request` object for fetch on renewing access token
     createAccessTokenRequest: (token) => {
-      const request = refreshToken.generateParams(token);
+      const request = refreshTokenConfig.generateParams(token);
       return new Request(
         getCompleteRequestUrl(request),
         getRequestParams(request),
@@ -142,7 +148,7 @@ const beginInterceptSetup = () => {
     // extract the new access token from response,
     // parseResults must have access_token and refresh_token keyprop
     parseAccessToken: response => (
-      refreshToken.parseResults(response)
+      refreshTokenConfig.parseResults(response)
         .then((json) => {
           store.dispatch(setTokenCredentials(json.access_token, json.refresh_token));
           authIntercept();
@@ -157,13 +163,13 @@ export const config = (
   reduxStore,
   newLoginPage = () => {},
   newLandingPage = () => {},
-  newRefreshToken = null,
+  newRefreshTokenConfig = null,
 ) => {
   store = reduxStore;
   landingPage = newLandingPage;
   loginPage = newLoginPage;
-  if (newRefreshToken) {
-    refreshToken = newRefreshToken;
+  if (newRefreshTokenConfig) {
+    refreshTokenConfig = newRefreshTokenConfig;
     beginInterceptSetup();
     authIntercept();
   }
