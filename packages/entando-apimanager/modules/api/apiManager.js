@@ -73,77 +73,6 @@ const getMockResponseStatusCode = (errors) => {
   return 200;
 };
 
-export const authIntercept = () => {
-  if (getAuthenticationToken()) {
-    authorize(getRefreshToken(), getAuthenticationToken());
-  }
-};
-
-const beginInterceptSetup = () => {
-  const configIntercept = {
-    // specify if request should be intercepted here we intercept
-    // all requests
-    shouldIntercept: () => refreshToken !== null,
-    // add authorization to request
-    authorizeRequest: (request, accessToken) => {
-      const authstring = request.headers.get('Authorization').split(' ')[0];
-      if (authstring !== 'Basic') {
-        request.headers.set('Authorization', `Bearer ${accessToken}`);
-      }
-      return request;
-    },
-    // create a request for renewing access token
-    createAccessTokenRequest: token => refreshToken(token),
-    // extract the new access token from response
-    parseAccessToken: (response) => {
-      store.dispatch(setTokenCredentials(response.access_token, response.refresh_token));
-      authIntercept();
-      return response.token;
-    },
-  };
-  configure(configIntercept);
-};
-
-export const config = (
-  reduxStore,
-  newLoginPage = () => {},
-  newLandingPage = () => {},
-  newRefreshToken = null,
-) => {
-  store = reduxStore;
-  landingPage = newLandingPage;
-  loginPage = newLoginPage;
-  if (newRefreshToken) {
-    refreshToken = newRefreshToken;
-    beginInterceptSetup();
-    authIntercept();
-  }
-};
-
-export const makeMockRequest = (request, page = defaultPage) => {
-  validateRequest(request);
-  const errors = getErrors(request.errors, request);
-  const statusCode = getMockResponseStatusCode(errors);
-  if (statusCode === 401 || statusCode === 503) {
-    store.dispatch(logoutUser());
-  }
-  return new Promise(resolve => throttle(() => (
-    resolve(new Response(
-      new Blob(
-        [
-          JSON.stringify(
-            errors.length ? buildErrorResponse(errors) : buildResponse(request.mockResponse, page),
-            null,
-            2,
-          ),
-        ],
-        { type: 'application/json' },
-      ),
-      { status: statusCode },
-    ))
-  )));
-};
-
 const getParsedBody = (contentType, body) => {
   if (contentType === 'application/x-www-form-urlencoded') {
     return Object.keys(body).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(body[key])}`).join('&');
@@ -187,6 +116,81 @@ const normalizeErrorMessage = (message) => {
   }
 
   return 'serverError';
+};
+
+export const authIntercept = () => {
+  if (getRefreshToken()) {
+    authorize(getRefreshToken(), getAuthenticationToken());
+  }
+};
+
+const beginInterceptSetup = () => {
+  const configIntercept = {
+    // specify if request should be intercepted here we intercept
+    // intercepts only if refreshToken object props is specified
+    shouldIntercept: () => refreshToken !== null,
+    // no need to change auth params, so just return as it is
+    authorizeRequest: request => request,
+    // create a `Request` object for fetch on renewing access token
+    createAccessTokenRequest: (token) => {
+      const request = refreshToken.generateParams(token);
+      return new Request(
+        getCompleteRequestUrl(request),
+        getRequestParams(request),
+      );
+    },
+    // extract the new access token from response,
+    // parseResults must have access_token and refresh_token keyprop
+    parseAccessToken: response => (
+      refreshToken.parseResults(response)
+        .then((json) => {
+          store.dispatch(setTokenCredentials(json.access_token, json.refresh_token));
+          authIntercept();
+          return json.access_token;
+        })
+    ),
+  };
+  configure(configIntercept);
+};
+
+export const config = (
+  reduxStore,
+  newLoginPage = () => {},
+  newLandingPage = () => {},
+  newRefreshToken = null,
+) => {
+  store = reduxStore;
+  landingPage = newLandingPage;
+  loginPage = newLoginPage;
+  if (newRefreshToken) {
+    refreshToken = newRefreshToken;
+    beginInterceptSetup();
+    authIntercept();
+  }
+};
+
+export const makeMockRequest = (request, page = defaultPage) => {
+  validateRequest(request);
+  const errors = getErrors(request.errors, request);
+  const statusCode = getMockResponseStatusCode(errors);
+  if (statusCode === 401 || statusCode === 503) {
+    store.dispatch(logoutUser());
+  }
+  return new Promise(resolve => throttle(() => (
+    resolve(new Response(
+      new Blob(
+        [
+          JSON.stringify(
+            errors.length ? buildErrorResponse(errors) : buildResponse(request.mockResponse, page),
+            null,
+            2,
+          ),
+        ],
+        { type: 'application/json' },
+      ),
+      { status: statusCode },
+    ))
+  )));
 };
 
 export const makeRealRequest = (request, page) => {
