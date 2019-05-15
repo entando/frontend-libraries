@@ -12,14 +12,17 @@ describe('current-user reducer', () => {
     expect(typeof defaultState).toBe('object');
     expect(defaultState).toHaveProperty('username', null);
     expect(defaultState).toHaveProperty('token', null);
+    expect(defaultState).toHaveProperty('tokenRefresh', null);
   });
 
   it('should return predefined values if the localStorage exist', () => {
     localStorage.setItem('username', 'admin');
     localStorage.setItem('token', 'myToken');
+    localStorage.setItem('tokenRefresh', 'myRefreshToken');
     const state = reducer();
     expect(state).toHaveProperty('username', 'admin');
     expect(state).toHaveProperty('token', 'myToken');
+    expect(state).toHaveProperty('tokenRefresh', 'myRefreshToken');
     localStorage.clear();
   });
 
@@ -53,13 +56,15 @@ describe('current-user reducer', () => {
       });
 
       it('should not assign the token status if not a string', () => {
-        const state = reducer(defaultState, setUser({ username: 'nic', token: false }));
+        const state = reducer(defaultState, setUser({ username: 'nic', token: false, tokenRefresh: !0 }));
         expect(state).toHaveProperty('token', null);
+        expect(state).toHaveProperty('tokenRefresh', null);
       });
 
       it('should not assign the token status if it is not defined', () => {
         const state = reducer(defaultState, setUser({ username: 'nic' }));
         expect(state).toHaveProperty('token', null);
+        expect(state).toHaveProperty('tokenRefresh', null);
       });
 
       it('should not assign the token status if the username is not valid', () => {
@@ -70,19 +75,22 @@ describe('current-user reducer', () => {
   });
 
   describe('after action unsetUser', () => {
-    it('should return null username and token', () => {
+    it('should return null username, token, and tokenRefresh', () => {
       const state = reducer(defaultState, unsetUser());
       expect(state).toHaveProperty('username', null);
       expect(state).toHaveProperty('token', null);
+      expect(state).toHaveProperty('tokenRefresh', null);
     });
 
-    it('should return null username and token even after setting a user', () => {
+    it('should return null on username, token, and tokenRefresh even after setting a user', () => {
       let state = reducer(defaultState, setUser({ username: 'nic', token: 'asdf123' }));
       expect(state).toHaveProperty('username', 'nic');
       expect(state).toHaveProperty('token', 'asdf123');
+      expect(state).not.toHaveProperty('tokenRefresh', '');
       state = reducer(defaultState, unsetUser());
       expect(state).toHaveProperty('username', null);
       expect(state).toHaveProperty('token', null);
+      expect(state).toHaveProperty('tokenRefresh', null);
     });
   });
 });

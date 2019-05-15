@@ -30,6 +30,7 @@ The resulting state will be:
   currentUser: {
     username: null,
     token: null,
+    refreshToken: null,
   }
 }
 ```
@@ -40,7 +41,7 @@ In your index file or where you initialize the application you have to configure
 import { config, setApi } from '@entando/apimanager';
 import { store } from 'state/store';
 
-config(store, loginPage, landingPage);
+config(store, loginPage, landingPage, refreshTokenConfig);
 store.dispatch(setApi({
   domain: process.env.DOMAIN,
   useMocks: process.env.USE_MOCKS,
@@ -55,6 +56,10 @@ The store should contain both the `api` and `currentUser` reducers.
 `loginPage` is the callback used to redirect the user to the login page when the `logoutUser()` action is being used.
 
 `landingPage` is the callback used to redirect the user to the landing page when the `loginUser()` action is being used.
+
+`refreshTokenConfig` is an optional, refresh token enabler that basically enables the app to use refresh token authentication. Technically, it's a config object must consist of two key-function values, which are:
+- `generateParams` (object) which is a parameter for [Request class](https://developer.mozilla.org/en-US/docs/Web/API/Request) which will be used to call your OAuth Token API (basically similar to login but passes `refresh_token`) to request for new access token. The format of the object is similar to **`Request Object`** except without `mockResponse`, `errors`, and `useAuthentication` props. For more info, see **`"Request Object"`** at the later part of readme.
+- `parseResults` (function; returns a Promise) which is your parsing function which has `response` parameter for you to parse the response object and return the new `access_token` and `refresh_token` in a form of object (e.g. `{ access_token: ..., refresh_token: ... }`).
 
 ### setApi({domain: null, useMocks: true})
 
@@ -73,15 +78,15 @@ This two actions have to be used when logging and logging out a user.
 
 On top of that if any request returns either 401 or 403 status codes the package will logout the user and redirect him to the login page.
 
-### loginUser(username, token)
+### loginUser(username, token, refresh_token=optional)
 
-`loginUser` expects both the username and the token that should be used for requests that require authentication.
+`loginUser` expects the parameters username, token, and refresh token (if indicated) that should be used for requests that require authentication.
 
-This method stores also these credentials in the localStorage and redirects the user to the landing page previously setup when using `apiManager`'s `config()` method.
+This method stores also these credentials in the localStorage and invokes `landingPage` function that is previously setup when using `apiManager`'s `config()` method.
 
 ### logoutUser()
 
-`logoutUser` clears the user credentials both from the state and localStorage and then redirects the user to the login page previously setup when using `apiManager`'s `config()` method.
+`logoutUser` clears the user credentials both from the state and localStorage and then invokes `loginPage` function that is previously setup when using `apiManager`'s `config()` method.
 
 ---
 
@@ -92,7 +97,7 @@ Api requests are being done using any of the `apiManager` available methods:
 - `makeRealRequest` makes the request always againsts the API
 - `makeMockRequest` makes the request always against the mock. This method should only be used when the corresponding API has not been developed yet.
 
-Each method accepts the same arguments: a `request` object and a `page` object.
+Each method accepts the same arguments: a `request` object and a `page` object. 
 
 the `apiManager` also exports a `METHODS` constant containing all the available verbs (POST, PUT, DELETE, GET and PATCH).
 

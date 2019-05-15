@@ -46,6 +46,7 @@ describe('current-user actions', () => {
       expect(action).toHaveProperty('payload.user', expect.any(Object));
       expect(action).toHaveProperty('payload.user.username', null);
       expect(action).toHaveProperty('payload.user.token', null);
+      expect(action).toHaveProperty('payload.user.tokenRefresh', null);
     });
   });
 
@@ -57,8 +58,10 @@ describe('current-user actions', () => {
       expect(action).toHaveProperty('type', SET_USER);
       expect(action).toHaveProperty('payload.user.username', 'admin');
       expect(action).toHaveProperty('payload.user.token', 'asdf123');
+      expect(action).toHaveProperty('payload.user.tokenRefresh', '');
       expect(localStorage.setItem).toHaveBeenCalledWith('username', 'admin');
       expect(localStorage.setItem).toHaveBeenCalledWith('token', 'asdf123');
+      expect(localStorage.setItem).not.toHaveBeenCalledWith('tokenRefresh', '');
       expect(LANDING_PAGE).toHaveBeenCalled();
     });
   });
@@ -71,9 +74,45 @@ describe('current-user actions', () => {
       expect(action).toHaveProperty('type', UNSET_USER);
       expect(action).toHaveProperty('payload.user.username', null);
       expect(action).toHaveProperty('payload.user.token', null);
+      expect(action).toHaveProperty('payload.user.tokenRefresh', null);
       expect(localStorage.removeItem).toHaveBeenCalledWith('username');
       expect(localStorage.removeItem).toHaveBeenCalledWith('token');
+      expect(localStorage.removeItem).toHaveBeenCalledWith('tokenRefresh');
       expect(LOGIN_PAGE).toHaveBeenCalled();
+    });
+  });
+});
+
+describe('config with refresh tokens', () => {
+  beforeEach(() => {
+    store = mockStore();
+    config(store, LOGIN_PAGE, LANDING_PAGE, {
+      generateParams: {},
+      parseResults: jest.fn(),
+    });
+  });
+
+  describe('setUser', () => {
+    it('see if tokenRefresh exists in payload', () => {
+      const action = setUser({ username: 'a', token: 'b', tokenRefresh: 'c' });
+      expect(action).toHaveProperty('type', SET_USER);
+      expect(action).toHaveProperty('payload.user.tokenRefresh', 'c');
+    });
+  });
+
+  describe('loginUser', () => {
+    it('stores all in localStorage and calls landingPage function', () => {
+      store.dispatch(loginUser('admin', 'asdf123', 'whatthe456'));
+      expect(store.getActions()).toHaveLength(1);
+      const action = store.getActions()[0];
+      expect(action).toHaveProperty('type', SET_USER);
+      expect(action).toHaveProperty('payload.user.username', 'admin');
+      expect(action).toHaveProperty('payload.user.token', 'asdf123');
+      expect(action).toHaveProperty('payload.user.tokenRefresh', 'whatthe456');
+      expect(localStorage.setItem).toHaveBeenCalledWith('username', 'admin');
+      expect(localStorage.setItem).toHaveBeenCalledWith('token', 'asdf123');
+      expect(localStorage.setItem).toHaveBeenCalledWith('tokenRefresh', 'whatthe456');
+      expect(LANDING_PAGE).toHaveBeenCalled();
     });
   });
 });

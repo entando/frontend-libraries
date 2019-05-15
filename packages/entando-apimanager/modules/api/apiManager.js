@@ -119,7 +119,7 @@ const normalizeErrorMessage = (message) => {
 };
 
 export const authIntercept = () => {
-  if (getRefreshToken()) {
+  if ('currentUser' in store.getState() && getRefreshToken()) {
     authorize(getRefreshToken(), getAuthenticationToken());
   }
 };
@@ -131,8 +131,11 @@ const beginInterceptSetup = () => {
     shouldIntercept: () => refreshTokenConfig !== null,
     // no need to change auth params, so just return as it is
     authorizeRequest: (request, accessToken) => {
-      const authstring = request.headers.get('Authorization').split(' ')[0];
-      if (authstring !== 'Basic') {
+      const authstring = request.headers.get('Authorization');
+      if (!authstring) return request;
+
+      const authtype = authstring.split(' ')[0];
+      if (authtype !== 'Basic') {
         request.headers.set('Authorization', `Bearer ${accessToken}`);
       }
       return request;
@@ -168,11 +171,15 @@ export const config = (
   store = reduxStore;
   landingPage = newLandingPage;
   loginPage = newLoginPage;
-  if (newRefreshTokenConfig) {
+  if (
+    newRefreshTokenConfig &&
+    ('generateParams' in newRefreshTokenConfig &&
+    'parseResults' in newRefreshTokenConfig)
+  ) {
     refreshTokenConfig = newRefreshTokenConfig;
-    beginInterceptSetup();
-    authIntercept();
   }
+  beginInterceptSetup();
+  authIntercept();
 };
 
 export const makeMockRequest = (request, page = defaultPage) => {
