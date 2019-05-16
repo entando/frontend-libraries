@@ -1,5 +1,5 @@
 import { SET_USER, SET_TOKEN, UNSET_USER } from './types';
-import { goToLoginPage, goToLandingPage, authIntercept } from '../../api/apiManager';
+import { goToLoginPage, goToLandingPage, sendTokensToInterceptor } from '../../api/apiManager';
 
 export const setUser = user => ({
   type: SET_USER,
@@ -28,7 +28,7 @@ const tokensToLocalStore = (token, tokenRefresh = '') => {
   localStorage.setItem('token', token);
   if (tokenRefresh) {
     localStorage.setItem('tokenRefresh', tokenRefresh);
-    authIntercept();
+    sendTokensToInterceptor();
   }
 };
 

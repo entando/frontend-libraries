@@ -118,7 +118,7 @@ const normalizeErrorMessage = (message) => {
   return 'serverError';
 };
 
-export const authIntercept = () => {
+export const sendTokensToInterceptor = () => {
   if ('currentUser' in store.getState() && getRefreshToken()) {
     authorize(getRefreshToken(), getAuthenticationToken());
   }
@@ -126,10 +126,7 @@ export const authIntercept = () => {
 
 const beginInterceptSetup = () => {
   const configIntercept = {
-    // specify if request should be intercepted here we intercept
-    // intercepts only if refreshTokenConfig object props is specified
     shouldIntercept: () => refreshTokenConfig !== null,
-    // no need to change auth params, so just return as it is
     authorizeRequest: (request, accessToken) => {
       const authstring = request.headers.get('Authorization');
       if (!authstring) return request;
@@ -140,7 +137,6 @@ const beginInterceptSetup = () => {
       }
       return request;
     },
-    // create a `Request` object for fetch on renewing access token
     createAccessTokenRequest: (token) => {
       const request = refreshTokenConfig.generateParams(token);
       return new Request(
@@ -148,13 +144,11 @@ const beginInterceptSetup = () => {
         getRequestParams(request),
       );
     },
-    // extract the new access token from response,
-    // parseResults must have access_token and refresh_token keyprop
     parseAccessToken: response => (
       refreshTokenConfig.parseResults(response)
         .then((json) => {
           store.dispatch(setTokenCredentials(json.access_token, json.refresh_token));
-          authIntercept();
+          sendTokensToInterceptor();
           return json.access_token;
         })
     ),
@@ -173,13 +167,13 @@ export const config = (
   loginPage = newLoginPage;
   if (
     newRefreshTokenConfig &&
-    ('generateParams' in newRefreshTokenConfig &&
-    'parseResults' in newRefreshTokenConfig)
+    'generateParams' in newRefreshTokenConfig &&
+    'parseResults' in newRefreshTokenConfig
   ) {
     refreshTokenConfig = newRefreshTokenConfig;
   }
   beginInterceptSetup();
-  authIntercept();
+  sendTokensToInterceptor();
 };
 
 export const makeMockRequest = (request, page = defaultPage) => {
