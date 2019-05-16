@@ -78,9 +78,9 @@ This two actions have to be used when logging and logging out a user.
 
 On top of that if any request returns either 401 or 403 status codes the package will logout the user and redirect him to the login page.
 
-### loginUser(username, token, refresh_token=optional)
+### loginUser(username, token, refreshToken=optional)
 
-`loginUser` expects the parameters username, token, and refresh token (if indicated) that should be used for requests that require authentication.
+`loginUser` expects the parameters `username` and `token` that should be used for requests that require authentication. If you have configure the API manager to work with refresh token authentication then you must specify `refreshToken` in order to fully integrate refresh token authentication.
 
 This method stores also these credentials in the localStorage and invokes `landingPage` function that is previously setup when using `apiManager`'s `config()` method.
 
