@@ -126,7 +126,7 @@ export const sendTokensToInterceptor = () => {
 
 const beginInterceptSetup = () => {
   const configIntercept = {
-    shouldIntercept: () => refreshTokenConfig !== null,
+    shouldIntercept: () => getRefreshToken() && refreshTokenConfig !== null,
     authorizeRequest: (request, accessToken) => {
       const authstring = request.headers.get('Authorization');
       if (!authstring) return request;
