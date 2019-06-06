@@ -1,6 +1,5 @@
 import 'whatwg-fetch';
-import { throttle, isEmpty, formattedText } from '@entando/utils';
-import { addToast, TOAST_ERROR } from '@entando/messages';
+import { throttle, isEmpty } from '@entando/utils';
 
 import { buildResponse, buildErrorResponse } from './responseFactory';
 import { useMocks, getDomain } from '../state/api/selectors';
@@ -135,7 +134,7 @@ const getCompleteRequestUrl = (request, page) => {
 };
 
 const normalizeErrorMessage = (message) => {
-  if (['noJsonReturned', 'permissionDenied'].includes(message)) {
+  if (['noJsonReturned', 'permissionDenied', 'serviceUnavailable'].includes(message)) {
     return message;
   }
 
@@ -146,7 +145,7 @@ export const makeRealRequest = (request, page) => {
   validateRequest(request);
   if (request.useAuthentication && !getAuthenticationToken()) {
     store.dispatch(logoutUser());
-    return new Promise(resolve => resolve({ ok: false, status: 401 }));
+    return Promise.reject(new Error('app.permissionDenied'));
   }
   return fetch(
     getCompleteRequestUrl(request, page),
@@ -168,19 +167,9 @@ export const makeRealRequest = (request, page) => {
       }
     }
     return response;
-  }).catch((e) => {
-    store.dispatch(addToast(
-      formattedText(
-        `app.${normalizeErrorMessage(e.message)}`,
-        null,
-        { domain: getDomain(store.getState()) },
-      ),
-      TOAST_ERROR,
-    ));
-    // eslint-disable-next-line no-console
-    console.error(e);
-    throw e;
-  });
+  }).catch(e => (
+    Promise.reject(new Error(`app.${normalizeErrorMessage(e.message)}`))
+  ));
 };
 
 export const makeRequest = (request, page) => {
