@@ -436,9 +436,9 @@ describe('apiManager', () => {
         });
         expect(fetch).not.toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
-        result.catch((err) => {
-          expect(err).toBeInstanceOf(Error);
-          expect(err).toHaveProperty('message', 'app.permissionDenied');
+        result.then((data) => {
+          expect(data).toHaveProperty('ok', false);
+          expect(data).toHaveProperty('status', 401);
           expect(logoutUser).toHaveBeenCalled();
           done();
         }).catch(done.fail);

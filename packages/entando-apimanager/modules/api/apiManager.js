@@ -145,7 +145,7 @@ export const makeRealRequest = (request, page) => {
   validateRequest(request);
   if (request.useAuthentication && !getAuthenticationToken()) {
     store.dispatch(logoutUser());
-    return Promise.reject(new Error('app.permissionDenied'));
+    return new Promise(resolve => resolve({ ok: false, status: 401 }));
   }
   return fetch(
     getCompleteRequestUrl(request, page),
@@ -167,9 +167,11 @@ export const makeRealRequest = (request, page) => {
       }
     }
     return response;
-  }).catch(e => (
-    Promise.reject(new Error(`app.${normalizeErrorMessage(e.message)}`))
-  ));
+  }).catch((e) => {
+    const err = new Error(`app.${normalizeErrorMessage(e.message)}`);
+    err.data = { domain: getDomain(store.getState()) };
+    return Promise.reject(err);
+  });
 };
 
 export const makeRequest = (request, page) => {
