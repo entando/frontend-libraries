@@ -60,3 +60,16 @@ export const buildErrorResponse = (errors = []) => (
     errors: Array.isArray(errors) ? errors : [],
   }
 );
+
+export class ErrorI18n extends Error {
+  constructor(message, defaultMessage = null, values = {}) {
+    super(message);
+    this.defaultMessage = defaultMessage;
+    this.values = values;
+  }
+
+  toParamsArray() {
+    return [this.message, this.defaultMessage, this.values];
+  }
+}
+

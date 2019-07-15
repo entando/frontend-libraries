@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { throttle, isEmpty } from '@entando/utils';
 
-import { buildResponse, buildErrorResponse } from './responseFactory';
+import { buildResponse, buildErrorResponse, ErrorI18n } from './responseFactory';
 import { useMocks, getDomain } from '../state/api/selectors';
 import { logoutUser } from '../state/current-user/actions';
 import { getToken } from '../state/current-user/selectors';
@@ -141,6 +141,13 @@ const normalizeErrorMessage = (message) => {
   return 'serverError';
 };
 
+const decamelizeMessage = (str, separator = ' ') => (
+  str
+    .replace(/([a-z\d])([A-Z])/g, `$1${separator}$2`)
+    .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, `$1${separator}$2`)
+    .toLowerCase()
+);
+
 export const makeRealRequest = (request, page) => {
   validateRequest(request);
   if (request.useAuthentication && !getAuthenticationToken()) {
@@ -168,9 +175,12 @@ export const makeRealRequest = (request, page) => {
     }
     return response;
   }).catch((e) => {
-    const err = new Error(`app.${normalizeErrorMessage(e.message)}`);
-    err.data = { domain: getDomain(store.getState()) };
-    return Promise.reject(err);
+    const message = normalizeErrorMessage(e.message);
+    return Promise.reject(new ErrorI18n(
+      `app.${message}`,
+      decamelizeMessage(message),
+      { domain: getDomain(store.getState()) },
+    ));
   });
 };
 
