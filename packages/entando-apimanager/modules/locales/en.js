@@ -1,9 +1,9 @@
 export default {
   locale: 'en',
   messages: {
-    'app.serverError': 'could not establish connection with {domain}',
-    'app.noJsonReturned': 'could not establish connection with {domain}',
-    'app.permissionDenied': 'your session expired',
-    'app.serviceUnavailable': 'server is unavailable',
+    'app.serverError': 'Could not establish connection with {domain}',
+    'app.noJsonReturned': 'Could not establish connection with {domain}',
+    'app.permissionDenied': 'Your session expired',
+    'app.serviceUnavailable': 'Server is unavailable',
   },
 };
