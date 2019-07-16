@@ -490,12 +490,11 @@ describe('apiManager', () => {
         expect(customFetch).toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
         expect(result).rejects.toThrowError('permissionDenied');
-        result.then(done.fail).catch(() => {
+        result.then(done.fail).catch((err) => {
+          expect(err).toHaveProperty('message', 'app.permissionDenied');
           expect(logoutUser).toHaveBeenCalled();
-          expect(consoleError).toHaveBeenCalled();
-          expect(addToast).toHaveBeenCalled();
-          consoleError.mockReset();
-          consoleError.mockRestore();
+          expect(consoleError).not.toHaveBeenCalled();
+          expect(addToast).not.toHaveBeenCalled();
           done();
         });
 
@@ -518,11 +517,10 @@ describe('apiManager', () => {
         expect(customFetch).toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
         expect(result).rejects.toThrowError('noJsonReturned');
-        result.then(done.fail).catch(() => {
-          expect(consoleError).toHaveBeenCalled();
-          expect(addToast).toHaveBeenCalled();
-          consoleError.mockReset();
-          consoleError.mockRestore();
+        result.then(done.fail).catch((err) => {
+          expect(err).toHaveProperty('message', 'app.noJsonReturned');
+          expect(consoleError).not.toHaveBeenCalled();
+          expect(addToast).not.toHaveBeenCalled();
           done();
         });
 
@@ -545,11 +543,10 @@ describe('apiManager', () => {
         expect(customFetch).toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
         expect(result).rejects.toThrowError('serverError');
-        result.then(done.fail).catch(() => {
-          expect(consoleError).toHaveBeenCalled();
-          expect(addToast).toHaveBeenCalled();
-          consoleError.mockReset();
-          consoleError.mockRestore();
+        result.then(done.fail).catch((err) => {
+          expect(err).toHaveProperty('message', 'app.serverError');
+          expect(consoleError).not.toHaveBeenCalled();
+          expect(addToast).not.toHaveBeenCalled();
           done();
         });
 
@@ -572,12 +569,11 @@ describe('apiManager', () => {
         expect(customFetch).toHaveBeenCalled();
         expect(result).toBeInstanceOf(Promise);
         expect(result).rejects.toThrowError('serviceUnavailable');
-        result.then(done.fail).catch(() => {
+        result.then(done.fail).catch((err) => {
+          expect(err).toHaveProperty('message', 'app.serviceUnavailable');
           expect(logoutUser).toHaveBeenCalled();
-          expect(consoleError).toHaveBeenCalled();
-          expect(addToast).toHaveBeenCalled();
-          consoleError.mockReset();
-          consoleError.mockRestore();
+          expect(consoleError).not.toHaveBeenCalled();
+          expect(addToast).not.toHaveBeenCalled();
           done();
         });
 

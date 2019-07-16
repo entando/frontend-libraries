@@ -1,11 +1,12 @@
 import 'whatwg-fetch';
-import { throttle, isEmpty, formattedText } from '@entando/utils';
-import { addToast, TOAST_ERROR } from '@entando/messages';
+import { throttle, isEmpty } from '@entando/utils';
 
-import { buildResponse, buildErrorResponse } from './responseFactory';
+import { buildResponse, buildErrorResponse, ErrorI18n } from './responseFactory';
 import { useMocks, getDomain } from '../state/api/selectors';
 import { logoutUser } from '../state/current-user/actions';
 import { getToken } from '../state/current-user/selectors';
+import enLocale from '../locales/en';
+import itLocale from '../locales/it';
 
 export const METHODS = {
   GET: 'GET',
@@ -14,6 +15,10 @@ export const METHODS = {
   DELETE: 'DELETE',
   PATCH: 'PATCH',
 };
+
+export const locales = [enLocale, itLocale];
+
+const defaultMessages = enLocale.messages;
 
 let store = null;
 let loginPage = () => {};
@@ -135,7 +140,7 @@ const getCompleteRequestUrl = (request, page) => {
 };
 
 const normalizeErrorMessage = (message) => {
-  if (['noJsonReturned', 'permissionDenied'].includes(message)) {
+  if (['noJsonReturned', 'permissionDenied', 'serviceUnavailable'].includes(message)) {
     return message;
   }
 
@@ -169,17 +174,12 @@ export const makeRealRequest = (request, page) => {
     }
     return response;
   }).catch((e) => {
-    store.dispatch(addToast(
-      formattedText(
-        `app.${normalizeErrorMessage(e.message)}`,
-        null,
-        { domain: getDomain(store.getState()) },
-      ),
-      TOAST_ERROR,
+    const message = `app.${normalizeErrorMessage(e.message)}`;
+    return Promise.reject(new ErrorI18n(
+      message,
+      defaultMessages[message],
+      { domain: getDomain(store.getState()) },
     ));
-    // eslint-disable-next-line no-console
-    console.error(e);
-    throw e;
   });
 };
 
