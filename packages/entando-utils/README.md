@@ -27,6 +27,18 @@ throttle(callback);
 `throttle()` executes the callback after a random number of milliseconds.
 This helper is used to simulate async calls.
 
+### routeConverter(route, params) [string]
+
+```js
+routeConverter('myroute/:param1/:param2', {
+  param1: 12,
+  param2: 22,
+});
+```
+
+`routeConverter()` replaces placeholders with the values found in the given object.
+The aforementioned example will return `/myroute/12/22`.
+
 ### isInteger(numericValue) [bool]
 
 ```js

@@ -1,6 +1,9 @@
+**this package is currently deprecated and no longer supported**
+
 # router
 
 This is a router used with redux in the entando projects.
+
 
 ## Installation instructions
 

@@ -9,6 +9,10 @@ describe('exports all utilities', () => {
     expect(utils).toHaveProperty('throttle', expect.any(Function));
   });
 
+  it('exports routeConverter', () => {
+    expect(utils).toHaveProperty('routeConverter', expect.any(Function));
+  });
+
   describe('fromattedText', () => {
     it('exports formattedText', () => {
       expect(utils).toHaveProperty('formattedText', expect.any(Function));
