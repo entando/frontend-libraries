@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from '@entando/router';
+import { Link, NavLink } from 'react-router-dom';
 
 const LinkMenuItem = ({
-  id, label, active, route, params, searchParams, className, onClick, pullRight,
+  id,
+  label,
+  active,
+  to,
+  className,
+  onClick,
+  pullRight,
+  isNav,
 }) => {
   let liClassName = 'LinkMenuItem';
   liClassName += className ? ` ${className}` : '';
@@ -13,16 +20,17 @@ const LinkMenuItem = ({
   if (active) {
     liClassName += ' active';
   }
+
+  const LinkComponent = isNav ? NavLink : Link;
+
   return (
-    <li key={route} className={liClassName} data-id={id}>
-      <Link
+    <li key={to} className={liClassName} data-id={id}>
+      <LinkComponent
         onClick={onClick}
-        route={route}
-        params={params}
-        searchParams={searchParams}
+        to={to}
       >
         { label }
-      </Link>
+      </LinkComponent>
     </li>
   );
 };
@@ -35,18 +43,16 @@ LinkMenuItem.propTypes = {
   className: PropTypes.string,
   pullRight: PropTypes.bool,
   onClick: PropTypes.func,
-  route: PropTypes.string.isRequired,
-  params: PropTypes.objectOf(PropTypes.string.isRequired),
-  searchParams: PropTypes.objectOf(PropTypes.string.isRequired),
+  to: PropTypes.string.isRequired,
+  isNav: PropTypes.bool,
 };
 
 LinkMenuItem.defaultProps = {
   active: false,
   className: '',
   onClick: () => {},
-  params: {},
-  searchParams: {},
   pullRight: false,
+  isNav: false,
 };
 
 

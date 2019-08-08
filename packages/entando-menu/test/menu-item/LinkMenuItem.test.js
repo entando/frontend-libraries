@@ -7,8 +7,6 @@ import LinkMenuItem from 'menu-item/LinkMenuItem';
 const ID = 'item-id';
 const LABEL = 'Link label';
 const ROUTE = 'mockRoute';
-const PARAMS = { id: '6' };
-const SEARCH_PARAMS = { lang: 'ita' };
 
 let component;
 
@@ -19,16 +17,40 @@ describe('ui/menu/menu-item/LinkMenuItem', () => {
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
         />
       ));
     });
+
     it('should render a patternfly compliant menu item (<li>)', () => {
       expect(component.is('li')).toBe(true);
     });
 
     it('should have LinkMenuItem class', () => {
       expect(component.hasClass('LinkMenuItem')).toBe(true);
+    });
+
+    it('should render a NavLink if the isNav property is used', () => {
+      component = shallow((
+        <LinkMenuItem
+          id={ID}
+          label={LABEL}
+          to={ROUTE}
+          isNav
+        />
+      ));
+      expect(component.find('NavLink').length).toBe(1);
+    });
+
+    it('should render a Link if the isNav property is not used', () => {
+      component = shallow((
+        <LinkMenuItem
+          id={ID}
+          label={LABEL}
+          to={ROUTE}
+        />
+      ));
+      expect(component.find('Link').length).toBe(1);
     });
   });
 
@@ -38,18 +60,19 @@ describe('ui/menu/menu-item/LinkMenuItem', () => {
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
           active
         />
       ));
       expect(component.hasClass('active')).toBe(true);
     });
+
     it('should have "active" class if prop active === false', () => {
       component = shallow((
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
         />
       ));
       expect(component.hasClass('active')).toBe(false);
@@ -62,18 +85,19 @@ describe('ui/menu/menu-item/LinkMenuItem', () => {
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
           pullRight
         />
       ));
       expect(component.hasClass('pull-right')).toBe(true);
     });
+
     it('should have "pull-right" class if prop pullRight === false', () => {
       component = shallow((
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
         />
       ));
       expect(component.hasClass('pull-right')).toBe(false);
@@ -87,43 +111,22 @@ describe('ui/menu/menu-item/LinkMenuItem', () => {
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
           className={testClass}
         />
       ));
       expect(component.hasClass(testClass)).toBe(true);
     });
-    it('should pass "route" to the internal Link element', () => {
+
+    it('should pass "to" to the internal Link element', () => {
       component = shallow((
         <LinkMenuItem
           id={ID}
           label={LABEL}
-          route={ROUTE}
+          to={ROUTE}
         />
       ));
-      expect(component.find('Link').prop('route')).toBe(ROUTE);
-    });
-    it('should pass "params" to the internal Link element', () => {
-      component = shallow((
-        <LinkMenuItem
-          id={ID}
-          label={LABEL}
-          route={ROUTE}
-          params={PARAMS}
-        />
-      ));
-      expect(component.find('Link').prop('params')).toBe(PARAMS);
-    });
-    it('should pass "searchParams" to the internal Link element', () => {
-      component = shallow((
-        <LinkMenuItem
-          id={ID}
-          label={LABEL}
-          route={ROUTE}
-          searchParams={SEARCH_PARAMS}
-        />
-      ));
-      expect(component.find('Link').prop('searchParams')).toBe(SEARCH_PARAMS);
+      expect(component.find('Link').prop('to')).toBe(ROUTE);
     });
   });
 });
