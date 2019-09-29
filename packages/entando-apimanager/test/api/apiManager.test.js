@@ -275,7 +275,7 @@ describe('apiManager', () => {
     });
 
     it('fetches using a subpath when path is provided', (done) => {
-      config(mockStore({ ...REAL, api: { ...REAL.api, domain: '/', defaultPath: '/inbox' } }));
+      config(mockStore({ ...REAL, api: { ...REAL.api, domain: '/', pathPrefix: '/inbox' } }));
       const result = makeRequest({ ...validRequest, path: '/adsense' });
       expect(fetch).toHaveBeenCalledWith(
         '/adsense/api/test',

@@ -12,9 +12,9 @@ export const getDomain = createSelector(
   api => api.domain,
 );
 
-export const getDefaultPath = createSelector(
+export const getPathPrefix = createSelector(
   getApi,
-  api => api.defaultPath,
+  api => api.pathPrefix,
 );
 
 export const wasUpdated = createSelector(

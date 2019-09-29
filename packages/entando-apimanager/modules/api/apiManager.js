@@ -2,7 +2,7 @@ import 'whatwg-fetch';
 import { throttle, isEmpty } from '@entando/utils';
 
 import { buildResponse, buildErrorResponse, ErrorI18n } from './responseFactory';
-import { useMocks, getDomain, getDefaultPath } from '../state/api/selectors';
+import { useMocks, getDomain, getPathPrefix } from '../state/api/selectors';
 import { logoutUser } from '../state/current-user/actions';
 import { getToken } from '../state/current-user/selectors';
 import enLocale from '../locales/en';
@@ -128,7 +128,7 @@ const getRequestParams = (request) => {
 };
 
 const getCompleteRequestUrl = (request, page) => {
-  const path = request.path || getDefaultPath(store.getState()) || '';
+  const path = request.path || getPathPrefix(store.getState()) || '';
   const domain = getDomain(store.getState());
   const url = path[0] === '/' && domain === '/' ? `${path}${request.uri}` : `${domain}${path}${request.uri}`;
   if (!page || !page.page) {

@@ -17,10 +17,10 @@ describe('api reducer', () => {
 
   describe('after action setApi', () => {
     describe('domain', () => {
-      it('should assign the domain with / and defaultPath', () => {
-        const state = reducer(defaultState, setApi({ domain: '/', useMocks: false, defaultPath: '/entando-de-app' }));
+      it('should assign the domain with / and pathPrefix', () => {
+        const state = reducer(defaultState, setApi({ domain: '/', useMocks: false, pathPrefix: '/entando-de-app' }));
         expect(state).toHaveProperty('domain', '/');
-        expect(state).toHaveProperty('defaultPath', '/entando-de-app');
+        expect(state).toHaveProperty('pathPrefix', '/entando-de-app');
         expect(state).toHaveProperty('useMocks', false);
       });
 
