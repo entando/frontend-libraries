@@ -256,6 +256,43 @@ describe('apiManager', () => {
       }).catch(done.fail);
     });
 
+    it('fetches using a subpath when path is provided', (done) => {
+      const result = makeRequest({ ...validRequest, path: '/adsense' });
+      expect(fetch).toHaveBeenCalledWith(
+        '//google.com/adsense/api/test',
+        {
+          method: validRequest.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+        done();
+      }).catch(done.fail);
+    });
+
+    it('fetches using a subpath when path is provided', (done) => {
+      config(mockStore({ ...REAL, api: { ...REAL.api, domain: '/', pathPrefix: '/inbox' } }));
+      const result = makeRequest({ ...validRequest, path: '/adsense' });
+      expect(fetch).toHaveBeenCalledWith(
+        '/adsense/api/test',
+        {
+          method: validRequest.method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      expect(result).toBeInstanceOf(Promise);
+      result.then((data) => {
+        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+        done();
+      }).catch(done.fail);
+    });
+
     it('appends the page to the uri when there is no query string', () => {
       makeRequest(validRequest, { page: 1, pageSize: 10 });
       expect(fetch).toHaveBeenCalledWith(
