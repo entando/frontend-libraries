@@ -56,11 +56,13 @@ The store should contain both the `api` and `currentUser` reducers.
 
 `landingPage` is the callback used to redirect the user to the landing page when the `loginUser()` action is being used.
 
-### setApi({domain: null, useMocks: true})
+### setApi({domain: null, useMocks: true, pathPrefix: ''})
 
 `setApi()` is used to switch the use of mocks on or off. `useMocks` can only be set to false if a domain is being passed.
 
 `domain` has to be a valid domain main, which can omit the protocol. It is possible to add up to one directory, but the domain should not have trailing slashes.
+
+`pathPrefix` is the prefix of the URL path of requests. This can be overriden by specifying a value for the `path` property of a request.
 
 The `wasUpdated` selector will return a boolean to indicate whether or not the `setApi` action was successful.
 
@@ -102,6 +104,7 @@ The request object has the following properties:
 
 ```js
 {
+  path: '',
   uri: '/api/myApi',
   method: METHODS.POST,
   mockResponse: BODY_OK,
