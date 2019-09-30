@@ -130,7 +130,7 @@ const getRequestParams = (request) => {
 const getCompleteRequestUrl = (request, page) => {
   const path = request.path || getPathPrefix(store.getState()) || '';
   const domain = getDomain(store.getState());
-  const url = path[0] === '/' && domain === '/' ? `${path}${request.uri}` : `${domain}${path}${request.uri}`;
+  const url = path.charAt(0) === '/' && domain === '/' ? `${path}${request.uri}` : `${domain}${path}${request.uri}`;
   if (!page || !page.page) {
     return url;
   }
