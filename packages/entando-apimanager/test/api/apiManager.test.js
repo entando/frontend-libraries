@@ -256,10 +256,10 @@ describe('apiManager', () => {
       }).catch(done.fail);
     });
 
-    it('fetches using a subpath when path is provided', (done) => {
-      const result = makeRequest({ ...validRequest, path: '/adsense' });
+    it('fetches using a custom domain when domain property is provided', (done) => {
+      const result = makeRequest({ ...validRequest, domain: '//customdomain.com' });
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/adsense/api/test',
+        '//customdomain.com/api/test',
         {
           method: validRequest.method,
           headers: {
@@ -274,11 +274,11 @@ describe('apiManager', () => {
       }).catch(done.fail);
     });
 
-    it('fetches using a subpath when path is provided', (done) => {
-      config(mockStore({ ...REAL, api: { ...REAL.api, domain: '/', pathPrefix: '/inbox' } }));
-      const result = makeRequest({ ...validRequest, path: '/adsense' });
+    it('fetches using a custom domain when domain property is not provided', (done) => {
+      config(mockStore({ api: { domain: undefined } }));
+      const result = makeRequest({ ...validRequest, domain: '//customdomain.com' });
       expect(fetch).toHaveBeenCalledWith(
-        '/adsense/api/test',
+        '//customdomain.com/api/test',
         {
           method: validRequest.method,
           headers: {
@@ -508,7 +508,7 @@ describe('apiManager', () => {
       });
 
       it('throws an exception, adds a toast, redirects and unsets the user if fetch returns a 401', (done) => {
-        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
             resolve(mockResponse(null, false, 401));
@@ -543,7 +543,7 @@ describe('apiManager', () => {
     describe('bad content-type', () => {
       jest.clearAllMocks();
       it('throws an exception and adds a toast if the returned content type is not json', (done) => {
-        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
             resolve(mockResponse(null, true, 200, 'text/html'));
@@ -569,7 +569,7 @@ describe('apiManager', () => {
     describe('500', () => {
       jest.clearAllMocks();
       it('throws an exception and adds a toast if any 5xx status is returned', (done) => {
-        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
             resolve(mockResponse(null, false, 500));
@@ -595,7 +595,7 @@ describe('apiManager', () => {
     describe('503', () => {
       jest.clearAllMocks();
       it('throws an exception and adds a toast if any 503 status is returned', (done) => {
-        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
             resolve(mockResponse(null, false, 503));

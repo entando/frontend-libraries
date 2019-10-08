@@ -2,7 +2,7 @@ import 'whatwg-fetch';
 import { throttle, isEmpty } from '@entando/utils';
 
 import { buildResponse, buildErrorResponse, ErrorI18n } from './responseFactory';
-import { useMocks, getDomain, getPathPrefix } from '../state/api/selectors';
+import { useMocks, getDomain } from '../state/api/selectors';
 import { logoutUser } from '../state/current-user/actions';
 import { getToken } from '../state/current-user/selectors';
 import enLocale from '../locales/en';
@@ -21,8 +21,8 @@ export const locales = [enLocale, itLocale];
 const defaultMessages = enLocale.messages;
 
 let store = null;
-let loginPage = () => {};
-let landingPage = () => {};
+let loginPage = () => { };
+let landingPage = () => { };
 
 export const goToLoginPage = () => loginPage;
 export const goToLandingPage = () => landingPage;
@@ -72,7 +72,7 @@ const getMockResponseStatusCode = (errors) => {
   return 200;
 };
 
-export const config = (reduxStore, newLoginPage = () => {}, newLandingPage = () => {}) => {
+export const config = (reduxStore, newLoginPage = () => { }, newLandingPage = () => { }) => {
   store = reduxStore;
   landingPage = newLandingPage;
   loginPage = newLoginPage;
@@ -128,9 +128,8 @@ const getRequestParams = (request) => {
 };
 
 const getCompleteRequestUrl = (request, page) => {
-  const path = request.path || getPathPrefix(store.getState()) || '';
-  const domain = getDomain(store.getState());
-  const url = path.charAt(0) === '/' && domain === '/' ? `${path}${request.uri}` : `${domain}${path}${request.uri}`;
+  const domain = request.domain || getDomain(store.getState());
+  const url = `${domain}${request.uri}`;
   if (!page || !page.page) {
     return url;
   }
