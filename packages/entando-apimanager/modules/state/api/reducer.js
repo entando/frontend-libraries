@@ -2,7 +2,7 @@ import { SET_API } from './types';
 
 const initialState = {
   useMocks: true,
-  domain: null,
+  domain: '',
   updated: false,
 };
 
