@@ -17,13 +17,6 @@ describe('api reducer', () => {
 
   describe('after action setApi', () => {
     describe('domain', () => {
-      it('should assign the domain with / and pathPrefix', () => {
-        const state = reducer(defaultState, setApi({ domain: '/', useMocks: false, pathPrefix: '/entando-de-app' }));
-        expect(state).toHaveProperty('domain', '/');
-        expect(state).toHaveProperty('pathPrefix', '/entando-de-app');
-        expect(state).toHaveProperty('useMocks', false);
-      });
-
       it('should assign the domain status with only root path', () => {
         const state = reducer(defaultState, setApi({ domain: '/entando-de-app', useMocks: false }));
         expect(state).toHaveProperty('domain', '/entando-de-app');

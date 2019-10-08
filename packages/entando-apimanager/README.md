@@ -56,13 +56,11 @@ The store should contain both the `api` and `currentUser` reducers.
 
 `landingPage` is the callback used to redirect the user to the landing page when the `loginUser()` action is being used.
 
-### setApi({domain: null, useMocks: true, pathPrefix: ''})
+### setApi({domain: null, useMocks: true})
 
 `setApi()` is used to switch the use of mocks on or off. `useMocks` can only be set to false if a domain is being passed.
 
 `domain` has to be a valid domain main, which can omit the protocol. It is possible to add up to one directory, but the domain should not have trailing slashes.
-
-`pathPrefix` is the prefix of the URL path of requests. This can be overriden by specifying a value for the `path` property of a request.
 
 The `wasUpdated` selector will return a boolean to indicate whether or not the `setApi` action was successful.
 
@@ -104,8 +102,8 @@ The request object has the following properties:
 
 ```js
 {
-  path: '',
   uri: '/api/myApi',
+  domain: 'https://mysite.com',
   method: METHODS.POST,
   mockResponse: BODY_OK,
   contentType: 'application/x-www-form-urlencoded',
@@ -122,37 +120,50 @@ The request object has the following properties:
 ```
 
 #### uri
+
 is the relative uri of the API.
 The `apiManager` will append this to the `api.domain` set in the api state.
 query strings shoud be part of the uri.
 
+#### domain
+
+overrides the `api.domain` value set in the api state.
+
 #### method
+
 only values contained in the `@entando/apiManager METHODS` constant are valid.
 
 #### mockResponse
+
 the string used when a mock request is being made.
 This body should only return the content of the expected payload.
 If an array is being returned the `responseFactory` will automatically generate a paginated response based on the `page` object.
 
 #### contentType [optional]
+
 the default value is `application/json` but it can be overwritten.
 
 #### headers [optional]
+
 additional headers sent with the request.
 
 #### body [optional]
+
 this object is only being submitted as part of the request if it is either a POST or a PUT.
 
 #### errors [optional]
+
 this callback is returning an array of error messages.
 When a mock request is being made this callback is being called and an error will be returned if this function returns anything but an empty array.
 
 #### useAuthentication [optional]
+
 if the value of this property is set as true the `apiManager` will append the token to the request headers.
 
 If no token can be found on the system an automatic redirect will be fired and a promise containing only an `ok` and `status` property will be returned.
 
 ### Page Object
+
 the page object is only used when pagination is needed and only has two parameters:
 
 ```js
@@ -163,9 +174,11 @@ the page object is only used when pagination is needed and only has two paramete
 ```
 
 #### page
+
 the current page requested.
 
 #### pageSize
+
 the maximum number of items that each page should contain.
 
 ---
