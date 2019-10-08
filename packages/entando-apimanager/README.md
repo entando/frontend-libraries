@@ -23,8 +23,8 @@ The resulting state will be:
 ```js
 {
   api: {
-    useMocks: false,
-    domain: null,
+    useMocks: true,
+    domain: '',
     updated: false,
   },
   currentUser: {
@@ -56,7 +56,7 @@ The store should contain both the `api` and `currentUser` reducers.
 
 `landingPage` is the callback used to redirect the user to the landing page when the `loginUser()` action is being used.
 
-### setApi({domain: null, useMocks: true})
+### setApi({domain: '', useMocks: true})
 
 `setApi()` is used to switch the use of mocks on or off. `useMocks` can only be set to false if a domain is being passed.
 
