@@ -1,0 +1,59 @@
+{
+  "name": "@entando/log",
+  "version": "1.0.0",
+  "license": "LGPL-2.1",
+  "description": "chalk wrapper for CLI commands",
+  "keywords": [
+    "entando",
+    "cli",
+    "chalk"
+  ],
+  "repository": "https://github.com/entando/frontend-libraries",
+  "scripts": {
+    "test": "jest --env=jsdom",
+    "lint": "eslint ./modules",
+    "coverage": "jest --env=jsdom --coverage",
+    "build": "babel modules -d dist",
+    "prepublish": "npm run build"
+  },
+  "files": [
+    "dist",
+    "!test",
+    "!modules"
+  ],
+  "main": "dist/js/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "jest": "^24.9.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "modules",
+      "test"
+    ],
+    "collectCoverageFrom": [
+      "modules/**/*.{js}"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ]
+  },
+  "dependencies": {
+    "babel-eslint": "^10.0.3",
+    "chalk": "^2.4.2"
+  }
+}
