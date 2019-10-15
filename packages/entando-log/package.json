@@ -21,7 +21,7 @@
     "!test",
     "!modules"
   ],
-  "main": "dist/js/index.js",
+  "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
