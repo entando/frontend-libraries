@@ -1,6 +1,6 @@
 {
   "name": "@entando/log",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "LGPL-2.1",
   "description": "chalk wrapper for CLI commands",
   "keywords": [
