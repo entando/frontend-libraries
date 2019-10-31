@@ -110,15 +110,20 @@ const getParsedBody = (contentType, body) => {
 };
 
 const getRequestParams = (request) => {
+  const isFormData = request.contentType === 'multipart/form-data';
+  const contentTypeHeader = !isFormData ? { 'Content-Type': request.contentType || 'application/json' } : {};
+
   const requestParams = {
     method: request.method,
     headers: {
-      'Content-Type': request.contentType || 'application/json',
+      ...contentTypeHeader,
       ...request.headers,
     },
   };
   if ([METHODS.POST, METHODS.PUT, METHODS.PATCH].includes(request.method)) {
-    requestParams.body = getParsedBody(request.contentType, request.body);
+    requestParams.body = isFormData
+      ? request.body
+      : getParsedBody(request.contentType, request.body);
   }
   if (request.useAuthentication) {
     requestParams.headers.Authorization = `Bearer ${getAuthenticationToken()}`;
