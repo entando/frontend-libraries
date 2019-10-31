@@ -117,8 +117,14 @@ const getRequestParams = (request) => {
       ...request.headers,
     },
   };
+  const isFormData = request.contentType === 'multipart/form-data';
+  if (isFormData) {
+    delete requestParams.headers['Content-Type'];
+  }
   if ([METHODS.POST, METHODS.PUT, METHODS.PATCH].includes(request.method)) {
-    requestParams.body = getParsedBody(request.contentType, request.body);
+    requestParams.body = isFormData
+      ? request.body
+      : getParsedBody(request.contentType, request.body);
   }
   if (request.useAuthentication) {
     requestParams.headers.Authorization = `Bearer ${getAuthenticationToken()}`;
