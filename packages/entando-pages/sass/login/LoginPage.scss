@@ -22,6 +22,8 @@ $bg-size: cover;
     font-size: 36px;
     font-weight: 700;
     text-transform: uppercase;
+    line-height: 1.1;
+    margin-top: 60px;  
   }
 
   &__subtitle {
@@ -43,10 +45,9 @@ $bg-size: cover;
     width: 84px;
     height: 13px;
     margin: 31px 0 35px 0;
-    background: $color-pf-blue-400;
   }
 
-  &__copywright {
+  &__copyright {
     color: $color-pf-white;
     font-family: "Open Sans",Helvetica,Arial,sans-serif;
     font-size: 11px;
