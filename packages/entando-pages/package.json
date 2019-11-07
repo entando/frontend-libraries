@@ -1,6 +1,6 @@
 {
   "name": "@entando/pages",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "license": "LGPL-2.1",
   "description": "react components used to render common pages in Entando projects",
   "keywords": [
