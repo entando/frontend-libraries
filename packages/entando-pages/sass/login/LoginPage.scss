@@ -1,15 +1,16 @@
 $bg-size: cover;
 
 .LoginPage {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  display: flex;
+  padding-top: 40px;
+
+  & > * {
+    float: none;
+  }
 
   &__header {
     margin: 0 auto;
-    padding: 0 0 20px 0;
+    padding: 0;
   }
 
   .LoginPage__brand {
@@ -36,7 +37,7 @@ $bg-size: cover;
   }
 
   &__abstract {
-    margin: 0 0 35px 0;
+    margin: 0;
     color: $color-pf-white;
     font-weight: 100;
   }
@@ -65,12 +66,41 @@ $bg-size: cover;
     width: 66%;
     margin: auto;
     color: $color-pf-white;
+
+    .LoginPage__copyright {
+      display: none;
+    }
   }
 
   &__right-wrapper {
     width: 66%;
     margin: auto;
     color: $color-pf-white;
+    .LoginPage__copyright {
+      padding-bottom: 25px;
+    }
+  }
+
+  @media (min-width: $screen-md-min) {
+    & > * {
+      float: left;
+    }
+    &__left-wrapper { 
+      .LoginPage__copyright {
+        display: block;
+      }
+    }
+    &__right-wrapper { 
+      .LoginPage__copyright {
+        display: none;
+      }
+    }
+    &__header {
+      padding: 0 0 20px 0;
+    }
+    &__abstract {
+      margin: 0 0 35px 0;
+    }
   }
 
   @media (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
@@ -84,5 +114,14 @@ $bg-size: cover;
     .LoginPage__left-wrapper {
       width: 89%;
     }
+  }
+}
+
+@media (min-width: $screen-md-min) {
+  .LoginPage {
+    display: flex;
+    padding-top: 0;
+    align-items: center;
+    justify-content: center;
   }
 }

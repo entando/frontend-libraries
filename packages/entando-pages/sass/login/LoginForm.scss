@@ -3,12 +3,13 @@
   justify-content: center;
   margin-right: auto;
   margin-left: auto;
-  padding: 30px;
+  padding: 30px 0;
   float: none;
 
   .LoginForm__username-input,
   .LoginForm__password-input {
-    width: 438px;
+    display: block;
+    width: 100%;
     height: 48px;
     border: 0;
     border-radius: 3px;
@@ -29,20 +30,22 @@
   }
 
   &__button-container {
-    width: 440px;
+    width: auto;
     margin-top: 50px;
   }
 
   &__choose-lang-dropdown {
-    display: inline-block;
-    width: 210px;
+    display: block;
+    width: 100%;
     height: 33px;
+    margin-bottom: 20px;
     border-radius: 3px;
     background-color: $color-pf-white;
     color: $color-pf-black-900;
   }
 
   &__placeholder {
+    display: block;
     margin: 0 0 9px;
     color: $color-pf-white;
     font-family: "Open Sans",Helvetica,Arial,sans-serif;
@@ -76,10 +79,9 @@
   // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
 
   &__login-button {
-    width: 126px;
+    display: block;
+    width: 100%;
     height: 35px;
-    margin-top: -3px;
-    margin-left: 103px;
     transition: all .6s ease;
     border-radius: 3px;
     border-color: $color-pf-blue-300;
@@ -89,10 +91,36 @@
     text-transform: uppercase;
   }
 
+  @media (min-width: $screen-md-min) {
+    .LoginForm__username-input,
+    .LoginForm__password-input {
+      display: inline-block;
+      width: 438px;
+    }
+
+    &__choose-lang-dropdown {
+      display: inline-block;
+      width: 210px;
+      margin-bottom: 0;
+    }
+
+    &__login-button {
+      display: inline-block;
+      width: 126px;
+      height: 35px;
+      margin-top: -3px;
+      margin-left: 103px;
+    }
+  }
+
 }
 
-@media (min-width: $screen-sm-min) and (max-width: $screen-md-min) {
+@media (min-width: $screen-md-min) {
   .LoginForm {
-    padding: 0;
+    padding: 30px;
+
+    &__button-container {
+      width: 440px;
+    }
   }
 }

@@ -26,6 +26,6 @@ describe('ui/login/LoginPage', () => {
   });
 
   it('component root without child ', () => {
-    expect(component.find('.LoginPage__right-wrapper').prop('children')).toEqual(null);
+    expect(component.find('.LoginPage__right-wrapper').prop('children')).toEqual([null, expect.any(Object)]);
   });
 });
