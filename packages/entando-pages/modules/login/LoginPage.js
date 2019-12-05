@@ -10,7 +10,10 @@ const LOGINPAGE_COPYRIGHT = 'fl.pages.loginPage.copyright';
 const LOGINPAGE_ENTANDO = 'fl.pages.loginPage.entando';
 
 const background = {
-  background: 'url(images/bg-login.jpg)',
+  background: [
+    'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))',
+    'url(images/bg-login.jpg)',
+  ].join(','),
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center center',
   backgroundAttachment: 'fixed',
@@ -19,8 +22,7 @@ const background = {
 
 const LoginPage = ({ children }) => (
   <div className="LoginPage" style={background}>
-
-    <Col sm={6}>
+    <Col xs={12} md={6}>
       <div className="LoginPage__left-wrapper">
         <div className="LoginPage__header">
           <div className="LoginPage__brand">
@@ -51,9 +53,19 @@ const LoginPage = ({ children }) => (
         </div>
       </div>
     </Col>
-    <Col sm={6} className="login LoginPage__children">
+    <Col xs={12} md={6} className="login LoginPage__children">
       <div className="LoginPage__right-wrapper">
         {children}
+        <div className="LoginPage__copyright" >
+          <FormattedMessage
+            id={LOGINPAGE_COPYRIGHT}
+          />
+          <span className="LoginPage__entando">&nbsp;
+            <FormattedMessage
+              id={LOGINPAGE_ENTANDO}
+            />
+          </span>
+        </div>
       </div>
     </Col>
   </div>
