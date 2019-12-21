@@ -21,6 +21,11 @@ export const unsetUser = () => ({
 // thunks
 
 export const loginUser = (username, token) => (dispatch) => {
+  const { search } = window.location;
+  let redirectUri = '';
+  if (search) {
+    redirectUri = new URLSearchParams(search).get('redirect_uri');
+  }
   dispatch(setUser({
     username,
     token,
@@ -28,13 +33,14 @@ export const loginUser = (username, token) => (dispatch) => {
 
   localStorage.setItem('username', username);
   localStorage.setItem('token', token);
-  goToLandingPage()();
+  goToLandingPage()({ redirectUri });
 };
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = status => (dispatch) => {
+  const { pathname } = window.location;
   dispatch(unsetUser());
 
   localStorage.removeItem('username');
   localStorage.removeItem('token');
-  goToLoginPage()();
+  goToLoginPage()(status ? { ...status, pathname } : status);
 };
