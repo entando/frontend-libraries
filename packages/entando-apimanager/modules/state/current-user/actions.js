@@ -22,10 +22,7 @@ export const unsetUser = () => ({
 
 export const loginUser = (username, token) => (dispatch) => {
   const { search, pathname } = window.location;
-  let redirectUri = '';
-  if (search) {
-    redirectUri = new URLSearchParams(search).get('redirect_uri');
-  }
+  const redirectUri = new URLSearchParams(search).get('redirect_uri') || '';
   dispatch(setUser({
     username,
     token,
