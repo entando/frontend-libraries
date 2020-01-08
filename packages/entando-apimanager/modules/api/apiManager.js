@@ -83,7 +83,7 @@ export const makeMockRequest = (request, page = defaultPage) => {
   const errors = getErrors(request.errors, request);
   const statusCode = getMockResponseStatusCode(errors);
   if (statusCode === 401 || statusCode === 503) {
-    store.dispatch(logoutUser());
+    store.dispatch(logoutUser({ statusCode, request }));
   }
   return new Promise(resolve => throttle(() => (
     resolve(new Response(
@@ -156,7 +156,7 @@ const normalizeErrorMessage = (message) => {
 export const makeRealRequest = (request, page) => {
   validateRequest(request);
   if (request.useAuthentication && !getAuthenticationToken()) {
-    store.dispatch(logoutUser());
+    store.dispatch(logoutUser({ statusCode: 401, request }));
     return new Promise(resolve => resolve({ ok: false, status: 401 }));
   }
   return fetch(
@@ -168,11 +168,11 @@ export const makeRealRequest = (request, page) => {
       throw new Error('noJsonReturned');
     }
     if (response.status === 401) {
-      store.dispatch(logoutUser());
+      store.dispatch(logoutUser({ statusCode: 401, request, response }));
       throw new Error('permissionDenied');
     } else if (response.status.toString().startsWith(5)) {
       if (response.status === 503) {
-        store.dispatch(logoutUser());
+        store.dispatch(logoutUser({ statusCode: 401, request, response }));
         throw new Error('serviceUnavailable');
       } else {
         throw new Error('serverError');
