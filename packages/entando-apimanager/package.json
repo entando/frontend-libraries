@@ -1,6 +1,6 @@
 {
   "name": "@entando/apimanager",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "license": "LGPL-2.1",
   "description": "api manager used in entando consoles",
   "keywords": [
