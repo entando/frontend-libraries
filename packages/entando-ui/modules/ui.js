@@ -1,5 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import blueGrey from '@material-ui/core/colors/blueGrey';
+import teal from '@material-ui/core/colors/teal';
 
 const h1toh3 = {
   fontWeight: 100,
@@ -41,11 +42,15 @@ const theme = createMuiTheme({
     },
   },
   palette: {
+    primary: teal,
     secondary: blueGrey,
   },
   props: {
     MuiTable: {
       stickyHeader: false,
+    },
+    InputLabel: {
+      shrink: true,
     },
   },
   overrides: {
@@ -79,6 +84,27 @@ const theme = createMuiTheme({
       },
       paddingNone: {
         paddingLeft: '.5rem',
+      },
+    },
+    MuiInputBase: {
+      root: {
+        'label + &': {
+          marginTop: 6,
+        },
+        borderRadius: '0 !important',
+      },
+      input: {
+        position: 'relative',
+        backgroundColor: '#fff',
+        border: '1px solid #e5e6e7',
+        fontSize: '.9rem',
+        width: 'auto',
+        padding: '6px 12px !important',
+      },
+    },
+    MuiInputLabel: {
+      root: {
+        marginBottom: 8,
       },
     },
   },
