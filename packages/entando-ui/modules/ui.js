@@ -107,6 +107,22 @@ const theme = createMuiTheme({
         marginBottom: 8,
       },
     },
+    MuiButton: {
+      root: {
+        padding: '.28rem .5rem .25rem',
+        lineHeight: '1.5',
+        fontSize: '.8rem',
+      },
+    },
+    MuiSelect: {
+      select: {
+        backgroundColor: 'transparent',
+        border: 0,
+        '&:focus': {
+          backgroundColor: 'transparent',
+        },
+      },
+    },
   },
 });
 
