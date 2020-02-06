@@ -38,6 +38,7 @@ command used to publish on `npm` the latest versions of the libraries
 - `menu`: core menu elements used across Entando applications
 - `messages`: states used to manage toasts and errors
 - `pages`: common pages used across Entando applications
+- `pagetreeselector`: table based view of pages that lets user to select from
 
 ---
 
