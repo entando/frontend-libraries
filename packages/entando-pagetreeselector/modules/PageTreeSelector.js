@@ -64,7 +64,7 @@ class PageTreeSelector extends Component {
               role="button"
               tabIndex={i}
               className="PageTreeSelector__icons-label"
-              style={{ marginLeft: page.depth * 24 }}
+              style={{ paddingLeft: page.depth * 24 }}
               onClick={onClickExpand}
               onKeyDown={onClickExpand}
             >

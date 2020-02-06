@@ -17,8 +17,8 @@
   }
 
   &__icons-label {
+    display: table-cell;
     outline: 0;
-    cursor: pointer;
   }
 
   &__column-td--empty {
