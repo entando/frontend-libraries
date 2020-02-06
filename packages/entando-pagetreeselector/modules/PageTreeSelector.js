@@ -17,7 +17,9 @@ class PageTreeSelector extends Component {
 
   componentDidMount() {
     const { onDidMount } = this.props;
-    onDidMount();
+    if (onDidMount) {
+      onDidMount();
+    }
   }
 
   handleRowClick(pageCode) {
@@ -25,7 +27,9 @@ class PageTreeSelector extends Component {
       selectedPage: pageCode,
     });
     const { onPageSelect } = this.props;
-    onPageSelect(pageCode);
+    if (onPageSelect) {
+      onPageSelect(pageCode);
+    }
   }
 
   renderRows() {
@@ -111,8 +115,8 @@ PageTreeSelector.propTypes = {
 PageTreeSelector.defaultProps = {
   pages: [],
   onExpandPage: () => {},
-  onDidMount: () => {},
-  onPageSelect: () => {},
+  onDidMount: null,
+  onPageSelect: null,
 };
 
 export default PageTreeSelector;

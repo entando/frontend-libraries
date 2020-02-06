@@ -1,5 +1,5 @@
 {
-  "name": "entando-pagetreeselector",
+  "name": "@entando/pagetreeselector",
   "version": "1.0.0",
   "description": "Page Tree Selector React Component Used in Entando Projects",
   "main": "dist/js/index.js",
