@@ -26,14 +26,18 @@ class PageTreeSelector extends Component {
     this.setState({
       selectedPage: pageCode,
     });
-    const { onPageSelect } = this.props;
+    const { onPageSelect, input: { onChange } } = this.props;
     if (onPageSelect) {
       onPageSelect(pageCode);
+    } else if (onChange) {
+      onChange(pageCode);
     }
   }
 
   renderRows() {
-    const { pages, onExpandPage } = this.props;
+    const {
+      pages, onExpandPage,
+    } = this.props;
     const { selectedPage } = this.state;
 
     return pages.map((page, i) => {
@@ -47,13 +51,13 @@ class PageTreeSelector extends Component {
         className.push('PageTreeSelector__column-td--empty');
       }
 
+      const onRowClick = () => this.handleRowClick(page.code);
       const isPageSelected = selectedPage === page.code;
 
       return (
         <tr
           key={`${page.code}`}
           className={`PageTreeSelector__row${isPageSelected ? '--selected' : ''}`}
-          onClick={() => this.handleRowClick(page.code)}
         >
           <td className={className.join(' ').trim()}>
             <span
@@ -65,6 +69,14 @@ class PageTreeSelector extends Component {
               onKeyDown={onClickExpand}
             >
               <TreeNodeExpandedIcon expanded={page.expanded} />
+            </span>
+            <span
+              className="PageTreeSelector__select-area"
+              role="button"
+              tabIndex={i}
+              onClick={onRowClick}
+              onKeyDown={onRowClick}
+            >
               <TreeNodeFolderIcon empty={page.isEmpty} />
               <span className="PageTreeSelector__page-name">
                 { page.title }
@@ -84,7 +96,7 @@ class PageTreeSelector extends Component {
           <thead>
             <tr>
               <th width="70%">
-                <FormattedMessage id="cms.linkconfig.pagetree" />
+                <FormattedMessage id="pageTree.pageTree" />
               </th>
             </tr>
           </thead>
@@ -110,6 +122,10 @@ PageTreeSelector.propTypes = {
   onExpandPage: PropTypes.func,
   onDidMount: PropTypes.func,
   onPageSelect: PropTypes.func,
+  input: PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+  }),
 };
 
 PageTreeSelector.defaultProps = {
@@ -117,6 +133,7 @@ PageTreeSelector.defaultProps = {
   onExpandPage: () => {},
   onDidMount: null,
   onPageSelect: null,
+  input: {},
 };
 
 export default PageTreeSelector;
