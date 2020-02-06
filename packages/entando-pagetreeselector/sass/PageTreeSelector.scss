@@ -6,6 +6,12 @@
     margin-left: 10px;
   }
 
+  &__select-area {
+    display: table-cell;
+    width: 100%;
+    outline: 0;
+  }
+
   .TreeNodeFolderIcon {
     color: $color-pf-light-blue-400;
   }
