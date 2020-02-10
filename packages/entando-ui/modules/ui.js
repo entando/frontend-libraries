@@ -117,6 +117,7 @@ const theme = createMuiTheme({
     MuiSelect: {
       select: {
         backgroundColor: 'transparent',
+        paddingRight: '24px !important',
         border: 0,
         '&:focus': {
           backgroundColor: 'transparent',
