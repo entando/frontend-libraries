@@ -113,6 +113,18 @@ const theme = createMuiTheme({
           marginRight: '-4px',
         },
       },
+      adornedEnd: {
+        '&:before': {
+          borderWidth: '1px !important',
+          borderStyle: 'solid',
+          borderColor: '#e5e6e7 !important',
+          top: 0,
+        },
+        '& .MuiSvgIcon-root': {
+          marginLeft: '-12px',
+          marginRight: '-4px',
+        },
+      },
     },
     MuiInputLabel: {
       root: {
