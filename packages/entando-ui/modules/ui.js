@@ -101,6 +101,18 @@ const theme = createMuiTheme({
         width: 'auto',
         padding: '6px 12px !important',
       },
+      adornedStart: {
+        '&:before': {
+          borderWidth: '1px !important',
+          borderStyle: 'solid',
+          borderColor: '#e5e6e7 !important',
+          top: 0,
+        },
+        '& .MuiSvgIcon-root': {
+          marginLeft: '5px',
+          marginRight: '-4px',
+        },
+      },
     },
     MuiInputLabel: {
       root: {
