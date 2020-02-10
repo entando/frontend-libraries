@@ -134,6 +134,10 @@ const theme = createMuiTheme({
         '&:focus': {
           backgroundColor: 'transparent',
         },
+        '&.MuiFilledInput-input': {
+          paddingBottom: '10px !important',
+          paddingTop: '20px !important',
+        },
       },
     },
   },
