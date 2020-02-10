@@ -152,6 +152,13 @@ const theme = createMuiTheme({
         },
       },
     },
+    MuiSwitch: {
+      track: {
+        height: '20.5px',
+        marginTop: '-3px',
+        borderRadius: '40px',
+      },
+    },
   },
 });
 
