@@ -159,6 +159,11 @@ const theme = createMuiTheme({
         borderRadius: '40px',
       },
     },
+    MuiButtonGroup: {
+      contained: {
+        height: '100%',
+      },
+    },
   },
 });
 
