@@ -4,13 +4,13 @@ import teal from '@material-ui/core/colors/teal';
 
 const h1toh3 = {
   fontWeight: 100,
-  marginTop: 1.25,
-  marginBottom: .625,
+  marginTop: '1.25rem',
+  marginBottom: '.625rem',
 };
 
 const h4toh6 = {
   fontWeight: 600,
-  marginTop: .3125,
+  marginTop: '.3125rem',
 };
 
 const theme = createMuiTheme({
@@ -18,27 +18,27 @@ const theme = createMuiTheme({
     fontFamily: '"open sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
     h1: {
       ...h1toh3,
-      fontSize: 1.875,
+      fontSize: '1.875rem',
     },
     h2: {
       ...h1toh3,
-      fontSize: 1.5,
+      fontSize: '1.5rem',
     },
     h3: {
       ...h1toh3,
-      fontSize: 1,
+      fontSize: '1rem',
     },
     h4: {
       ...h4toh6,
-      fontSize: .875,
+      fontSize: '.875rem',
     },
     h5: {
       ...h4toh6,
-      fontSize: .75,
+      fontSize: '.75rem',
     },
     h6: {
       ...h4toh6,
-      fontSize: .625,
+      fontSize: '.625rem',
     },
   },
   palette: {
