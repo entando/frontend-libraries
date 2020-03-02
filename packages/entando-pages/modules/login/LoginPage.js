@@ -20,6 +20,8 @@ const background = {
   backgroundSize: 'cover',
 };
 
+const year = new Date().getFullYear();
+
 const LoginPage = ({ children }) => (
   <div className="LoginPage" style={background}>
     <Col xs={12} md={6}>
@@ -43,6 +45,7 @@ const LoginPage = ({ children }) => (
           <div className="LoginPage__copyright" >
             <FormattedMessage
               id={LOGINPAGE_COPYRIGHT}
+              values={{ year }}
             />
             <span className="LoginPage__entando">&nbsp;
               <FormattedMessage
