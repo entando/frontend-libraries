@@ -5,6 +5,7 @@ export {
   config,
   METHODS,
 } from './api/apiManager';
+export { default as APIProvider } from './api/APIProvider';
 export { default as currentUser } from './state/current-user/reducer';
 export { loginUser, logoutUser } from './state/current-user/actions';
 export { getUsername, getToken } from './state/current-user/selectors';
