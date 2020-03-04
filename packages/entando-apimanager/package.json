@@ -46,7 +46,8 @@
     ],
     "moduleDirectories": [
       "node_modules",
-      "modules"
+      "modules",
+      "test"
     ],
     "collectCoverageFrom": [
       "modules/**/*.{js}"

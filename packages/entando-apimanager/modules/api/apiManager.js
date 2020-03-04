@@ -21,11 +21,11 @@ export const locales = [enLocale, itLocale];
 const defaultMessages = enLocale.messages;
 
 let store = null;
-let loginPage = () => { };
-let landingPage = () => { };
+let onLoginCallback = () => { };
+let onLogoutCallback = () => { };
 
-export const goToLoginPage = () => loginPage;
-export const goToLandingPage = () => landingPage;
+export const onLogin = () => onLoginCallback;
+export const onLogout = () => onLogoutCallback;
 
 const defaultPage = { page: 1, pageSize: 10 };
 
@@ -72,10 +72,10 @@ const getMockResponseStatusCode = (errors) => {
   return 200;
 };
 
-export const config = (reduxStore, newLoginPage = () => { }, newLandingPage = () => { }) => {
+export const config = (reduxStore, newOnLogin = () => { }, newOnLogout = () => { }) => {
   store = reduxStore;
-  landingPage = newLandingPage;
-  loginPage = newLoginPage;
+  onLogoutCallback = newOnLogout;
+  onLoginCallback = newOnLogin;
 };
 
 export const makeMockRequest = (request, page = defaultPage) => {

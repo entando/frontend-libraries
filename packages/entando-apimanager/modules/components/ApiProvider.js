@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { config } from './apiManager';
+import { config } from '../api/apiManager';
 import { setApi } from '../state/api/actions';
 
-class APIProvider extends React.Component {
+class ApiProvider extends React.Component {
   constructor(props) {
     super(props);
     this.initApiManager();
@@ -14,17 +14,14 @@ class APIProvider extends React.Component {
       store,
       plugins,
       domain,
-      mockMode,
+      useMocks,
       onLogout,
       onLogin,
     } = this.props;
 
     config(store, onLogout, onLogin);
 
-    store.dispatch(setApi({
-      domain,
-      useMocks: mockMode,
-    }));
+    store.dispatch(setApi({ domain, useMocks }));
 
     if (plugins.length) {
       plugins.forEach((plugin) => {
@@ -42,22 +39,22 @@ class APIProvider extends React.Component {
   }
 }
 
-APIProvider.propTypes = {
+ApiProvider.propTypes = {
   store: PropTypes.shape({}).isRequired,
   onLogin: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   domain: PropTypes.string.isRequired,
   plugins: PropTypes.arrayOf(PropTypes.shape({})),
-  mockMode: PropTypes.bool,
+  useMocks: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
 };
 
-APIProvider.defaultProps = {
-  mockMode: false,
+ApiProvider.defaultProps = {
+  useMocks: false,
   plugins: [],
 };
 
-export default APIProvider;
+export default ApiProvider;

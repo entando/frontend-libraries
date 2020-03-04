@@ -2,7 +2,7 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { addToast } from '@entando/messages';
 
-import { config, makeRequest, goToLoginPage, goToLandingPage, METHODS } from 'api/apiManager';
+import { config, makeRequest, onLogin, onLogout, METHODS } from 'api/apiManager';
 import { logoutUser } from 'state/current-user/actions';
 
 jest.unmock('api/apiManager');
@@ -63,17 +63,17 @@ describe('apiManager', () => {
   });
 
   it('can get login page', () => {
-    expect(goToLoginPage).toEqual(expect.any(Function));
+    expect(onLogin).toEqual(expect.any(Function));
     const newLogin = jest.fn();
     config(mockStore(MOCKED), newLogin);
-    expect(goToLoginPage()).toBe(newLogin);
+    expect(onLogin()).toBe(newLogin);
   });
 
   it('can get landing page', () => {
-    expect(goToLandingPage).toEqual(expect.any(Function));
+    expect(onLogout).toEqual(expect.any(Function));
     const newLanding = jest.fn();
     config(mockStore(MOCKED), null, newLanding);
-    expect(goToLandingPage()).toBe(newLanding);
+    expect(onLogout()).toBe(newLanding);
   });
 
   it('cannot make a request if request is not an object', () => {
@@ -598,7 +598,7 @@ describe('apiManager', () => {
         const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
-            resolve(mockResponse(null, false, 503));
+            resolve(mockResponse(null, false, 503)); 
           })
         ));
 
