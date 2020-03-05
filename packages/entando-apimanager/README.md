@@ -93,7 +93,7 @@ The `wasUpdated` selector will return a boolean to indicate whether or not the `
 This two actions have to be used when logging and logging out a user.
 `apiManager` automatically handles token management and stores it also on the localStorage to persist the user information when the browser page is refreshed.
 
-On top of that if any request returns either 401 or 403 status codes the package will logout the user and redirect him to the login page.
+On top of that if any request returns either 401 or 403 status codes the package will logout the user and redirect him to the login page with the parameter `status` which gives out information of the erroneus request.
 
 ### loginUser(username, token)
 
@@ -101,9 +101,13 @@ On top of that if any request returns either 401 or 403 status codes the package
 
 This method stores also these credentials in the localStorage and redirects the user to the landing page previously setup when using `apiManager`'s `config()` method.
 
+This will also execute your given `onLogin` function (from `config` initialization) which, when coming from erroneus request, passes `status` object that has useful information including `statusCode`, `request` and `response` objects, and current url of the viewed page (`pathname`) for after-login redirection purpose.
+
 ### logoutUser()
 
 `logoutUser` clears the user credentials both from the state and localStorage and then redirects the user to the login page previously setup when using `apiManager`'s `config()` method.
+
+Afterwards, this will execute `onLogout` function (from `config` initialization) which gives out an object containing `redirectUri` (if existing in your `GET` url parameters) and `pathname` (current url of the viewed page).
 
 ---
 
