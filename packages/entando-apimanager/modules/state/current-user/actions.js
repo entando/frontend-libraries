@@ -1,5 +1,5 @@
 import { SET_USER, UNSET_USER } from './types';
-import { goToLoginPage, goToLandingPage } from '../../api/apiManager';
+import { onLogin, onLogout } from '../../api/apiManager';
 
 export const setUser = user => ({
   type: SET_USER,
@@ -30,7 +30,7 @@ export const loginUser = (username, token) => (dispatch) => {
 
   localStorage.setItem('username', username);
   localStorage.setItem('token', token);
-  goToLandingPage()({ redirectUri, pathname });
+  onLogout()({ redirectUri, pathname });
 };
 
 export const logoutUser = status => (dispatch) => {
@@ -39,5 +39,5 @@ export const logoutUser = status => (dispatch) => {
 
   localStorage.removeItem('username');
   localStorage.removeItem('token');
-  goToLoginPage()(status ? { ...status, pathname } : status);
+  onLogin()(status ? { ...status, pathname } : status);
 };
