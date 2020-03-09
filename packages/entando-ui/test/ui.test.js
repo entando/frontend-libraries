@@ -13,41 +13,41 @@ describe('ui', () => {
 
     it('has the correct properties for h1', () => {
       expect(ui.typography.h1).toHaveProperty('fontWeight', 100);
-      expect(ui.typography.h1).toHaveProperty('marginTop', 1.25);
-      expect(ui.typography.h1).toHaveProperty('marginBottom', 0.625);
-      expect(ui.typography.h1).toHaveProperty('fontSize', 1.875);
+      expect(ui.typography.h1).toHaveProperty('marginTop', '1.25rem');
+      expect(ui.typography.h1).toHaveProperty('marginBottom', '.625rem');
+      expect(ui.typography.h1).toHaveProperty('fontSize', '1.875rem');
     });
 
     it('has the correct properties for h2', () => {
       expect(ui.typography.h2).toHaveProperty('fontWeight', 100);
-      expect(ui.typography.h2).toHaveProperty('marginTop', 1.25);
-      expect(ui.typography.h2).toHaveProperty('marginBottom', 0.625);
-      expect(ui.typography.h2).toHaveProperty('fontSize', 1.5);
+      expect(ui.typography.h2).toHaveProperty('marginTop', '1.25rem');
+      expect(ui.typography.h2).toHaveProperty('marginBottom', '.625rem');
+      expect(ui.typography.h2).toHaveProperty('fontSize', '1.5rem');
     });
 
     it('has the correct properties for h3', () => {
       expect(ui.typography.h3).toHaveProperty('fontWeight', 100);
-      expect(ui.typography.h3).toHaveProperty('marginTop', 1.25);
-      expect(ui.typography.h3).toHaveProperty('marginBottom', 0.625);
-      expect(ui.typography.h3).toHaveProperty('fontSize', 1);
+      expect(ui.typography.h3).toHaveProperty('marginTop', '1.25rem');
+      expect(ui.typography.h3).toHaveProperty('marginBottom', '.625rem');
+      expect(ui.typography.h3).toHaveProperty('fontSize', '1rem');
     });
 
     it('has the correct properties for h4', () => {
       expect(ui.typography.h4).toHaveProperty('fontWeight', 600);
-      expect(ui.typography.h4).toHaveProperty('marginTop', 0.3125);
-      expect(ui.typography.h4).toHaveProperty('fontSize', 0.875);
+      expect(ui.typography.h4).toHaveProperty('marginTop', '.3125rem');
+      expect(ui.typography.h4).toHaveProperty('fontSize', '.875rem');
     });
 
     it('has the correct properties for h5', () => {
       expect(ui.typography.h5).toHaveProperty('fontWeight', 600);
-      expect(ui.typography.h5).toHaveProperty('marginTop', 0.3125);
-      expect(ui.typography.h5).toHaveProperty('fontSize', 0.75);
+      expect(ui.typography.h5).toHaveProperty('marginTop', '.3125rem');
+      expect(ui.typography.h5).toHaveProperty('fontSize', '.75rem');
     });
 
     it('has the correct properties for h6', () => {
       expect(ui.typography.h6).toHaveProperty('fontWeight', 600);
-      expect(ui.typography.h6).toHaveProperty('marginTop', 0.3125);
-      expect(ui.typography.h6).toHaveProperty('fontSize', 0.625);
+      expect(ui.typography.h6).toHaveProperty('marginTop', '.3125rem');
+      expect(ui.typography.h6).toHaveProperty('fontSize', '.625rem');
     });
   });
 
