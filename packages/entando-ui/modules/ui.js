@@ -126,6 +126,16 @@ const theme = createMuiTheme({
         },
       },
     },
+    MuiInput: {
+      underline: {
+        '&:before': {
+          content: 'none',
+        },
+        '&:after': {
+          content: 'none',
+        },
+      },
+    },
     MuiInputLabel: {
       root: {
         marginBottom: 8,
