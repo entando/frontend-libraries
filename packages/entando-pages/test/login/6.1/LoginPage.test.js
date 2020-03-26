@@ -2,7 +2,7 @@ import React from 'react';
 import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import LoginPage from 'login/LoginPage';
+import LoginPage from 'login/6.1/LoginPage';
 
 const CHILD = '<span>child for LoginPage</span>';
 
@@ -23,9 +23,5 @@ describe('ui/login/LoginPage', () => {
   it('component root with child ', () => {
     component = shallow(<LoginPage> {CHILD} </LoginPage>);
     expect(component.contains(CHILD)).toBe(true);
-  });
-
-  it('component root without child ', () => {
-    expect(component.find('.LoginPage__right-wrapper').prop('children')).toEqual([null, expect.any(Object)]);
   });
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import 'EnzymeInit';
 
 import { shallow, mount } from 'enzyme';
-import LoginForm from 'login/LoginForm';
+import LoginForm from 'login/6.0/LoginForm';
 
 import { IntlProvider } from 'react-intl';
 
