@@ -2,7 +2,7 @@ import React from 'react';
 import 'EnzymeInit';
 
 import { shallow } from 'enzyme';
-import LoginPage from 'login/6.1/LoginPage';
+import LoginPage from 'login/LoginPage';
 
 const CHILD = '<span>child for LoginPage</span>';
 

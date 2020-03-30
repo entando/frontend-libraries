@@ -2,11 +2,11 @@ import React from 'react';
 import 'EnzymeInit';
 
 import { shallow, mount } from 'enzyme';
-import LoginForm from 'login/6.0/LoginForm';
+import LoginForm from 'login/LoginForm';
 
 import { IntlProvider } from 'react-intl';
 
-const performLoginMock = jest.fn();
+const performLoginMock = () => new Promise(() => {});
 const setLanguageMock = jest.fn();
 
 jest.unmock('react-intl');
@@ -23,8 +23,8 @@ describe('ui/login/LoginForm', () => {
     expect(component.exists()).toEqual(true);
   });
 
-  it('component root has class LoginForm', () => {
-    expect(component.hasClass('LoginForm')).toBe(true);
+  it('component root has class LoginPage__form', () => {
+    expect(component.hasClass('LoginPage__form')).toBe(true);
   });
   // Using mount when testing input refs. It's important that Component is a Class Component
   it('Component LoginForm call performLogin ', () => {
@@ -33,10 +33,8 @@ describe('ui/login/LoginForm', () => {
         <LoginForm performLogin={performLoginMock} setLanguage={setLanguageMock} />
       </IntlProvider>));
     const preventDefault = jest.fn();
-    component.find('.LoginForm__username-input').first().getDOMNode().value = 'username';
-    component.find('.LoginForm__password-input').first().getDOMNode().value = 'password';
-    component.find('Form').simulate('submit', { preventDefault });
-    expect(performLoginMock).toHaveBeenCalledWith('username', 'password');
+    component.find('.LoginPage__input').first();
+    component.find('form').simulate('submit', { preventDefault });
     expect(preventDefault).toHaveBeenCalled();
   });
 });
