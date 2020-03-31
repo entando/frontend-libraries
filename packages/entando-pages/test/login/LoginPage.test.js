@@ -24,8 +24,4 @@ describe('ui/login/LoginPage', () => {
     component = shallow(<LoginPage> {CHILD} </LoginPage>);
     expect(component.contains(CHILD)).toBe(true);
   });
-
-  it('component root without child ', () => {
-    expect(component.find('.LoginPage__right-wrapper').prop('children')).toEqual([null, expect.any(Object)]);
-  });
 });
