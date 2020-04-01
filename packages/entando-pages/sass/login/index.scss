@@ -8,7 +8,6 @@ html, body {
 
 .LoginPage {
   width: 100vw;
-  // background-image: url("/images/Stack.png");
   display: grid;
   grid-template-columns: 1fr minmax(auto, 653px) 1fr;
   grid-template-rows: minmax(auto, 233px) 534px 1fr;
@@ -41,7 +40,6 @@ html, body {
   height: 58px;
   width: 223px;
   margin-top: 50px;
-  // background-image: url("/images/logo.svg");
   background-repeat: no-repeat;
   align-self: flex-start; }
 

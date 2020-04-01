@@ -47,7 +47,7 @@ class LoginForm extends Component {
     return (
       <form className="LoginPage__form" onSubmit={onSubmit} method="post">
         <div className="LoginPage__brand">
-          <div className="LoginPage__logo" style={{ backgroundImage: 'url(images/logo.svg)' }} />
+          <div className="LoginPage__logo" style={{ backgroundImage: 'url(images/login-logo.svg)' }} />
           <div className="LoginPage__description" />
         </div>
         <div className="LoginPage__formGroup">
@@ -61,7 +61,7 @@ class LoginForm extends Component {
               tabIndex="0"
               className="LoginPage__input"
               id="username"
-              placeholder="Username"
+              placeholder={formattedText(LOGIN_USERNAME_LABEL, 'Username', {})}
               onChange={e => this.setState({ username: e.target.value })}
             />
           </div>
@@ -75,7 +75,7 @@ class LoginForm extends Component {
               tabIndex="0"
               className="LoginPage__input"
               id="password"
-              placeholder="Password"
+              placeholder={formattedText(LOGIN_PASSWORD_LABEL, 'Password', {})}
               onChange={e => this.setState({ password: e.target.value })}
             />
             {alertMsg}
