@@ -88,8 +88,8 @@ class LoginForm extends Component {
                 defaultValue={currentLanguage}
                 style={{ backgroundImage: 'url(images/caret-down.svg)' }}
               >
-                <option className="LoginPage__select__option">{formattedText(LOGIN_LANG_BUTTON.en, 'English', {})}</option>
-                <option className="LoginPage__select__option">{formattedText(LOGIN_LANG_BUTTON.it, 'Italiano', {})}</option>
+                <option className="LoginPage__select__option" value="en">{formattedText(LOGIN_LANG_BUTTON.en, 'English', {})}</option>
+                <option className="LoginPage__select__option" value="it">{formattedText(LOGIN_LANG_BUTTON.it, 'Italiano', {})}</option>
               </select>
             </div>
             <button
