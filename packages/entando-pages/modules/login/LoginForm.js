@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { formattedText } from '@entando/utils';
+import { FormattedMessage, defineMessages, intlShape } from 'react-intl';
 
 const LOGIN_USERNAME_LABEL = 'fl.pages.login.username.placeholder';
 const LOGIN_PASSWORD_LABEL = 'fl.pages.login.password.placeholder';
@@ -9,6 +8,24 @@ const LOGIN_BUTTON = 'fl.pages.login.button';
 const LOGIN_LANG_BUTTON = { it: 'fl.pages.login.lang.it', en: 'fl.pages.login.lang.en' };
 const LOGINPAGE_COPYRIGHT = 'fl.pages.loginPage.copyright';
 
+const loginMsgs = defineMessages({
+  username: {
+    id: LOGIN_USERNAME_LABEL,
+    defaultMessage: 'Username',
+  },
+  password: {
+    id: LOGIN_PASSWORD_LABEL,
+    defaultMessage: 'Password',
+  },
+  english: {
+    id: LOGIN_LANG_BUTTON.en,
+    defaultMessage: 'English',
+  },
+  italian: {
+    id: LOGIN_LANG_BUTTON.it,
+    defaultMessage: 'Italiano',
+  },
+});
 
 class LoginForm extends Component {
   constructor(props) {
@@ -25,7 +42,7 @@ class LoginForm extends Component {
   render() {
     let alertMsg;
     const {
-      loginErrorMessage, performLogin, setLanguage, currentLanguage,
+      loginErrorMessage, performLogin, setLanguage, currentLanguage, intl,
     } = this.props;
     if (loginErrorMessage) {
       alertMsg = <div className="LoginPage__error">${loginErrorMessage}</div>;
@@ -61,7 +78,7 @@ class LoginForm extends Component {
               tabIndex="0"
               className="LoginPage__input"
               id="username"
-              placeholder={formattedText(LOGIN_USERNAME_LABEL, 'Username', {})}
+              placeholder={intl.formatMessage(loginMsgs.username)}
               onChange={e => this.setState({ username: e.target.value })}
             />
           </div>
@@ -75,7 +92,7 @@ class LoginForm extends Component {
               tabIndex="0"
               className="LoginPage__input"
               id="password"
-              placeholder={formattedText(LOGIN_PASSWORD_LABEL, 'Password', {})}
+              placeholder={intl.formatMessage(loginMsgs.password)}
               onChange={e => this.setState({ password: e.target.value })}
             />
             {alertMsg}
@@ -88,8 +105,12 @@ class LoginForm extends Component {
                 defaultValue={currentLanguage}
                 style={{ backgroundImage: 'url(images/caret-down.svg)' }}
               >
-                <option className="LoginPage__select__option" value="en">{formattedText(LOGIN_LANG_BUTTON.en, 'English', {})}</option>
-                <option className="LoginPage__select__option" value="it">{formattedText(LOGIN_LANG_BUTTON.it, 'Italiano', {})}</option>
+                <option className="LoginPage__select__option" value="en">
+                  {intl.formatMessage(loginMsgs.english)}
+                </option>
+                <option className="LoginPage__select__option" value="it">
+                  {intl.formatMessage(loginMsgs.italian)}
+                </option>
               </select>
             </div>
             <button
@@ -115,6 +136,7 @@ class LoginForm extends Component {
 }
 
 LoginForm.defaultProps = {
+  intl: intlShape.isRequired,
   loginErrorMessage: '',
   currentLanguage: 'en',
 };
