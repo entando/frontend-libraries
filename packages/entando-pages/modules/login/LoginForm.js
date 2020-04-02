@@ -32,29 +32,40 @@ class LoginForm extends Component {
     super(props);
     this.username = null;
     this.password = null;
+    this.mounted = false;
     this.state = {
       username: null,
       password: null,
       loading: false,
     };
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  onSubmit(ev) {
+    const { performLogin } = this.props;
+    this.setState({ loading: true });
+    ev.preventDefault();
+    performLogin(this.state.username, this.state.password)
+      .then(() => { if (this.mounted) { this.setState({ loading: false }); } })
+      .catch(() => { if (this.mounted) { this.setState({ loading: false }); } });
   }
 
   render() {
     let alertMsg;
     const {
-      loginErrorMessage, performLogin, setLanguage, currentLanguage, intl,
+      loginErrorMessage, setLanguage, currentLanguage, intl,
     } = this.props;
     if (loginErrorMessage) {
       alertMsg = <div className="LoginPage__error">{loginErrorMessage}</div>;
     }
-
-    const onSubmit = (ev) => {
-      this.setState({ loading: true });
-      ev.preventDefault();
-      performLogin(this.state.username, this.state.password)
-        .then(() => this.setState({ loading: false }))
-        .catch(() => this.setState({ loading: false }));
-    };
 
     // returns an event handler calling setLanguage function
     const onClickLanguage = e => setLanguage(e.target.value);
@@ -62,7 +73,7 @@ class LoginForm extends Component {
     const actionStyles = loginErrorMessage ? { marginTop: 0 } : null;
 
     return (
-      <form className="LoginPage__form" onSubmit={onSubmit} method="post">
+      <form className="LoginPage__form" onSubmit={this.onSubmit} method="post">
         <div className="LoginPage__brand">
           <div className="LoginPage__logo" style={{ backgroundImage: 'url(images/login-logo.svg)' }} />
           <div className="LoginPage__description" />
