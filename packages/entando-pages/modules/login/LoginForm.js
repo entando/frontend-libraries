@@ -136,12 +136,12 @@ class LoginForm extends Component {
 }
 
 LoginForm.defaultProps = {
-  intl: intlShape.isRequired,
   loginErrorMessage: '',
   currentLanguage: 'en',
 };
 
 LoginForm.propTypes = {
+  intl: intlShape.isRequired,
   loginErrorMessage: PropTypes.string,
   performLogin: PropTypes.func.isRequired,
   setLanguage: PropTypes.func.isRequired,

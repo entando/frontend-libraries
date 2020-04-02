@@ -7,3 +7,7 @@ export const FormattedMessage = () => (
 export const FormattedRelative = () => (
   <span />
 );
+
+export const defineMessages = () => {};
+export const formatDate = () => {};
+export const intlShape = {};

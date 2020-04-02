@@ -15,7 +15,11 @@ describe('ui/login/LoginForm', () => {
   let component;
   beforeEach(() => {
     component = shallow((
-      <LoginForm performLogin={performLoginMock} setLanguage={setLanguageMock} />
+      <LoginForm
+        performLogin={performLoginMock}
+        setLanguage={setLanguageMock}
+        intl={{ formatMessage: jest.fn() }}
+      />
     ));
   });
 
@@ -30,7 +34,11 @@ describe('ui/login/LoginForm', () => {
   it('Component LoginForm call performLogin ', () => {
     component = mount((
       <IntlProvider locale="en">
-        <LoginForm performLogin={performLoginMock} setLanguage={setLanguageMock} />
+        <LoginForm
+          performLogin={performLoginMock}
+          setLanguage={setLanguageMock}
+          intl={{ formatMessage: jest.fn() }}
+        />
       </IntlProvider>));
     const preventDefault = jest.fn();
     component.find('.LoginPage__input').first();
