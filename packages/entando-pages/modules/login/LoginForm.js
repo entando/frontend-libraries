@@ -45,7 +45,7 @@ class LoginForm extends Component {
       loginErrorMessage, performLogin, setLanguage, currentLanguage, intl,
     } = this.props;
     if (loginErrorMessage) {
-      alertMsg = <div className="LoginPage__error">${loginErrorMessage}</div>;
+      alertMsg = <div className="LoginPage__error">{loginErrorMessage}</div>;
     }
 
     const onSubmit = (ev) => {
