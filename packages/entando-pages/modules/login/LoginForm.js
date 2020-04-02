@@ -114,7 +114,7 @@ class LoginForm extends Component {
                 className="LoginPage__select"
                 onChange={onClickLanguage}
                 defaultValue={currentLanguage}
-                style={{ backgroundImage: 'url(images/caret-down.svg)' }}
+                style={{ backgroundImage: 'url(images/caret-down.svg)', backgroundRepeat: 'no-repeat' }}
               >
                 <option className="LoginPage__select__option" value="en">
                   {intl.formatMessage(loginMsgs.english)}
