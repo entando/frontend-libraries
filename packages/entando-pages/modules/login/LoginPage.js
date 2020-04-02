@@ -11,7 +11,7 @@ if (window.FontFace) {
 }
 
 const LoginPage = ({ children }) => (
-  <div className="LoginPage" style={{ backgroundImage: 'url(images/Stack.png)' }}>
+  <div className="LoginPage" style={{ backgroundImage: 'url(images/login-bg.png)' }}>
     {children}
   </div>
 );
