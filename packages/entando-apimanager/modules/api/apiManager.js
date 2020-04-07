@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { throttle, isEmpty } from '@entando/utils';
 
-import { buildResponse, buildErrorResponse, ErrorI18n } from './responseFactory';
+import { buildResponse, buildErrorResponse, ErrorResponse, ErrorI18n } from './responseFactory';
 import { useMocks, getDomain } from '../state/api/selectors';
 import { logoutUser } from '../state/current-user/actions';
 import { getToken } from '../state/current-user/selectors';
@@ -146,7 +146,7 @@ const getCompleteRequestUrl = (request, page) => {
 };
 
 const normalizeErrorMessage = (message) => {
-  if (['noJsonReturned', 'permissionDenied', 'serviceUnavailable'].includes(message)) {
+  if (['noJsonReturned', 'permissionDenied', 'badRequest', 'serviceUnavailable'].includes(message)) {
     return message;
   }
 
@@ -169,23 +169,28 @@ export const makeRealRequest = (request, page) => {
     }
     if (response.status === 401) {
       store.dispatch(logoutUser({ statusCode: 401, request, response }));
-      throw new Error('permissionDenied');
+      throw new ErrorResponse('permissionDenied', response);
+    } else if (response.status === 400) {
+      throw new ErrorResponse('badRequest', response);
     } else if (response.status.toString().startsWith(5)) {
       if (response.status === 503) {
         store.dispatch(logoutUser({ statusCode: 401, request, response }));
-        throw new Error('serviceUnavailable');
+        throw new ErrorResponse('serviceUnavailable', response);
       } else {
-        throw new Error('serverError');
+        throw new ErrorResponse('serverError', response);
       }
     }
     return response;
   }).catch((e) => {
-    const message = `app.${normalizeErrorMessage(e.message)}`;
-    return Promise.reject(new ErrorI18n(
-      message,
-      defaultMessages[message],
-      { domain: getDomain(store.getState()) },
-    ));
+    const promise = e.response && e.response.json ? e.response.json() : Promise.resolve();
+    return promise.then((json) => {
+      const message = `app.${normalizeErrorMessage(e.message)}`;
+      const params = [message, defaultMessages[message], { domain: getDomain(store.getState()) }];
+      if (json) {
+        params.push(json.errors);
+      }
+      return Promise.reject(new ErrorI18n(...params));
+    });
   });
 };
 
