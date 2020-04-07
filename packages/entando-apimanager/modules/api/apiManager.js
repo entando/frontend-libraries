@@ -182,14 +182,17 @@ export const makeRealRequest = (request, page) => {
     }
     return response;
   }).catch((e) => {
-    const promise = e.response && e.response.json ? e.response.json() : Promise.resolve();
-    return promise.then((json) => {
+    const promise = e.response && e.response.json
+      ? e.response.json()
+      : Promise.resolve({ errors: [] });
+    return promise.then(({ errors }) => {
       const message = `app.${normalizeErrorMessage(e.message)}`;
-      const params = [message, defaultMessages[message], { domain: getDomain(store.getState()) }];
-      if (json) {
-        params.push(json.errors);
-      }
-      return Promise.reject(new ErrorI18n(...params));
+      return Promise.reject(new ErrorI18n(
+        message,
+        defaultMessages[message],
+        { domain: getDomain(store.getState()) },
+        errors,
+      ));
     });
   });
 };

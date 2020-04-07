@@ -70,7 +70,7 @@ export class ErrorResponse extends Error {
 }
 
 export class ErrorI18n extends Error {
-  constructor(message, defaultMessage = null, values = {}, details = {}) {
+  constructor(message, defaultMessage = null, values = {}, details = []) {
     super(message);
     this.defaultMessage = defaultMessage;
     this.values = values;
