@@ -61,11 +61,20 @@ export const buildErrorResponse = (errors = []) => (
   }
 );
 
+export class ErrorResponse extends Error {
+  constructor(message, response) {
+    super(message);
+    this.name = 'ErrorResponse';
+    this.response = response;
+  }
+}
+
 export class ErrorI18n extends Error {
-  constructor(message, defaultMessage = null, values = {}) {
+  constructor(message, defaultMessage = null, values = {}, details = []) {
     super(message);
     this.defaultMessage = defaultMessage;
     this.values = values;
+    this.details = details;
   }
 
   toParamsArray() {
