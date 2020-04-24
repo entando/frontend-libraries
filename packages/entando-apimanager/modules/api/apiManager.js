@@ -170,8 +170,6 @@ export const makeRealRequest = (request, page) => {
     if (response.status === 401) {
       store.dispatch(logoutUser({ statusCode: 401, request, response }));
       throw new ErrorResponse('permissionDenied', response);
-    } else if (response.status === 400) {
-      throw new ErrorResponse('badRequest', response);
     } else if (response.status.toString().startsWith(5)) {
       if (response.status === 503) {
         store.dispatch(logoutUser({ statusCode: 401, request, response }));
