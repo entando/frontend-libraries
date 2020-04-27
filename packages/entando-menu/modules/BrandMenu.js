@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class BrandMenu extends Component {
@@ -17,7 +18,7 @@ class BrandMenu extends Component {
 
   render() {
     const {
-      title, brandLogo, children, header,
+      title, brandLogo, children, header, dashboardLink,
     } = this.props;
 
 
@@ -52,9 +53,9 @@ class BrandMenu extends Component {
       <div className="BrandMenu">
         <div className="navbar navbar-default navbar-pf" role="navigation">
           <div className="navbar-header">
-            <a className="BrandMenu__navbar-brand navbar-brand" href="">
+            <Link className="BrandMenu__navbar-brand navbar-brand" to={dashboardLink}>
               {brandLogo} {title}
-            </a>
+            </Link>
           </div>
           <div className="collapse navbar-collapse navbar-collapse-11">
             <ul className="BrandMenu__navbar-utility nav navbar-nav navbar-utility">
@@ -74,6 +75,7 @@ BrandMenu.propTypes = {
   title: PropTypes.string,
   brandLogo: PropTypes.node,
   header: PropTypes.node,
+  dashboardLink: PropTypes.string,
 };
 
 BrandMenu.defaultProps = {
@@ -81,6 +83,7 @@ BrandMenu.defaultProps = {
   title: '',
   brandLogo: <span>ENTANDO</span>,
   header: null,
+  dashboardLink: '',
 };
 
 export default BrandMenu;
