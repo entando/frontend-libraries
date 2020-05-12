@@ -17,6 +17,10 @@ describe('exports all pages components', () => {
     expect(pages).toHaveProperty('NotFoundPage', expect.any(Function));
   });
 
+  it('exports NoAccessPage', () => {
+    expect(pages).toHaveProperty('NoAccessPage', expect.any(Function));
+  });
+
   it('exports locales', () => {
     expect(pages).toHaveProperty('locales');
     expect(pages).toHaveProperty('locales.it', expect.any(Object));

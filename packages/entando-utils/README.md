@@ -18,6 +18,9 @@ import { <helper> } from '@entando/utils'
 
 the `<helper>` name always matches the one in the title of the following sections. Each title also contains the expected arguments and the return type of helper in between square brackets.
 
+### hasAccess(requiredPermissions, currentUserPermissions) [bool]
+the first parameter can be either a string or an array of string, the second parameter can be either a string or an array of string. if the user permissions contain any of the required permissions the helper will return true.
+
 ### throttle(callback) [void]
 
 ```js
@@ -198,6 +201,15 @@ import { <helper> } from '@entando/utils'
 ```
 
 Every helper returns a react component.
+
+### PermissionCheck
+this component will either render the children or the given 403 page.
+the given properties are required:
+
+- children
+- page403: the 403 page to render. a default one is now part of @entando/pages
+- requiredPermissions: the list of required permissions (see hasAccess)
+- userPermissions: the current user permissions (see hasAccess)
 
 ### required(value)
 
