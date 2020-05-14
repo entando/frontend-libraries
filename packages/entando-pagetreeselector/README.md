@@ -42,6 +42,9 @@ The component expects the following props:
   onExpandPage: PropTypes.func,
   onDidMount: PropTypes.func,
   onPageSelect: PropTypes.func,
+  onExpandAll: PropTypes.func,
+  onCollapseAll: PropTypes.func,
+  loading: PropTypes.bool,
 }
 ```
 
@@ -52,3 +55,9 @@ the `onExpandPage` function will be fired when the expand icon is clicked.
 the `onDidMount` function will be called inside `componentDidMount` lifecycle function
 
 the `onPageSelect` function will be fired when user clicks on a row (single page)
+
+the `onExpandAll` function will be fired when `Expand` button is clicked to expand whole tree
+
+the `onCollapseAll` function will be fired when `Collapse` button is clicked to collapse whole tree
+
+the `loading` boolean is used to indicate if the page data is loading

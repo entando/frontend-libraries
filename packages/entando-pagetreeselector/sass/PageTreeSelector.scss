@@ -31,6 +31,18 @@
   &__row--selected {
     background-color: $color-row-selected;
   }
+
+  &__button {
+    display: inline-block;
+    font-size: inherit;
+    font-family: inherit;
+    margin-right: 30px;
+    cursor: pointer;
+
+    &--expand {
+      margin-left: 4em;
+    }
+  }
 }
 
 
