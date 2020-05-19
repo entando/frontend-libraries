@@ -1,6 +1,6 @@
 {
   "name": "@entando/menu",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "license": "LGPL-2.1",
   "description": "react components used to render menus in entando projects",
   "keywords": [
