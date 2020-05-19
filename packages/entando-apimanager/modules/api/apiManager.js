@@ -119,7 +119,7 @@ const getRequestParams = (request) => {
       ...contentTypeHeader,
       ...request.headers,
     },
-    credentials: (request.useCredentials == true) ? 'include' : 'omit',
+    credentials: (request.useCredentials === true) ? 'include' : 'omit',
   };
   if ([METHODS.POST, METHODS.PUT, METHODS.PATCH].includes(request.method)) {
     requestParams.body = isFormData
