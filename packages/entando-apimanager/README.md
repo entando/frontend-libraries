@@ -142,8 +142,11 @@ The request object has the following properties:
   },
   errors: () => getErrors(username, password),
   useAuthentication: true,
+  useCredentials: true
 }
 ```
+
+The `useCredentials` property is used to explicity set the client to respect `Set-Cookie` header on the response or to use the `Cookie` header on the request object. Default value is `false`.
 
 #### uri
 
