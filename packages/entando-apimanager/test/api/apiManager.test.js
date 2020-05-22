@@ -243,6 +243,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test',
         {
+          credentials: 'omit',
           method: validRequest.method,
           headers: {
             'Content-Type': 'application/json',
@@ -261,6 +262,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//customdomain.com/api/test',
         {
+          credentials: 'omit',
           method: validRequest.method,
           headers: {
             'Content-Type': 'application/json',
@@ -280,6 +282,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//customdomain.com/api/test',
         {
+          credentials: 'omit',
           method: validRequest.method,
           headers: {
             'Content-Type': 'application/json',
@@ -298,6 +301,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test?page=1&pageSize=10',
         {
+          credentials: 'omit',
           method: validRequest.method,
           headers: {
             'Content-Type': 'application/json',
@@ -314,6 +318,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test?my=var&page=1&pageSize=10',
         {
+          credentials: 'omit',
           method: validRequest.method,
           headers: {
             'Content-Type': 'application/json',
@@ -335,6 +340,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test',
         {
+          credentials: 'omit',
           method: METHODS.POST,
           headers: {
             'Content-Type': 'application/json',
@@ -365,6 +371,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test',
         {
+          credentials: 'omit',
           method: METHODS.PUT,
           headers: {
             'Content-Type': 'application/json',
@@ -395,6 +402,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test',
         {
+          credentials: 'omit',
           method: METHODS.PATCH,
           headers: {
             'Content-Type': 'application/json',
@@ -426,6 +434,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test',
         {
+          credentials: 'omit',
           method: METHODS.POST,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -450,6 +459,7 @@ describe('apiManager', () => {
       expect(fetch).toHaveBeenCalledWith(
         '//google.com/api/test',
         {
+          credentials: 'omit',
           method: METHODS.GET,
           headers: {
             'Content-Type': 'application/json',
@@ -493,6 +503,7 @@ describe('apiManager', () => {
         expect(fetch).toHaveBeenCalledWith(
           '//google.com/api/test',
           {
+            credentials: 'omit',
             method: validRequest.method,
             headers: {
               'Content-Type': 'application/json',
@@ -598,7 +609,7 @@ describe('apiManager', () => {
         const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
         const customFetch = jest.spyOn(window, 'fetch').mockImplementation(() => (
           new Promise((resolve) => {
-            resolve(mockResponse(null, false, 503)); 
+            resolve(mockResponse(null, false, 503));
           })
         ));
 
