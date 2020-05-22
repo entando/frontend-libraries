@@ -1,6 +1,6 @@
 {
   "name": "@entando/pages",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "license": "LGPL-2.1",
   "description": "react components used to render common pages in Entando projects",
   "keywords": [
@@ -77,7 +77,7 @@
     ]
   },
   "dependencies": {
-    "@entando/utils": "^2.1.2",
+    "@entando/utils": "^2.2.0",
     "patternfly-react": "^1.19.1",
     "react": "^16.3.0",
     "react-intl": "^2.4.0"
