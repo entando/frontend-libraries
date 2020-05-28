@@ -34,12 +34,16 @@ PermissionCheck.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node),
   ]).isRequired,
-  page403: PropTypes.node.isRequired,
+  page403: PropTypes.node,
   requiredPermissions: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]).isRequired,
   userPermissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+PermissionCheck.defaultProps = {
+  page403: null,
 };
 
 export default PermissionCheck;
