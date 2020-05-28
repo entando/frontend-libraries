@@ -7,3 +7,4 @@ export { setCurrentLocale, formattedText } from './formattedText';
 export { getMonthDayYearFormat, formatDate } from './dates';
 export { routeConverter } from './routeConverter';
 export { default as PermissionCheck } from './permissions';
+export { hasAccess } from './permissions';
