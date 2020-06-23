@@ -9,7 +9,8 @@ export const getMonthDayYearFormat = (date, locale = 'en-us') => {
 
 export const formatDate = (date) => {
   try {
-    return (new Date(date)).toISOString().replace('T', ' ').split('.')[0];
+    const target = new Date(date);
+    return (new Date(target.getTime() - (target.getTimezoneOffset() * 60000))).toISOString().replace('T', ' ').split('.')[0];
   } catch (error) {
     return 'N/A';
   }
