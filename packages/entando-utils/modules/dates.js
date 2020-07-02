@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getMonthDayYearFormat = (date, locale = 'en-us') => {
   const dateObject = new Date(date);
   return dateObject.toLocaleString(locale, {
@@ -10,7 +12,7 @@ export const getMonthDayYearFormat = (date, locale = 'en-us') => {
 export const formatDate = (date) => {
   try {
     const target = new Date(date);
-    return (new Date(target.getTime() - (target.getTimezoneOffset() * 60000))).toISOString().replace('T', ' ').split('.')[0];
+    return moment(target).format('DD/MM/YYYY hh:mm');
   } catch (error) {
     return 'N/A';
   }
