@@ -133,17 +133,15 @@ const getRequestParams = (request) => {
   return requestParams;
 };
 
-const getCompleteRequestUrl = (request, page) => {
-  const domain = request.domain || getDomain(store.getState());
-  const url = `${domain}${request.uri}`;
-  if (!page || !page.page) {
-    return url;
-  }
+const getCompleteRequestUrl = (request, params = {}) => {
+  const storedDomain = getDomain(store.getState());
 
-  return url.concat(
-    url.indexOf('?') !== -1 ? '&' : '?',
-    `page=${page.page}&pageSize=${page.pageSize}`,
-  );
+  const domainUrl = new URL(request.domain || '', storedDomain);
+  const endpointUrl = new URL(domainUrl + request.uri);
+
+  Object.keys(params).map(key => endpointUrl.searchParams.append(key, params[key]));
+
+  return endpointUrl.href;
 };
 
 const normalizeErrorMessage = (message) => {
