@@ -133,13 +133,13 @@ const getRequestParams = (request) => {
   return requestParams;
 };
 
-const getCompleteRequestUrl = function getCompleteRequestUrl(request, params = {}) {
+const getCompleteRequestUrl = (request, params = {}) => {
   const storedDomain = getDomain(store.getState());
 
   const domainUrl = new URL(request.domain || '', storedDomain);
   const endpointUrl = new URL(domainUrl + request.uri);
 
-  Object.keys(params).map(key => endpointUrl.searchParams.append(key, params[key]))
+  Object.keys(params).map(key => endpointUrl.searchParams.append(key, params[key]));
 
   return endpointUrl.href;
 };
