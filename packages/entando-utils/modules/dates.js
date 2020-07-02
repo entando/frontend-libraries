@@ -12,7 +12,7 @@ export const getMonthDayYearFormat = (date, locale = 'en-us') => {
 export const formatDate = (date) => {
   try {
     const target = new Date(date);
-    return moment(target).format('YYYY-MM-DD HH:mm');
+    return moment(target).format('YYYY-MM-DD HH:mm:ss');
   } catch (error) {
     return 'N/A';
   }
