@@ -14,7 +14,7 @@ const NoAccessPage = ({ gotoHome }) => {
       <Col xs={12}>
         <Button
           type="button"
-          className="NoAccessPage__goto-home-button"
+          className="NotFoundAccessPage__goto-home-button"
           bsStyle="primary"
           onClick={() => { gotoHome(); }}
         >
@@ -26,11 +26,11 @@ const NoAccessPage = ({ gotoHome }) => {
   );
 
   return (
-    <div className="NoAccessPage">
+    <div className="NotFoundAccessPage">
       <Grid>
         <Row>
           <Col xs={12}>
-            <h1 className="NoAccessPage__page-title">
+            <h1 className="NotFoundAccessPage__page-title">
               <FormattedMessage
                 id={NOACCESS_TITLE}
                 defaultMessage="403"
@@ -40,7 +40,7 @@ const NoAccessPage = ({ gotoHome }) => {
         </Row>
         <Row>
           <Col xs={12}>
-            <p className="NoAccessPage__page-abstract">
+            <p className="NotFoundAccessPage__page-abstract">
               <FormattedMessage
                 id={NOACCESS_ABSTRACT}
                 defaultMessage="You have no access to this page"
