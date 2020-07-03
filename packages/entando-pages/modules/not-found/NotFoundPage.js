@@ -14,7 +14,7 @@ const NotFoundPage = ({ gotoHome }) => {
       <Col xs={12}>
         <Button
           type="button"
-          className="NotFoundAccessPage__goto-home-button"
+          className="ErrorPages__goto-home-button"
           bsStyle="primary"
           onClick={() => { gotoHome(); }}
         >
@@ -26,11 +26,11 @@ const NotFoundPage = ({ gotoHome }) => {
   );
 
   return (
-    <div className="NotFoundAccessPage">
+    <div className="ErrorPages">
       <Grid>
         <Row>
           <Col xs={12}>
-            <h1 className="NotFoundAccessPage__page-title">
+            <h1 className="ErrorPages__page-title">
               <FormattedMessage
                 id={NOTFOUNDPAGE_TITLE}
                 defaultMessage="404"
@@ -40,7 +40,7 @@ const NotFoundPage = ({ gotoHome }) => {
         </Row>
         <Row>
           <Col xs={12}>
-            <p className="NotFoundAccessPage__page-abstract">
+            <p className="ErrorPages__page-abstract">
               <FormattedMessage
                 id={NOTFOUNDPAGE_ABSTRACT}
                 defaultMessage="The request page was not found"
