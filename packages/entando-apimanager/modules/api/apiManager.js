@@ -136,7 +136,16 @@ const getRequestParams = (request) => {
 const getCompleteRequestUrl = (request, params = {}) => {
   const storedDomain = getDomain(store.getState());
 
-  const domainUrl = new URL(request.domain || '', storedDomain);
+  let baseDomain;
+  // checking if stored domain is absolute or relative
+  try {
+    baseDomain = new URL(storedDomain);
+  } catch (e) {
+    // domain is relative path, using window.location for base instead
+    baseDomain = new URL(window.location.href);
+  }
+
+  const domainUrl = new URL(request.domain || '', baseDomain);
   const endpointUrl = new URL(domainUrl + request.uri);
 
   Object.keys(params).map(key => endpointUrl.searchParams.append(key, params[key]));
