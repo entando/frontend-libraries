@@ -17,12 +17,12 @@ describe('ui/login/NotFoundPage', () => {
   });
 
   it('component root has class NotFoundPage', () => {
-    expect(component.hasClass('NotFoundPage')).toBe(true);
+    expect(component.hasClass('NotFoundAccessPage')).toBe(true);
   });
 
   it('component calls gotoHome function', () => {
     component = shallow(<NotFoundPage gotoHome={gotoHome} />);
-    component.find('.NotFoundPage__goto-home-button').simulate('click');
+    component.find('.NotFoundAccessPage__goto-home-button').simulate('click');
     expect(gotoHome).toHaveBeenCalled();
   });
 });
