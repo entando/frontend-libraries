@@ -17,12 +17,12 @@ describe('pages/NoAccessPage', () => {
   });
 
   it('component root has class NoAccessPage', () => {
-    expect(component.hasClass('NotFoundAccessPage')).toBe(true);
+    expect(component.hasClass('ErrorPages')).toBe(true);
   });
 
   it('component calls gotoHome function', () => {
     component = shallow(<NoAccessPage gotoHome={gotoHome} />);
-    component.find('.NotFoundAccessPage__goto-home-button').simulate('click');
+    component.find('.ErrorPages__goto-home-button').simulate('click');
     expect(gotoHome).toHaveBeenCalled();
   });
 });
