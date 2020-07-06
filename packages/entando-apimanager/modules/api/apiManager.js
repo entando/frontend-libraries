@@ -153,11 +153,11 @@ const getCompleteRequestUrl = (request, params = {}) => {
   //  new URL('http://www.entando.com', 'not-url') -> error [ERR_INVALID_URL]: Invalid URL: not-url
   //  new URL('http://www.entando.com', '/digital-exchange') -> error [ERR_INVALID_URL]: Invalid URL: /digital-exchange
 
-  const storedDomain = getDomain(store.getState());
+  const domainEnvVariable = getDomain(store.getState());
 
-  const parsedStoredDomain = isAbsoluteUrl(storedDomain)
-    ? storedDomain
-    : new URL(new URL(window.location.href).origin + storedDomain).href;
+  const parsedStoredDomain = isAbsoluteUrl(domainEnvVariable)
+    ? domainEnvVariable
+    : new URL(window.location.origin + domainEnvVariable).href;
 
   // using request.domain if it's absolute or appending it if relative, also trimming last '/'
   const requestDomain =
