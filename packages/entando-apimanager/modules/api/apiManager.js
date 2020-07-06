@@ -133,20 +133,37 @@ const getRequestParams = (request) => {
   return requestParams;
 };
 
+const isAbsoluteUrl = (url) => {
+  try {
+    new URL(url); // eslint-disable-line no-new
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 const getCompleteRequestUrl = (request, params = {}) => {
+  // note on new URL():
+  // if url (first parameter) is an absolute path, base domain is not used
+  // if base domain is provided, it has to be absolute (even when url is absolute!)
+  // e.g.,
+  //  new URL('http://www.entando.com') -> { href: 'http://www.entando.com/', ... }
+  //  new URL('/digital-exchange', 'http://www.entando.com') -> { href: 'http://www.entando.com/digital-exchange', ... }
+  //  new URL('/digital-exchange') -> error [ERR_INVALID_URL]: Invalid URL: /digital-exchange
+  //  new URL('http://www.entando.com', 'not-url') -> error [ERR_INVALID_URL]: Invalid URL: not-url
+  //  new URL('http://www.entando.com', '/digital-exchange') -> error [ERR_INVALID_URL]: Invalid URL: /digital-exchange
+
   const storedDomain = getDomain(store.getState());
 
-  let baseDomain;
-  // checking if stored domain is absolute or relative
-  try {
-    baseDomain = new URL(storedDomain);
-  } catch (e) {
-    // domain is relative path, using window.location for base instead
-    baseDomain = new URL(window.location.href);
-  }
+  const parsedStoredDomain = isAbsoluteUrl(storedDomain)
+    ? storedDomain
+    : new URL(new URL(window.location.href).origin + storedDomain).href;
 
-  const domainUrl = new URL(request.domain || '', baseDomain);
-  const endpointUrl = new URL(domainUrl + request.uri);
+  // using request.domain if it's absolute or appending it if relative, also trimming last '/'
+  const requestDomain =
+    new URL(request.domain || '', parsedStoredDomain).href.replace(/\/$/, '');
+
+  const endpointUrl = new URL(requestDomain + request.uri);
 
   Object.keys(params).map(key => endpointUrl.searchParams.append(key, params[key]));
 

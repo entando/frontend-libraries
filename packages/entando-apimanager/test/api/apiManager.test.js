@@ -28,7 +28,17 @@ const MOCKED = {
 const REAL = {
   api: {
     useMocks: false,
-    domain: '//google.com',
+    domain: 'https://www.entando.com/entando-de-app',
+  },
+  currentUser: {
+    token: null,
+  },
+};
+
+const REAL_RELATIVE = {
+  api: {
+    useMocks: false,
+    domain: '/entando-de-app',
   },
   currentUser: {
     token: null,
@@ -238,10 +248,13 @@ describe('apiManager', () => {
       config(mockStore(REAL));
     });
 
+    const expectedUrl = new URL(REAL.api.domain + validRequest.uri).href;
+
     it('fetches from the real api when useMocks is false', (done) => {
       const result = makeRequest(validRequest);
+
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test',
+        expectedUrl,
         {
           credentials: 'omit',
           method: validRequest.method,
@@ -257,74 +270,173 @@ describe('apiManager', () => {
       }).catch(done.fail);
     });
 
-    it('fetches using a custom domain when domain property is provided', (done) => {
-      const result = makeRequest({ ...validRequest, domain: '//customdomain.com' });
-      expect(fetch).toHaveBeenCalledWith(
-        '//customdomain.com/api/test',
-        {
-          credentials: 'omit',
-          method: validRequest.method,
-          headers: {
-            'Content-Type': 'application/json',
+    describe('with domain environment variable', () => {
+      it('fetches when domain is an absolute path', (done) => {
+        // if DOMAIN === http://apps.rd.entando.org/entando-de-app
+        //    request.uri === /api/permissions
+        //    request.domain === undefined
+        // then full URL has to be http://apps.rd.entando.org/entando-de-app/api/permissions
+
+        config(mockStore({ api: { domain: REAL.api.domain } }));
+
+        const result = makeRequest(validRequest);
+
+        expect(fetch).toHaveBeenCalledWith(
+          new URL(REAL.api.domain + validRequest.uri).href,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
-      expect(result).toBeInstanceOf(Promise);
-      result.then((data) => {
-        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
-        done();
-      }).catch(done.fail);
+        );
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetches when domain is a relative path', (done) => {
+        // if DOMAIN === /entando-de-app
+        //    request.uri === /api/permissions
+        //    request.domain === undefined
+        // then full URL has to be <ENV_LOCATION_ORIGIN>/entando-de-app/api/permissions
+
+        config(mockStore({ api: { domain: REAL_RELATIVE.api.domain } }));
+
+        const result = makeRequest(validRequest);
+
+        expect(fetch).toHaveBeenCalledWith(
+          new URL(`http://localhost${REAL_RELATIVE.api.domain}${validRequest.uri}`).href,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+          done();
+        }).catch(done.fail);
+      });
     });
 
-    it('fetches using a custom domain when domain property is not provided', (done) => {
-      config(mockStore({ api: { domain: undefined } }));
-      const result = makeRequest({ ...validRequest, domain: '//customdomain.com' });
-      expect(fetch).toHaveBeenCalledWith(
-        '//customdomain.com/api/test',
-        {
-          credentials: 'omit',
-          method: validRequest.method,
-          headers: {
-            'Content-Type': 'application/json',
+    describe('with domain parameter passed', () => {
+      it('fetches when domain parameter is an absolute path', (done) => {
+        // if DOMAIN === http://apps.rd.entando.org/entando-de-app
+        //    request.uri === /components
+        //    request.domain === http://apps.rd.entando.org/digital-exchange
+        // then full URL has to be http://apps.rd.entando.org/digital-exchange/components
+        const customDomain = 'http://custom.entando.com';
+        const result = makeRequest({ ...validRequest, domain: customDomain });
+
+        expect(fetch).toHaveBeenCalledWith(
+          new URL(customDomain + validRequest.uri).href,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
-      expect(result).toBeInstanceOf(Promise);
-      result.then((data) => {
-        expect(data).toMatchObject(REAL_GOOD_RESPONSE);
-        done();
-      }).catch(done.fail);
+        );
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetches when domain parameter is a relative path', (done) => {
+        // if DOMAIN === http://apps.rd.entando.org/entando-de-app
+        //    request.uri === /components
+        //    request.domain === /digital-exchange
+        // then full URL has to be http://apps.rd.entando.org/digital-exchange/components
+        const customRelativeDomain = '/entando-digital-exchange';
+
+        const result = makeRequest({ ...validRequest, domain: customRelativeDomain });
+
+        expect(fetch).toHaveBeenCalledWith(
+          new URL(new URL(REAL.api.domain).origin + customRelativeDomain + validRequest.uri).href,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+          done();
+        }).catch(done.fail);
+      });
+
+      it('fetches when domain environment variable and domain parameter are a relative paths', (done) => {
+        // if DOMAIN === /entando-de-app
+        //    request.uri === /components
+        //    request.domain === /digital-exchange
+        // then full URL has to be <ENV_LOCATION_ORIGIN>/digital-exchange/components
+        config(mockStore({ api: { domain: REAL_RELATIVE.api.domain } }));
+
+        const customRelativeDomain = '/entando-digital-exchange';
+        const result = makeRequest({ ...validRequest, domain: customRelativeDomain });
+
+        expect(fetch).toHaveBeenCalledWith(
+          new URL(`http://localhost${customRelativeDomain}${validRequest.uri}`).href,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+        expect(result).toBeInstanceOf(Promise);
+        result.then((data) => {
+          expect(data).toMatchObject(REAL_GOOD_RESPONSE);
+          done();
+        }).catch(done.fail);
+      });
     });
 
-    it('appends the page to the uri when there is no query string', () => {
-      makeRequest(validRequest, { page: 1, pageSize: 10 });
-      expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test?page=1&pageSize=10',
-        {
-          credentials: 'omit',
-          method: validRequest.method,
-          headers: {
-            'Content-Type': 'application/json',
+    describe('with request parameters passed', () => {
+      it('appends the request parameter to the uri when there is no query string in url', () => {
+        makeRequest(validRequest, { page: 1, pageSize: 10 });
+        expect(fetch).toHaveBeenCalledWith(
+          `${expectedUrl}?page=1&pageSize=10`,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
-    });
+        );
+      });
 
-    it('appends the page to the uri when there is a query string', () => {
-      makeRequest({
-        ...validRequest,
-        uri: '/api/test?my=var',
-      }, { page: 1, pageSize: 10 });
-      expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test?my=var&page=1&pageSize=10',
-        {
-          credentials: 'omit',
-          method: validRequest.method,
-          headers: {
-            'Content-Type': 'application/json',
+      it('appends the page to the uri when there is a query string', () => {
+        makeRequest({
+          ...validRequest,
+          uri: `${validRequest.uri}?my=var`,
+        }, { page: 1, pageSize: 10 });
+        expect(fetch).toHaveBeenCalledWith(
+          `${expectedUrl}?my=var&page=1&pageSize=10`,
+          {
+            credentials: 'omit',
+            method: validRequest.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
+        );
+      });
     });
 
     it('sends the body when the request is POST', (done) => {
@@ -338,7 +450,7 @@ describe('apiManager', () => {
         },
       });
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test',
+        expectedUrl,
         {
           credentials: 'omit',
           method: METHODS.POST,
@@ -369,7 +481,7 @@ describe('apiManager', () => {
         },
       });
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test',
+        expectedUrl,
         {
           credentials: 'omit',
           method: METHODS.PUT,
@@ -400,7 +512,7 @@ describe('apiManager', () => {
         },
       });
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test',
+        expectedUrl,
         {
           credentials: 'omit',
           method: METHODS.PATCH,
@@ -432,7 +544,7 @@ describe('apiManager', () => {
         },
       });
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test',
+        expectedUrl,
         {
           credentials: 'omit',
           method: METHODS.POST,
@@ -457,7 +569,7 @@ describe('apiManager', () => {
         headers: { ciao: 'whatever', 'Other-Stuff': 'my-stuff' },
       });
       expect(fetch).toHaveBeenCalledWith(
-        '//google.com/api/test',
+        expectedUrl,
         {
           credentials: 'omit',
           method: METHODS.GET,
@@ -501,7 +613,7 @@ describe('apiManager', () => {
           useAuthentication: true,
         });
         expect(fetch).toHaveBeenCalledWith(
-          '//google.com/api/test',
+          expectedUrl,
           {
             credentials: 'omit',
             method: validRequest.method,
