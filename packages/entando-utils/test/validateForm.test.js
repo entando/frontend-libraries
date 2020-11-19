@@ -99,9 +99,61 @@ describe('util/validateForm', () => {
       foo = email('test.entando.com');
       expect(foo).toHaveProperty('type', 'Error');
       expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown@entando');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown@entando com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown@ent@ando.com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brownentando.com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown@ent ando.com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown@ent$ando.com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown@@entando.com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('j.brown.entando.com');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
+
+      foo = email('hello.AH-hello@hello.helo');
+      expect(foo).toHaveProperty('type', 'Error');
+      expect(foo).toHaveProperty('props.id', 'validateForm.email');
     });
+
     it('pass', () => {
       foo = email('test@entando.com');
+      expect(foo).toBeUndefined();
+
+      foo = email('user@example.com');
+      expect(foo).toBeUndefined();
+
+      foo = email('user.name@example.com');
+      expect(foo).toBeUndefined();
+
+      foo = email('user-name@example.com');
+      expect(foo).toBeUndefined();
+
+      foo = email('averylongemailusernamexxxxxxxxxxxxxx@examplexxxxxxxxxxxxxxxxxx.com');
+      expect(foo).toBeUndefined();
+
+      foo = email('user-name@example.it');
       expect(foo).toBeUndefined();
     });
   });
