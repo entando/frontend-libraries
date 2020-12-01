@@ -11,6 +11,7 @@ import RowSpinner from 'common/RowSpinner';
 class PageTreeSelector extends Component {
   constructor() {
     super();
+
     this.state = {
       selectedPage: null,
     };
@@ -37,7 +38,7 @@ class PageTreeSelector extends Component {
 
   renderRows() {
     const {
-      pages, onExpandPage,
+      pages, onExpandPage, input, onPageSelect,
     } = this.props;
     const { selectedPage } = this.state;
 
@@ -53,7 +54,7 @@ class PageTreeSelector extends Component {
       }
 
       const onRowClick = () => this.handleRowClick(page.code);
-      const isPageSelected = selectedPage === page.code;
+      const isPageSelected = (onPageSelect ? selectedPage : input.value) === page.code;
 
       return (
         <tr
