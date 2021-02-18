@@ -22,6 +22,13 @@ The module also has its own css that can be loaded into a react application with
 import '@entando/ddtable/dist/css/index.css';
 ```
 
+### DDProvider
+
+Before using `DDTable` component, you MUST enclosed its instance with the given component `DDProvider`, this is essentially provided a `DnDProvider` instance with `react-dnd-html5-backend` setting.
+### React DnD components
+
+Not only the indicated provider component, also you must utilize the exported `react-dnd` components: `DropTarget` and `DragSource` here in this module.
+
 ### DDTable
 
 This component is used to render the table itself.
