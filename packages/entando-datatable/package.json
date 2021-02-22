@@ -82,7 +82,6 @@
   "dependencies": {
     "lodash": "^4.17.10",
     "react": "^16.8.6",
-    "react-column-resizer": "^1.1.9",
     "react-table": "^7.6.3"
   }
 }

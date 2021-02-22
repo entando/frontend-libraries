@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { isNull } from 'lodash';
 
-import ColumnResizer from 'react-column-resizer';
+import ColumnResizer from 'ColumnResizer';
 import { useTable } from 'react-table';
 
 const DataTable = ({
   columns,
   data,
   rowAction,
-  canReorder,
-  canResize,
+  onColumnReorder,
+  columnResizable,
   classNames,
 }) => {
   const columnResults = useMemo(() => {
@@ -63,6 +63,10 @@ const DataTable = ({
     tempCols[draggedColIdx] = columnState[droppedColIdx];
     tempCols[droppedColIdx] = columnState[draggedColIdx];
     setColumnState(tempCols);
+    if (onColumnReorder) {
+      const colIds = tempCols.filter(col => !!col.accessor).map(col => col.accessor);
+      onColumnReorder(colIds);
+    }
     setDragOver('');
   };
 
@@ -91,7 +95,7 @@ const DataTable = ({
                 column.attributes
               ) : {})}
               {...(
-                canReorder && column.id !== 'actions' ? {
+                onColumnReorder && column.id !== 'actions' ? {
                   draggable: true,
                   onDragStart: handleDragStart,
                   onDragOver: handleDragOver,
@@ -103,7 +107,7 @@ const DataTable = ({
             >
               {column.render('Header')}
             </th>,
-            ...(canResize && headerGroups[0].headers.length - 1 > idx ? [<ColumnResizer className="columnResizer" />] : []),
+            ...(columnResizable && headerGroups[0].headers.length - 2 > idx ? [<ColumnResizer className="columnResizer" />] : []),
           ]))}
         </tr>
       </thead>
@@ -123,7 +127,7 @@ const DataTable = ({
                 >
                   {cell.render('Cell')}
                 </td>,
-                ...(canResize && row.cells.length - 1 > idx ? [<td className="colForResize" />] : []),
+                ...(columnResizable && row.cells.length - 2 > idx ? [<ColumnResizer className="colForResize" />] : []),
               ]))}
             </tr>
           );
@@ -149,8 +153,7 @@ DataTable.propTypes = {
   columns: PropTypes.arrayOf(ColumnPropType),
   data: PropTypes.arrayOf(PropTypes.shape({})),
   rowAction: ColumnPropType,
-  canReorder: PropTypes.bool,
-  canResize: PropTypes.bool,
+  columnResizable: PropTypes.bool,
   classNames: PropTypes.shape({
     table: PropTypes.string,
     headerGroup: PropTypes.string,
@@ -158,14 +161,14 @@ DataTable.propTypes = {
     row: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     cell: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   }),
+  onColumnReorder: PropTypes.func,
 };
 
 DataTable.defaultProps = {
   columns: [],
   data: [],
   rowAction: null,
-  canReorder: false,
-  canResize: false,
+  columnResizable: false,
   classNames: {
     table: '',
     headerGroup: '',
@@ -173,6 +176,7 @@ DataTable.defaultProps = {
     row: '',
     cell: '',
   },
+  onColumnReorder: null,
 };
 
 export default DataTable;
