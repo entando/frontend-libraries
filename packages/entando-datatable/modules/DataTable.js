@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { get, isNull } from 'lodash';
+import { isNull } from 'lodash';
 
 import ColumnResizer from 'react-column-resizer';
 import { useTable } from 'react-table';
@@ -60,8 +60,8 @@ const DataTable = ({
     const draggedColIdx = ev.dataTransfer.getData('colIdx');
     const tempCols = [...columnState];
 
-    tempCols[draggedColIdx] = columnState[droppedColIdx + 1];
-    tempCols[droppedColIdx + 1] = columnState[draggedColIdx];
+    tempCols[draggedColIdx] = columnState[droppedColIdx];
+    tempCols[droppedColIdx] = columnState[draggedColIdx];
     setColumnState(tempCols);
     setDragOver('');
   };
@@ -76,7 +76,7 @@ const DataTable = ({
   return (
     <table
       {...getTableProps([
-        { className: 'table table-striped table-bordered' },
+        { className: 'table table-striped table-bordered table-datatable' },
         { className: classNames.table },
       ])}
     >
