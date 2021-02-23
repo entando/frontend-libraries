@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { isNull, isFunction } from 'lodash';
+import { isNull, isFunction, get } from 'lodash';
 import { DDTable } from '@entando/ddtable';
 
 import ColumnResizer from 'ColumnResizer';
@@ -45,20 +45,20 @@ const DataTable = ({
   const [dragOver, setDragOver] = useState('');
 
   const handleDragStart = (ev) => {
-    const { id } = ev.target;
+    const { id } = ev.currentTarget;
     const idx = columnState.findIndex(col => col.accessor === id);
     ev.dataTransfer.setData('colIdx', idx);
   };
 
   const handleDragOver = e => e.preventDefault();
 
-  const handleDragEnter = ({ target }) => {
-    const { id } = target;
+  const handleDragEnter = ({ currentTarget }) => {
+    const { id } = currentTarget;
     setDragOver(id);
   };
 
   const handleOnDrop = (ev) => {
-    const { id } = ev.target;
+    const { id } = ev.currentTarget;
     const droppedColIdx = columnState.findIndex(col => col.accessor === id);
     const draggedColIdx = ev.dataTransfer.getData('colIdx');
     const tempCols = [...columnState];
@@ -68,7 +68,7 @@ const DataTable = ({
     setColumnState(tempCols);
 
     if (onColumnReorder) {
-      const colIds = tempCols.filter(col => !!col.accessor).map(col => col.accessor);
+      const colIds = tempCols.filter(col => !!get(col, 'accessor', false)).map(col => col.accessor);
       onColumnReorder(colIds);
     }
 
