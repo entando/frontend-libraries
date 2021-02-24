@@ -7,6 +7,21 @@ import { DDTable } from '@entando/ddtable';
 import ColumnResizer from 'ColumnResizer';
 import { useTable } from 'react-table';
 
+const determineAttributesProp = ({ attributes }) => {
+  if (!attributes) {
+    return {};
+  }
+  return isFunction(attributes) ? attributes(column) : attributes;
+};
+
+const determineCellAttributesProp = (cell) => {
+  const { cellAttributes } = cell.column;
+  if (!cellAttributes) {
+    return {};
+  }
+  return isFunction(cellAttributes) ? cellAttributes(cell) : cellAttributes;
+};
+
 const DataTable = ({
   columns,
   data,
@@ -14,6 +29,7 @@ const DataTable = ({
   onColumnReorder,
   columnResizable,
   classNames,
+  rowAttributes,
   rowReordering,
 }) => {
   const columnResults = useMemo(() => {
@@ -83,21 +99,6 @@ const DataTable = ({
     prepareRow,
   } = useTable({ columns: columnState, data });
 
-  const determineAttributesProp = ({ attributes }) => {
-    if (!attributes) {
-      return {};
-    }
-    return isFunction(attributes) ? attributes(column) : attributes;
-  };
-
-  const determineCellAttributesProp = (cell) => {
-    const { cellAttributes } = cell.column;
-    if (!cellAttributes) {
-      return {};
-    }
-    return isFunction(cellAttributes) ? cellAttributes(cell) : cellAttributes;
-  };
-
   const generateTHead = () => (
     <thead>
       <tr {...headerGroups[0].getHeaderGroupProps([{ className: classNames.headerGroup }])}>
@@ -153,10 +154,12 @@ const DataTable = ({
       ...(columnResizable && row.cells.length - 2 > idx ? [<ColumnResizer className="colForResize" />] : []),
     ]));
 
-    const rowProps = row.getRowProps([{
-      className: classNames.row,
-      rowData: row.original,
-    }]);
+    const rowData = row.original;
+
+    const rowProps = row.getRowProps([
+      { className: classNames.row, rowData },
+      (isFunction(rowAttributes) ? rowAttributes(rowData) : rowAttributes),
+    ]);
     
     return rowReordering ? (
       <DDTable.Tr {...rowProps}>{cells}</DDTable.Tr>
@@ -192,18 +195,17 @@ const CellPropType = PropTypes.oneOfType([
   PropTypes.func,
 ]);
 
+const AttributePropType = PropTypes.oneOfType([
+  PropTypes.shape({}),
+  PropTypes.func,
+]);
+
 const ColumnPropType = PropTypes.shape({
   Header: CellPropType,
   accessor: PropTypes.string,
   Cell: CellPropType,
-  attributes: PropTypes.oneOfType([
-    PropTypes.shape({}),
-    PropTypes.func,
-  ]),
-  cellAttributes: PropTypes.oneOfType([
-    PropTypes.shape({}),
-    PropTypes.func,
-  ]),
+  attributes: AttributePropType,
+  cellAttributes: AttributePropType,
 });
 
 DataTable.propTypes = {
@@ -219,6 +221,7 @@ DataTable.propTypes = {
     cell: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   }),
   onColumnReorder: PropTypes.func,
+  rowAttributes: AttributePropType,
   rowReordering: PropTypes.shape({
     onDrop: PropTypes.func.isRequired,
     previewRender: PropTypes.func.isRequired,
@@ -238,6 +241,7 @@ DataTable.defaultProps = {
     row: '',
     cell: '',
   },
+  rowAttributes: {},
   onColumnReorder: null,
   rowReordering: null,
 };
