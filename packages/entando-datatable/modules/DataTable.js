@@ -101,7 +101,7 @@ const DataTable = ({
 
   const generateTHead = () => (
     <thead>
-      <tr {...headerGroups[0].getHeaderGroupProps([{ className: classNames.headerGroup }])}>
+      <tr {...headerGroups[0].getHeaderGroupProps([{ className: classNames.headerGroup, key: JSON.stringify(data) }])}>
         {headerGroups[0].headers.map((column, idx) => ([
           <th
             {...column.getHeaderProps([
@@ -123,7 +123,7 @@ const DataTable = ({
           >
             {column.render('Header')}
           </th>,
-          ...(columnResizable && headerGroups[0].headers.length - 2 > idx ? [<ColumnResizer className="columnResizer" />] : []),
+          ...(columnResizable && headerGroups[0].headers.length - 2 > idx ? [<ColumnResizer key={`colres${column.id}`} className="columnResizer" />] : []),
         ]))}
       </tr>
     </thead>
@@ -138,6 +138,7 @@ const DataTable = ({
           determineCellAttributesProp(cell),
           { className: classNames.cell },
         ])}
+        key={cell.column.id}
       >
         {rowReordering && cell.column.id === columnResults[0].accessor && (
           <DDTable.Handle>
@@ -151,7 +152,7 @@ const DataTable = ({
         )}
         {cell.render('Cell')}
       </td>,
-      ...(columnResizable && row.cells.length - 2 > idx ? [<ColumnResizer className="colForResize" />] : []),
+      ...(columnResizable && row.cells.length - 2 > idx ? [<ColumnResizer key={`colresk${cell.column.id}`} className="colForResize" />] : []),
     ]));
 
     const rowData = row.original;
