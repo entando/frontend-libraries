@@ -39,14 +39,13 @@
     "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "@entando/ddtable": "^1.0.4",
     "jest": "^23.5.0",
     "node-sass": "^4.9.0",
-    "patternfly-react": "^1.19.1",
     "@testing-library/dom": "^7.26.5",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^10.4.9",
-    "@testing-library/user-event": "^12.2.0"
+    "@testing-library/user-event": "^12.2.0",
+    "react-test-renderer": "^16.14.0"
   },
   "jest": {
     "transform": {
@@ -88,11 +87,14 @@
     ]
   },
   "license": "LGPL-2.1",
-  "dependencies": {
+  "peerDependencies": {
     "lodash": "^4.17.10",
+    "patternfly-react": "^1.19.1"
+  },
+  "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-table": "^7.6.3",
-    "react-test-renderer": "^16.14.0"
+    "@entando/ddtable": "^1.0.4"
   }
 }

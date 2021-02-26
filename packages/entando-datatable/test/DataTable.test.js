@@ -27,7 +27,7 @@ const data = [
 
 const rowAction = {
   Header: 'action',
-  Cell: ({ original }) => `Open ${original.name}`,
+  Cell: ({ original }) => <a href={`/open?code=${original.code}`}>Open {original.name}</a>,
 };
 
 const tableprops = {
@@ -53,5 +53,28 @@ describe('DataTable', () => {
     expect(getByText('Open John')).toBeInTheDocument();
     expect(getByText('Wally')).toBeInTheDocument();
     expect(queryByText('Barry')).not.toBeInTheDocument();
+  });
+
+  it('check classnames', () => {
+    const { getByText } = render(<DataTable {...tableprops}  />);
+    const theTable = getByText('John').closest('table');
+    expect(theTable.classList.contains('metable')).toBeTruthy();
+    
+    const theRow = getByText('Wally').closest('tr');
+    expect(theRow.classList.contains('metablerow')).toBeTruthy();
+
+    const theCell = getByText('flash').closest('td');
+    expect(theCell.classList.contains('metablecell')).toBeTruthy();
+  });
+
+  it('check an action button if it is the correct action element', () => {
+    const { getByText } = render(<DataTable {...tableprops}  />);
+    const openWallyBtn = getByText('Open Wally').closest('a');
+    expect(openWallyBtn).toBeInTheDocument();
+    expect(openWallyBtn).toHaveAttribute('href', '/open?code=flash');
+
+    const openJohnBtn = getByText('Open John').closest('a');
+    expect(openJohnBtn).toBeInTheDocument();
+    expect(openJohnBtn).toHaveAttribute('href', '/open?code=johndoe');
   });
 });
