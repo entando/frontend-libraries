@@ -22,7 +22,8 @@
   "files": [
     "dist",
     "!test",
-    "!modules"
+    "!modules",
+    "!sass"
   ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,9 +42,16 @@
     "@entando/ddtable": "^1.0.4",
     "jest": "^23.5.0",
     "node-sass": "^4.9.0",
-    "patternfly-react": "^1.19.1"
+    "patternfly-react": "^1.19.1",
+    "@testing-library/dom": "^7.26.5",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^12.2.0"
   },
   "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest"
+    },
     "moduleFileExtensions": [
       "js"
     ],
@@ -83,6 +91,8 @@
   "dependencies": {
     "lodash": "^4.17.10",
     "react": "^16.8.6",
-    "react-table": "^7.6.3"
+    "react-dom": "^16.8.6",
+    "react-table": "^7.6.3",
+    "react-test-renderer": "^16.14.0"
   }
 }

@@ -117,7 +117,7 @@ const DataTable = ({
                 onDragOver: handleDragOver,
                 onDrop: handleOnDrop,
                 onDragEnter: handleDragEnter,
-                dragOver: column.id === dragOver,
+                ...(column.id === dragOver ? { dragover: 'true' } : {}),
               } : {}
             )}
           >
@@ -158,12 +158,12 @@ const DataTable = ({
     const rowData = row.original;
 
     const rowProps = row.getRowProps([
-      { className: classNames.row, rowData },
+      { className: classNames.row },
       (isFunction(rowAttributes) ? rowAttributes(rowData) : rowAttributes),
     ]);
     
     return rowReordering ? (
-      <DDTable.Tr {...rowProps}>{cells}</DDTable.Tr>
+      <DDTable.Tr {...rowProps} rowData={rowData}>{cells}</DDTable.Tr>
     ) : (
       <tr {...rowProps}>{cells}</tr>
     );
