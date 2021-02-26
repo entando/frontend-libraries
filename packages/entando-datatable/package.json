@@ -1,38 +1,36 @@
 {
-  "name": "@entando/ddtable",
-  "version": "1.0.4",
-  "license": "LGPL-2.1",
-  "description": "react components used to render drag and drop tables in Entando projects",
+  "name": "@entando/datatable",
+  "version": "1.0.0",
+  "description": "React customizable data table with column resizing and reordering",
   "keywords": [
     "entando",
-    "drag",
-    "drop",
+    "custom",
     "react",
-    "table"
+    "table",
+    "column resize",
+    "column reorder"
   ],
-  "repository": "https://github.com/entando/frontend-libraries",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest --env=jsdom",
     "lint": "eslint ./modules",
     "coverage": "jest --env=jsdom --coverage",
-    "build": "babel modules -d dist/js && node-sass --output-style compressed sass/index.scss -o dist/css",
+    "build": "babel modules -d dist && node-sass --output-style compressed sass/index.scss -o dist/css",
     "prepublish": "npm run build"
   },
+  "repository": "https://github.com/entando/frontend-libraries",
   "files": [
     "dist",
     "!test",
     "!modules",
     "!sass"
   ],
-  "main": "dist/js/index.js",
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-jest": "^22.4.3",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "9.0.0",
+    "babel-jest": "23.6.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -43,9 +41,16 @@
     "eslint-plugin-react": "^7.7.0",
     "jest": "^23.5.0",
     "node-sass": "^4.9.0",
-    "patternfly-react": "^1.19.1"
+    "@testing-library/dom": "^7.26.5",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^12.2.0",
+    "react-test-renderer": "^16.14.0"
   },
   "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest"
+    },
     "moduleFileExtensions": [
       "js"
     ],
@@ -61,12 +66,16 @@
       "<rootDir>/test/**/?(*.)(spec|test).{js}"
     ]
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "babel": {
     "presets": [
       "env",
       "react"
     ],
     "plugins": [
+      "transform-object-rest-spread",
       [
         "module-resolver",
         {
@@ -77,10 +86,15 @@
       ]
     ]
   },
+  "license": "LGPL-2.1",
+  "peerDependencies": {
+    "lodash": "^4.17.10",
+    "patternfly-react": "^1.19.1"
+  },
   "dependencies": {
-    "react": "^16.3.0",
-    "react-dnd": "^9.4.0",
-    "react-dnd-html5-backend": "^9.4.0",
-    "react-intl": "^2.4.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-table": "^7.6.3",
+    "@entando/ddtable": "^1.0.4"
   }
 }
