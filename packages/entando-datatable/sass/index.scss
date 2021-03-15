@@ -1,4 +1,6 @@
 .table-datatable {
+  margin-bottom: 0;
+
   & > thead > th[dragover] {
     border-left: 5px solid red;
   }
@@ -9,6 +11,19 @@
       width: 4px;
       padding: 0;
       border-right-color: transparent;
+    }
+  }
+
+  .SelectCell {
+    &__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
   }
 }

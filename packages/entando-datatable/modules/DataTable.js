@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { isNull, isFunction, get } from 'lodash';
+import { isNull, isFunction, isArray, get } from 'lodash';
 import { DDTable } from '@entando/ddtable';
 
 import ColumnResizer from 'ColumnResizer';
-import { useTable } from 'react-table';
+import SelectCell from 'SelectCell';
+import TableBulkSelectContext from 'TableBulkSelectContext';
+import { useTable, useSortBy } from 'react-table';
 
 const determineAttributesProp = ({ attributes }) => {
   if (!attributes) {
@@ -31,31 +33,63 @@ const DataTable = ({
   classNames,
   rowAttributes,
   rowReordering,
+  onRowSelect,
+  selectedRows,
+  rowSelectAccessor,
+  useSorting,
 }) => {
-  const columnResults = useMemo(() => {
-    if (isNull(rowAction)) {
-      return columns;
+  const { columnResults, sortingColumns } = useMemo(() => {
+    const newColumns = [...columns];
+
+    let sortingColumns = null;
+    if (useSorting !== false) {
+      if (isArray(useSorting)) {
+        sortingColumns = [...useSorting];
+      } else {
+        sortingColumns = Object.keys(columns);
+      }
     }
-    const defaults = {
-      attributes: {
-        className: 'text-center',
-        width: '10%',
-      },
-      Header: <FormattedMessage id="app.actions" />,
-    };
 
-    const { Cell, ...otherActionProps } = rowAction;
+    if (!isNull(onRowSelect)) {
+      const colSelect = {
+        Header: <SelectCell />,
+        attributes: {
+          style: { width: '35px' },
+        },
+        Cell: ({ cell: { row } }) => (
+          <SelectCell row={row.original} />
+        ),
+        id: 'selection',
+      };
+      newColumns.unshift(colSelect);
+    }
 
-    const rowActionProps = {
-      ...defaults,
-      ...otherActionProps,
-      Cell: isFunction(Cell) ? ({ cell: { row } }) => Cell(row) : Cell,
-      id: 'actions',
-    };
+    if (!isNull(rowAction)) {
+      const defaults = {
+        attributes: {
+          className: 'text-center',
+          width: '10%',
+        },
+        Header: <FormattedMessage id="app.actions" />,
+      };
 
-    return [...columns, rowActionProps];
-  }, [columns, rowAction]);
+      const { Cell, ...otherActionProps } = rowAction;
 
+      const rowActionProps = {
+        ...defaults,
+        ...otherActionProps,
+        Cell: isFunction(Cell) ? ({ cell: { row } }) => Cell(row) : Cell,
+        id: 'actions',
+      };
+
+      newColumns.push(rowActionProps);
+    }
+    return { newColumns, sortingColumns };
+  }, [columns, rowAction, onRowSelect, useSorting]);
+
+  const presetSelectedRows = useMemo(() => [...selectedRows], [selectedRows]);
+
+  const [selectedRowIds, setSelectedRowIds] = useState(presetSelectedRows);
   const [columnState, setColumnState] = useState(columnResults);
 
   const [dragOver, setDragOver] = useState('');
@@ -91,13 +125,44 @@ const DataTable = ({
     setDragOver('');
   };
 
+  const onRowSelectAll = () => {
+    const selectedRows = data.map(row => row[rowSelectAccessor]);
+    setSelectedRowIds(selectedRows);
+    onRowSelect(selectedRows);
+  };
+
+  const onRowSelectNone = () => {
+    setSelectedRowIds([]);
+    onRowSelect([]);
+  };
+
+  const onRowToggleItem = row => {
+    const rowId = row[rowSelectAccessor];
+    const rowSet = new Set(selectedRowIds);
+    if (rowSet.has(rowId)) {
+      rowSet.delete(rowId);
+    } else {
+      rowSet.add(rowId);
+    }
+    setSelectedRowIds(Array.from(rowSet));
+    onRowSelect(Array.from(rowSet));
+  };
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns: columnState, data });
+    state: { sortBy },
+  } = useTable({
+    columns: columnState,
+    data,
+  }, useSortBy);
+
+  useEffect(() => {
+    onChangeSort(sortBy);
+  }, [onChangeSort, sortBy]);
 
   const generateTHead = () => (
     <thead>
@@ -107,11 +172,15 @@ const DataTable = ({
             {...column.getHeaderProps([
               determineAttributesProp(column),
               { className: classNames.header },
+              (sortingColumns.includes(column.id)
+                ? column.getSortByToggleProps()
+                : {}
+              ),
             ])}
             id={column.id}
             key={column.id}
             {...(
-              onColumnReorder && column.id !== 'actions' ? {
+              onColumnReorder && !['actions', 'selection'].includes(column.id) ? {
                 draggable: true,
                 onDragStart: handleDragStart,
                 onDragOver: handleDragOver,
@@ -169,6 +238,33 @@ const DataTable = ({
     );
   };
 
+  const addRowSelectContext = node => (
+    onRowSelect ? (
+      <TableBulkSelectContext.Provider
+        value={{
+          selectedRows: new Set(selectedRowIds),
+          onSelectAll: onRowSelectAll,
+          onSelectNone: onRowSelectNone,
+          onToggleItem: onRowToggleItem,
+          rowAccessor: rowSelectAccessor,
+        }}
+      >
+        {node}
+      </TableBulkSelectContext.Provider>
+    ) : node
+  );
+
+  const addDragDrop = node => (
+    rowReordering ? (
+      <DDTable
+        onDrop={rowReordering.onDrop}
+        PreviewRenderer={rowReordering.previewRender}
+      >
+        {node}
+      </DDTable>
+    ) : node
+  );
+
   const tableElement = (
     <table
       {...getTableProps([
@@ -183,11 +279,7 @@ const DataTable = ({
     </table>
   );
 
-  return rowReordering ? (
-    <DDTable onDrop={rowReordering.onDrop} PreviewRenderer={rowReordering.previewRender}>
-      {tableElement}
-    </DDTable>
-  ) : tableElement;
+  return addDragDrop(addRowSelectContext(tableElement));
 };
 
 const CellPropType = PropTypes.oneOfType([
@@ -228,6 +320,16 @@ DataTable.propTypes = {
     previewRender: PropTypes.func.isRequired,
     dragHandleClassname: PropTypes.string,
   }),
+  onRowSelect: PropTypes.func,
+  rowSelectAccessor: PropTypes.string,
+  selectedRows: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])),
+  useSorting: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
 };
 
 DataTable.defaultProps = {
@@ -245,6 +347,10 @@ DataTable.defaultProps = {
   rowAttributes: {},
   onColumnReorder: null,
   rowReordering: null,
+  onRowSelect: null,
+  rowSelectAccessor: 'id',
+  selectedRows: [],
+  useSorting: false,
 };
 
 export default DataTable;
