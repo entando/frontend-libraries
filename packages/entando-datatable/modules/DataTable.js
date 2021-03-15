@@ -1,13 +1,14 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { isNull, isFunction, isArray, get } from 'lodash';
+import { useTable, useSortBy } from 'react-table';
 import { DDTable } from '@entando/ddtable';
 
 import ColumnResizer from 'ColumnResizer';
 import SelectCell from 'SelectCell';
 import TableBulkSelectContext from 'TableBulkSelectContext';
-import { useTable, useSortBy } from 'react-table';
+import TABLE_SORT_DIRECTION from 'const';
 
 const determineAttributesProp = ({ attributes }) => {
   if (!attributes) {
@@ -24,6 +25,14 @@ const determineCellAttributesProp = (cell) => {
   return isFunction(cellAttributes) ? cellAttributes(cell) : cellAttributes;
 };
 
+const convertSortProps = sort => ({
+  // onSort(e, column, sortDirection) {
+    // const { onFilteredSearch, onSetSort, pageSize } = this.props;
+    // const newSortDirection = sortDirection === TABLE_SORT_DIRECTION.ASC ? TABLE_SORT_DIRECTION.DESC
+      // : TABLE_SORT_DIRECTION.ASC;
+      // {id: "code", desc: false}
+});
+
 const DataTable = ({
   columns,
   data,
@@ -37,18 +46,22 @@ const DataTable = ({
   selectedRows,
   rowSelectAccessor,
   useSorting,
+  sortBy,
+  onChangeSort,
 }) => {
-  const { columnResults, sortingColumns } = useMemo(() => {
+  const [columnResults, sortingColumns] = useMemo(() => {
     const newColumns = [...columns];
 
-    let sortingColumns = null;
-    if (useSorting !== false) {
-      if (isArray(useSorting)) {
-        sortingColumns = [...useSorting];
-      } else {
-        sortingColumns = Object.keys(columns);
+    const determineSortColumn = () => {
+      if (isArray(useSorting) && useSorting.length) {
+        return [...useSorting];
+      } else if (useSorting === true) {
+        return columns.map(col => col.accessor);
       }
-    }
+      return null;
+    };
+
+    const sortingColumns = determineSortColumn();
 
     if (!isNull(onRowSelect)) {
       const colSelect = {
@@ -84,7 +97,7 @@ const DataTable = ({
 
       newColumns.push(rowActionProps);
     }
-    return { newColumns, sortingColumns };
+    return [newColumns, sortingColumns];
   }, [columns, rowAction, onRowSelect, useSorting]);
 
   const presetSelectedRows = useMemo(() => [...selectedRows], [selectedRows]);
@@ -148,21 +161,40 @@ const DataTable = ({
     onRowSelect(Array.from(rowSet));
   };
 
+  const tablePropAttributes =  {
+    columns: columnState,
+    data,
+    ...(sortingColumns && sortingColumns.length
+      ? {
+        manualSorting: true,
+        ...(sortBy
+          ? { initialState: { sortBy }}
+          : {}
+        ),
+      }
+      : {}
+    ),
+  };
+
+  const useTableProps = [tablePropAttributes];
+  
+  if (sortingColumns && sortingColumns.length) {
+    useTableProps.push(useSortBy);
+  }
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    state: { sortBy },
-  } = useTable({
-    columns: columnState,
-    data,
-  }, useSortBy);
+    state: { sortBy: resultsSortBy },
+  } = useTable(...useTableProps);
 
-  useEffect(() => {
-    onChangeSort(sortBy);
-  }, [onChangeSort, sortBy]);
+  useEffect(() => onChangeSort(
+    resultsSortBy.id,
+    resultsSortBy.desc ? TABLE_SORT_DIRECTION.DESC : TABLE_SORT_DIRECTION.ASC,
+  ), [onChangeSort, resultsSortBy]);
 
   const generateTHead = () => (
     <thead>
@@ -172,8 +204,8 @@ const DataTable = ({
             {...column.getHeaderProps([
               determineAttributesProp(column),
               { className: classNames.header },
-              (sortingColumns.includes(column.id)
-                ? column.getSortByToggleProps()
+              (sortingColumns && sortingColumns.includes(column.id)
+                ? column.getSortByToggleProps({ title: undefined })
                 : {}
               ),
             ])}
@@ -224,7 +256,7 @@ const DataTable = ({
       ...(columnResizable && row.cells.length - 2 > idx ? [<ColumnResizer key={`colresk${cell.column.id}`} className="colForResize" />] : []),
     ]));
 
-    const rowData = row.original;
+    const { original: rowData } = row;
 
     const rowProps = row.getRowProps([
       { className: classNames.row },
@@ -330,6 +362,11 @@ DataTable.propTypes = {
     PropTypes.bool,
     PropTypes.arrayOf(PropTypes.string),
   ]),
+  onChangeSort: PropTypes.func,
+  sortBy: PropTypes.shape({
+    id: PropTypes.string,
+    direction: PropTypes.oneOf([TABLE_SORT_DIRECTION.ASC, TABLE_SORT_DIRECTION.DESC]),
+  }),
 };
 
 DataTable.defaultProps = {
@@ -351,6 +388,8 @@ DataTable.defaultProps = {
   rowSelectAccessor: 'id',
   selectedRows: [],
   useSorting: false,
+  sortBy: null,
+  onChangeSort: () => {},
 };
 
 export default DataTable;
