@@ -200,7 +200,12 @@ const DataTable = ({
               determineAttributesProp(column),
               { className: classNames.header },
               (sortingColumns && sortingColumns.includes(column.id)
-                ? column.getSortByToggleProps({ title: undefined })
+                ? column.getSortByToggleProps({
+                  className: column.isSorted ? (
+                    column.isSortedDesc ? 'sorting_desc' : 'sorting_asc'
+                  ) : '',
+                  title: undefined,
+                })
                 : {}
               ),
             ])}

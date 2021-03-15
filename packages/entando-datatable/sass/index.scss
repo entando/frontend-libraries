@@ -1,9 +1,26 @@
 .table-datatable {
   margin-bottom: 0;
 
-  & > thead > th[dragover] {
-    border-left: 5px solid red;
+  & > thead th {
+    &.sorting_asc:after, &.sorting_desc:after {
+      content: "\F107";
+      font-family: FontAwesome;
+      font-size: 10px;
+      font-weight: 400;
+      height: 9px;
+      left: 7px;
+      line-height: 12px;
+      position: relative;
+      top: 0;
+      vertical-align: baseline;
+      width: 12px;
+    }
+    &.sorting_asc:after {
+      content: "\F106";
+      top: -2px;
+    }
   }
+
   & > thead > tr > td,
   & > tbody > tr > td {
     &.columnResizer,
