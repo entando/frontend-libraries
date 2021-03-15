@@ -8,7 +8,7 @@ import { DDTable } from '@entando/ddtable';
 import ColumnResizer from 'ColumnResizer';
 import SelectCell from 'SelectCell';
 import TableBulkSelectContext from 'TableBulkSelectContext';
-import TABLE_SORT_DIRECTION from 'const';
+import { ASC, DESC } from 'const';
 
 const determineAttributesProp = ({ attributes }) => {
   if (!attributes) {
@@ -24,14 +24,6 @@ const determineCellAttributesProp = (cell) => {
   }
   return isFunction(cellAttributes) ? cellAttributes(cell) : cellAttributes;
 };
-
-const convertSortProps = sort => ({
-  // onSort(e, column, sortDirection) {
-    // const { onFilteredSearch, onSetSort, pageSize } = this.props;
-    // const newSortDirection = sortDirection === TABLE_SORT_DIRECTION.ASC ? TABLE_SORT_DIRECTION.DESC
-      // : TABLE_SORT_DIRECTION.ASC;
-      // {id: "code", desc: false}
-});
 
 const DataTable = ({
   columns,
@@ -72,7 +64,7 @@ const DataTable = ({
         Cell: ({ cell: { row } }) => (
           <SelectCell row={row.original} />
         ),
-        id: 'selection',
+        id: 'select',
       };
       newColumns.unshift(colSelect);
     }
@@ -166,7 +158,7 @@ const DataTable = ({
     data,
     ...(sortingColumns && sortingColumns.length
       ? {
-        manualSorting: true,
+        manualSortingBy: true,
         ...(sortBy
           ? { initialState: { sortBy }}
           : {}
@@ -191,10 +183,13 @@ const DataTable = ({
     state: { sortBy: resultsSortBy },
   } = useTable(...useTableProps);
 
-  useEffect(() => onChangeSort(
-    resultsSortBy.id,
-    resultsSortBy.desc ? TABLE_SORT_DIRECTION.DESC : TABLE_SORT_DIRECTION.ASC,
-  ), [onChangeSort, resultsSortBy]);
+  if (useSorting) {
+    useEffect(() => {
+      if (resultsSortBy && resultsSortBy.length) {
+        onChangeSort(resultsSortBy[0].id, resultsSortBy[0].desc ? DESC : ASC);
+      }
+    }, [onChangeSort, resultsSortBy]);
+  }
 
   const generateTHead = () => (
     <thead>
@@ -212,7 +207,7 @@ const DataTable = ({
             id={column.id}
             key={column.id}
             {...(
-              onColumnReorder && !['actions', 'selection'].includes(column.id) ? {
+              onColumnReorder && !['actions', 'select'].includes(column.id) ? {
                 draggable: true,
                 onDragStart: handleDragStart,
                 onDragOver: handleDragOver,
@@ -365,7 +360,7 @@ DataTable.propTypes = {
   onChangeSort: PropTypes.func,
   sortBy: PropTypes.shape({
     id: PropTypes.string,
-    direction: PropTypes.oneOf([TABLE_SORT_DIRECTION.ASC, TABLE_SORT_DIRECTION.DESC]),
+    direction: PropTypes.oneOf([ASC, DESC]),
   }),
 };
 
