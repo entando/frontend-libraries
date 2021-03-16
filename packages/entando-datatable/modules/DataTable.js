@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { isNull, isFunction, isArray, get } from 'lodash';
+import { isNull, isFunction, isArray, get, isEqual } from 'lodash';
 import { useTable, useSortBy } from 'react-table';
 import { DDTable } from '@entando/ddtable';
 
@@ -41,8 +41,9 @@ const DataTable = ({
   sortBy,
   onChangeSort,
 }) => {
-  const [columnResults, sortingColumns] = useMemo(() => {
-    const newColumns = [...columns];
+  const [columnResults, sortingColumns, sortInfo] = useMemo(() => {
+    const newColumns = columns.map(col => ({ ...col, sortDescFirst: true }));
+    const sortProp = { ...sortBy };
 
     const determineSortColumn = () => {
       if (isArray(useSorting) && useSorting.length) {
@@ -89,8 +90,8 @@ const DataTable = ({
 
       newColumns.push(rowActionProps);
     }
-    return [newColumns, sortingColumns];
-  }, [columns, rowAction, onRowSelect, useSorting]);
+    return [newColumns, sortingColumns, sortProp];
+  }, [columns, rowAction, onRowSelect, useSorting, sortBy]);
 
   const presetSelectedRows = useMemo(() => [...selectedRows], [selectedRows]);
 
@@ -158,11 +159,15 @@ const DataTable = ({
     data,
     ...(sortingColumns && sortingColumns.length
       ? {
-        manualSortingBy: true,
-        ...(sortBy
-          ? { initialState: { sortBy }}
+        ...(sortInfo
+          ? { initialState: { sortBy: [{
+            ...sortInfo,
+          }] }}
           : {}
         ),
+        defaultCanSort: true,
+        disableMultiSort: true,
+        manualSortingBy: true,
       }
       : {}
     ),
@@ -185,7 +190,7 @@ const DataTable = ({
 
   if (useSorting) {
     useEffect(() => {
-      if (resultsSortBy && resultsSortBy.length) {
+      if (resultsSortBy.length && !isEqual(resultsSortBy[0], sortInfo)) {
         onChangeSort(resultsSortBy[0].id, resultsSortBy[0].desc ? DESC : ASC);
       }
     }, [onChangeSort, resultsSortBy]);
@@ -201,13 +206,13 @@ const DataTable = ({
               { className: classNames.header },
               (sortingColumns && sortingColumns.includes(column.id)
                 ? column.getSortByToggleProps({
-                  className: column.isSorted ? (
-                    column.isSortedDesc ? 'sorting_desc' : 'sorting_asc'
-                  ) : '',
                   title: undefined,
                 })
                 : {}
               ),
+              (column.isSorted ? ({
+                className: column.isSortedDesc ? 'sorting_desc' : 'sorting_asc',
+              }) : {}),
             ])}
             id={column.id}
             key={column.id}
@@ -231,7 +236,7 @@ const DataTable = ({
   );
 
   const renderTableCell = (cell) => {
-    const { column, row } = cell;
+    const { column, row: { original } } = cell;
     const { cellHoc } = column;
     const tdcell = (
       <td
@@ -255,7 +260,7 @@ const DataTable = ({
       </td>
     );
     
-    return cellHoc ? cellHoc(tdcell, row.original) : tdcell;
+    return cellHoc ? cellHoc(tdcell, original, cell) : tdcell;
   };
 
   const generateRow = (row) => {

@@ -1,2 +1,3 @@
+import { ASC, DESC } from 'const';
 export { default as DataTable } from 'DataTable';
-export { default as TABLE_SORT_DIRECTION } from 'const';
+export const TABLE_SORT_DIRECTION = { ASC, DESC };
