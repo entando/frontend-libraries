@@ -230,10 +230,10 @@ const DataTable = ({
     </thead>
   );
 
-  const generateRow = (row) => {
-    prepareRow(row);
-
-    const cells = row.cells.map((cell, idx) => ([
+  const renderTableCell = (cell) => {
+    const { column, row } = cell;
+    const { cellHoc } = column;
+    const tdcell = (
       <td
         {...cell.getCellProps([
           determineCellAttributesProp(cell),
@@ -241,7 +241,7 @@ const DataTable = ({
         ])}
         key={cell.column.id}
       >
-        {rowReordering && cell.column.id === columnResults[0].accessor && (
+        {rowReordering && column.id === columnResults[0].accessor && (
           <DDTable.Handle>
             <button className={[
               rowReordering.dragHandleClassname,
@@ -252,7 +252,16 @@ const DataTable = ({
           </DDTable.Handle>
         )}
         {cell.render('Cell')}
-      </td>,
+      </td>
+    );
+    
+    return cellHoc ? cellHoc(tdcell, row.original) : tdcell;
+  };
+
+  const generateRow = (row) => {
+    prepareRow(row);
+    const cells = row.cells.map((cell, idx) => ([
+      renderTableCell(cell),
       ...(columnResizable && row.cells.length - 2 > idx ? [<ColumnResizer key={`colresk${cell.column.id}`} className="colForResize" />] : []),
     ]));
 
