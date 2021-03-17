@@ -98,6 +98,7 @@ const DataTable = ({
   const [selectedRowIds, setSelectedRowIds] = useState(presetSelectedRows);
   const [columnState, setColumnState] = useState(columnResults);
 
+  const [allSelected, setAllSelected] = useState(false);
   const [dragOver, setDragOver] = useState('');
 
   const handleDragStart = (ev) => {
@@ -293,6 +294,8 @@ const DataTable = ({
           onSelectNone: onRowSelectNone,
           onToggleItem: onRowToggleItem,
           rowAccessor: rowSelectAccessor,
+          onSetAllSelected: setAllSelected,
+          allSelected,
         }}
       >
         {node}

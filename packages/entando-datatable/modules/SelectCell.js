@@ -8,22 +8,25 @@ const SelectCell = ({ row }) => {
   const selectAllMode = isNull(row);
   return (
     <TableBulkSelectContext.Consumer>
-      {({ onSelectAll, onSelectNone, rowAccessor, selectedRows, onToggleItem }) => {
-        const handleChange = ({ target: { checked } }) => {
+      {({ 
+        onSelectAll, onSelectNone, rowAccessor, selectedRows,
+        onToggleItem, allSelected, onSetAllSelected,
+      }) => {
+        const rowKey = get(row, rowAccessor, 'All');
+        const handleChange = ({ currentTarget: { checked } }) => {
           if (!selectAllMode) {
             onToggleItem(row);
-            return;
-          }
-          if (checked) {
-            onSelectAll();
           } else {
-            onSelectNone();
+            onSetAllSelected(checked);
+            if (checked) {
+              onSelectAll();
+            } else {
+              onSelectNone();
+            }
           }
         };
 
-        const rowKey = get(row, rowAccessor, 'All');
-
-        const checkAttribute = !selectAllMode ? { checked: selectedRows.has(rowKey) } : {};
+        const checkAttribute = { checked: (!selectAllMode ? selectedRows.has(rowKey) : allSelected) };
 
         return (
           <Fragment>
