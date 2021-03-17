@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { isNull, isFunction, isArray, get, isEqual } from 'lodash';
+import { isNull, isFunction, isArray, get, isEqual, compact } from 'lodash';
 import { useTable, useSortBy } from 'react-table';
 import { DDTable } from '@entando/ddtable';
 
@@ -41,35 +41,7 @@ const DataTable = ({
   sortBy,
   onChangeSort,
 }) => {
-  const [columnResults, sortingColumns, sortInfo] = useMemo(() => {
-    const newColumns = columns.map(col => ({ ...col, sortDescFirst: true }));
-    const sortProp = { ...sortBy };
-
-    const determineSortColumn = () => {
-      if (isArray(useSorting) && useSorting.length) {
-        return [...useSorting];
-      } else if (useSorting === true) {
-        return columns.map(col => col.accessor);
-      }
-      return null;
-    };
-
-    const sortingColumns = determineSortColumn();
-
-    if (!isNull(onRowSelect)) {
-      const colSelect = {
-        Header: <SelectCell />,
-        attributes: {
-          style: { width: '35px' },
-        },
-        Cell: ({ cell: { row } }) => (
-          <SelectCell row={row.original} />
-        ),
-        id: 'select',
-      };
-      newColumns.unshift(colSelect);
-    }
-
+  const actionColumn = useMemo(() => {
     if (!isNull(rowAction)) {
       const defaults = {
         attributes: {
@@ -81,22 +53,57 @@ const DataTable = ({
 
       const { Cell, ...otherActionProps } = rowAction;
 
-      const rowActionProps = {
+      return {
         ...defaults,
         ...otherActionProps,
         Cell: isFunction(Cell) ? ({ cell: { row } }) => Cell(row) : Cell,
         id: 'actions',
       };
-
-      newColumns.push(rowActionProps);
     }
-    return [newColumns, sortingColumns, sortProp];
-  }, [columns, rowAction, onRowSelect, useSorting, sortBy]);
+    return null;
+  }, [rowAction]);
 
-  const presetSelectedRows = useMemo(() => [...selectedRows], [selectedRows]);
+  const rowData = useMemo(() => [...data], [data]);
 
-  const [selectedRowIds, setSelectedRowIds] = useState(presetSelectedRows);
-  const [columnState, setColumnState] = useState(columnResults);
+  const sortInfo = useMemo(() => ({ ...sortBy }), [sortBy]);
+
+  const sortingColumns = useMemo(() => {
+    const determineSortColumn = () => {
+      if (isArray(useSorting) && useSorting.length) {
+        return [...useSorting];
+      } else if (useSorting === true) {
+        return columns.map(col => col.accessor);
+      }
+      return null;
+    };
+    return determineSortColumn();
+  }, [useSorting]);
+
+  const colSelect = (!isNull(onRowSelect)) ? {
+    Header: <SelectCell />,
+    attributes: {
+      style: { width: '35px' },
+    },
+    Cell: ({ cell: { row } }) => (
+      <SelectCell row={row.original} />
+    ),
+    id: 'select',
+  } : null;
+
+  const makeActualColumns = () => (
+    compact([
+      colSelect, 
+      ...columns.map(col => ({ ...col, sortDescFirst: true })),
+      actionColumn,
+    ])
+  );
+
+  const [selectedRowIds, setSelectedRowIds] = useState(selectedRows);
+  const [columnState, setColumnState] = useState(makeActualColumns);
+
+  useEffect(() => {
+    setColumnState(makeActualColumns());
+  }, [columns])
 
   const [allSelected, setAllSelected] = useState(false);
   const [dragOver, setDragOver] = useState('');
@@ -157,7 +164,7 @@ const DataTable = ({
 
   const tablePropAttributes =  {
     columns: columnState,
-    data,
+    data: rowData,
     ...(sortingColumns && sortingColumns.length
       ? {
         ...(sortInfo
