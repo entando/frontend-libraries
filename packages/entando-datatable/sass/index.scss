@@ -1,6 +1,4 @@
 .table-datatable {
-  margin-bottom: 0;
-
   & > thead th {
     &.sorting_asc:after, &.sorting_desc:after {
       content: "\F107";

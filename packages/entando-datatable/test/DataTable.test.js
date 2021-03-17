@@ -115,7 +115,6 @@ describe('DataTable', () => {
 
     const dataTransfer = {
       setData: (key, value) => {
-        console.log(dataTransferValues);
         dataTransferValues[key] = value;
       },
       getData: key => dataTransferValues[key],
@@ -130,7 +129,6 @@ describe('DataTable', () => {
     fireEvent(nameHeader, dragStartEvent);
     fireEvent.dragOver(codeHeader);
     fireEvent(codeHeader, dropEvent);
-    console.log(dataTransferValues);
     expect(onColumnReorder).toHaveBeenCalledWith(['code', 'name']);
   });
 });

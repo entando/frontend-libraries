@@ -254,7 +254,7 @@ const DataTable = ({
         ])}
         key={cell.column.id}
       >
-        {rowReordering && column.id === columnResults[0].accessor && (
+        {rowReordering && column.id === columnState[0].accessor && (
           <DDTable.Handle>
             <button className={[
               rowReordering.dragHandleClassname,
