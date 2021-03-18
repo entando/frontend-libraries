@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { isNull, isFunction, isArray, get, isEqual, compact } from 'lodash';
@@ -43,7 +43,13 @@ const DataTable = ({
   sortBy,
   onChangeSort,
 }) => {
-  const actionColumn = useMemo(() => {
+  const [selectedRowIds, setSelectedRowIds] = useState(null);
+
+  useEffect(() => {
+    setSelectedRowIds(selectedRows);
+  }, [selectedRows]);
+
+  const createActionColumn = () => {
     if (!isNull(rowAction)) {
       const defaults = {
         attributes: {
@@ -63,23 +69,9 @@ const DataTable = ({
       };
     }
     return null;
-  }, [rowAction]);
+  };
 
-  const rowData = useMemo(() => [...data], [data]);
-
-  const sortInfo = useMemo(() => ({ ...sortBy }), [sortBy]);
-
-  const sortingColumns = useMemo(() => {
-    const determineSortColumn = () => {
-      if (isArray(useSorting) && useSorting.length) {
-        return [...useSorting];
-      } else if (useSorting === true) {
-        return columns.map(col => col.accessor);
-      }
-      return null;
-    };
-    return determineSortColumn();
-  }, [useSorting]);
+  const actionColumn = createActionColumn();
 
   const colSelect = (!isNull(onRowSelect)) ? {
     Header: hideSelectAll ? 'Select' : <SelectCell />,
@@ -107,17 +99,10 @@ const DataTable = ({
     return compact(updatedColumns);
   };
 
-  const [selectedRowIds, setSelectedRowIds] = useState([...selectedRows]);
   const [columnState, setColumnState] = useState(makeActualColumns);
-
   useEffect(() => {
     setColumnState(makeActualColumns());
-  }, [columns])
-
-  useEffect(() => {
-    console.log('change rows', selectedRows);
-    setSelectedRowIds([...selectedRows]);
-  }, [selectedRows])
+  }, [columns]);
 
   const [allSelected, setAllSelected] = useState(false);
   const [dragOver, setDragOver] = useState('');
@@ -172,19 +157,29 @@ const DataTable = ({
     } else {
       rowSet.add(rowId);
     }
-    console.log('onRowToggleItem', rowSet);
     onRowSelect(Array.from(rowSet));
     setSelectedRowIds(Array.from(rowSet));
   };
 
+  const determineSortColumn = () => {
+    if (isArray(useSorting) && useSorting.length) {
+      return [...useSorting];
+    } else if (useSorting === true) {
+      return columns.map(col => col.accessor);
+    }
+    return null;
+  };
+
+  const sortingColumns = determineSortColumn();
+
   const tablePropAttributes =  {
     columns: columnState,
-    data: rowData,
+    data,
     ...(sortingColumns && sortingColumns.length
       ? {
-        ...(sortInfo
+        ...(sortBy
           ? { initialState: { sortBy: [{
-            ...sortInfo,
+            ...sortBy,
           }] }}
           : {}
         ),
@@ -211,13 +206,11 @@ const DataTable = ({
     state: { sortBy: resultsSortBy },
   } = useTable(...useTableProps);
 
-  if (useSorting) {
-    useEffect(() => {
-      if (resultsSortBy.length && !isEqual(resultsSortBy[0], sortInfo)) {
-        onChangeSort(resultsSortBy[0].id, resultsSortBy[0].desc ? DESC : ASC);
-      }
-    }, [onChangeSort, resultsSortBy]);
-  }
+  useEffect(() => {
+    if (useSorting && resultsSortBy.length && !isEqual(resultsSortBy[0], sortBy)) {
+      onChangeSort(resultsSortBy[0].id, resultsSortBy[0].desc ? DESC : ASC);
+    }
+  }, [onChangeSort, resultsSortBy]);
 
   const generateTHead = () => (
     <thead>

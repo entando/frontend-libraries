@@ -1,6 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent, screen, createEvent, debug } from '@testing-library/react';
+import { render, fireEvent, screen, createEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import DataTable from 'DataTable';
 
 const columns = [
@@ -92,9 +93,9 @@ describe('DataTable', () => {
     render(<DataTable {...tableprops}  />);
     const selectAllElement = screen.getByText('Select All');
     expect(selectAllElement).toBeInTheDocument();
-    fireEvent.click(selectAllElement);
+    userEvent.click(selectAllElement);
     expect(onRowSelect).toHaveBeenCalledWith(data.map(({ code }) => code));
-    fireEvent.click(selectAllElement);
+    userEvent.click(selectAllElement);
     expect(onRowSelect).toHaveBeenCalledWith([]);
   });
 
@@ -102,7 +103,7 @@ describe('DataTable', () => {
     render(<DataTable {...tableprops}  />);
     const rowSelectElement = screen.getByText(`Select row ${data[0]['code']}`);
     expect(rowSelectElement).toBeInTheDocument();
-    fireEvent.click(rowSelectElement);
+    userEvent.click(rowSelectElement);
     expect(onRowSelect).toHaveBeenCalledWith([data[0].code]);
   });
 
