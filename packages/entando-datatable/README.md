@@ -67,6 +67,8 @@ The component expects the following props:
 
  `rowAction` (optional) - a column definition that holds the row actions that is to be placed at the rightmost of the row. It is a must to describe the `Header` label and `Cell` JSX of the action column.
 
+ `rowActionAlign` (bool - defaults to `ROW_ACTION_ALIGN.ALIGN_RIGHT`) - optionally, you can move the actions column to left side instead of right. Take note when moving the actions column to the left, the selection checkbox columns will be move to right side.
+
  `rowAttributes` (object|JSX func) - HTML element attributes for you to place per row. If function is given, then it will pass its corresponding row object.
 
  `classNames` - set of `className` strings to be used per part of the table such as `<table>`, `<thead>`, `<th>`, `<tr>`, and `<td>`.

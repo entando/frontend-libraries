@@ -8,7 +8,7 @@ import { DDTable } from '@entando/ddtable';
 import ColumnResizer from 'ColumnResizer';
 import SelectCell from 'SelectCell';
 import TableBulkSelectContext from 'TableBulkSelectContext';
-import { ASC, DESC } from 'const';
+import { ASC, DESC, ALIGN_LEFT, ALIGN_RIGHT } from 'const';
 
 const determineAttributesProp = ({ attributes }) => {
   if (!attributes) {
@@ -29,12 +29,14 @@ const DataTable = ({
   columns,
   data,
   rowAction,
+  rowActionAlign,
   onColumnReorder,
   columnResizable,
   classNames,
   rowAttributes,
   rowReordering,
   onRowSelect,
+  hideSelectAll,
   selectedRows,
   rowSelectAccessor,
   useSorting,
@@ -80,9 +82,12 @@ const DataTable = ({
   }, [useSorting]);
 
   const colSelect = (!isNull(onRowSelect)) ? {
-    Header: <SelectCell />,
+    Header: hideSelectAll ? 'Select' : <SelectCell />,
     attributes: {
       style: { width: '35px' },
+    },
+    cellAttributes: {
+      className: 'text-center',
     },
     Cell: ({ cell: { row } }) => (
       <SelectCell row={row.original} />
@@ -90,20 +95,29 @@ const DataTable = ({
     id: 'select',
   } : null;
 
-  const makeActualColumns = () => (
-    compact([
-      colSelect, 
-      ...columns.map(col => ({ ...col, sortDescFirst: true })),
-      actionColumn,
-    ])
-  );
+  const makeActualColumns = () => {
+    const updatedColumns = columns.map(col => ({ ...col, sortDescFirst: true }));
+    if (rowActionAlign === ALIGN_LEFT) {
+      updatedColumns.unshift(actionColumn);
+      updatedColumns.push(colSelect);
+    } else {
+      updatedColumns.unshift(colSelect);
+      updatedColumns.push(actionColumn);
+    }
+    return compact(updatedColumns);
+  };
 
-  const [selectedRowIds, setSelectedRowIds] = useState(selectedRows);
+  const [selectedRowIds, setSelectedRowIds] = useState([...selectedRows]);
   const [columnState, setColumnState] = useState(makeActualColumns);
 
   useEffect(() => {
     setColumnState(makeActualColumns());
   }, [columns])
+
+  useEffect(() => {
+    console.log('change rows', selectedRows);
+    setSelectedRowIds([...selectedRows]);
+  }, [selectedRows])
 
   const [allSelected, setAllSelected] = useState(false);
   const [dragOver, setDragOver] = useState('');
@@ -158,8 +172,9 @@ const DataTable = ({
     } else {
       rowSet.add(rowId);
     }
-    setSelectedRowIds(Array.from(rowSet));
+    console.log('onRowToggleItem', rowSet);
     onRowSelect(Array.from(rowSet));
+    setSelectedRowIds(Array.from(rowSet));
   };
 
   const tablePropAttributes =  {
@@ -329,7 +344,9 @@ const DataTable = ({
       ])}
     >
       {generateTHead()}
-      <tbody {...getTableBodyProps()}>
+      <tbody {...getTableBodyProps([
+      { className: classNames.tableBody },
+      ])}>
         {rows.map(generateRow)}
       </tbody>
     </table>
@@ -361,9 +378,11 @@ DataTable.propTypes = {
   columns: PropTypes.arrayOf(ColumnPropType),
   data: PropTypes.arrayOf(PropTypes.shape({})),
   rowAction: ColumnPropType,
+  rowActionAlign: PropTypes.string,
   columnResizable: PropTypes.bool,
   classNames: PropTypes.shape({
     table: PropTypes.string,
+    tableBody: PropTypes.string,
     headerGroup: PropTypes.string,
     header: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     row: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
@@ -378,6 +397,7 @@ DataTable.propTypes = {
   }),
   onRowSelect: PropTypes.func,
   rowSelectAccessor: PropTypes.string,
+  hideSelectAll: PropTypes.bool,
   selectedRows: PropTypes.arrayOf(PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -397,6 +417,8 @@ DataTable.defaultProps = {
   columns: [],
   data: [],
   rowAction: null,
+  rowActionAlign: ALIGN_RIGHT,
+  hideSelectAll: false,
   columnResizable: false,
   classNames: {
     table: '',
