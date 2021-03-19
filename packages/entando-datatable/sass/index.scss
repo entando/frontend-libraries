@@ -1,7 +1,24 @@
 .table-datatable {
-  & > thead > th[dragover] {
-    border-left: 5px solid red;
+  & > thead th {
+    &.sorting_asc:after, &.sorting_desc:after {
+      content: "\F107";
+      font-family: FontAwesome;
+      font-size: 10px;
+      font-weight: 400;
+      height: 9px;
+      left: 7px;
+      line-height: 12px;
+      position: relative;
+      top: 0;
+      vertical-align: baseline;
+      width: 12px;
+    }
+    &.sorting_asc:after {
+      content: "\F106";
+      top: -2px;
+    }
   }
+
   & > thead > tr > td,
   & > tbody > tr > td {
     &.columnResizer,
@@ -9,6 +26,19 @@
       width: 4px;
       padding: 0;
       border-right-color: transparent;
+    }
+  }
+
+  .SelectCell {
+    &__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
   }
 }
