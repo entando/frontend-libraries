@@ -1,6 +1,6 @@
 {
   "name": "@entando/ddtable",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "LGPL-2.1",
   "description": "react components used to render drag and drop tables in Entando projects",
   "keywords": [
