@@ -122,6 +122,7 @@ Each method accepts the same arguments: a `request` object and a `page` object.
 
 the `apiManager` also exports a `METHODS` constant containing all the available verbs (POST, PUT, DELETE, GET and PATCH).
 
+
 ### Request Object
 
 The request object has the following properties:
