@@ -172,14 +172,10 @@ const getCompleteRequestUrl = (request, params = {}) => {
 
 const normalizeErrorMessage = (message) => {
   if (['noJsonReturned', 'permissionDenied', 'badRequest', 'serviceUnavailable'].includes(message)) {
-    return `app.${message}`;
+    return message;
   }
 
-  if (!message) {
-    return 'app.serverError';  
-  }
-
-  return message;
+  return 'serverError';
 };
 
 export const makeRealRequest = (request, page) => {
@@ -212,11 +208,12 @@ export const makeRealRequest = (request, page) => {
     const promise = e.response && e.response.json
       ? e.response.json()
       : Promise.resolve({ errors: [] });
-    return promise.then(({ errors }) => {
-      const message = normalizeErrorMessage(e.message);
+    return promise.then(({ errors, message }) => {
+      const normalizedMessage = `app.${normalizeErrorMessage(e.message)}`;
+      const responseMessage = message || normalizedMessage;
       return Promise.reject(new ErrorI18n(
-        message,
-        defaultMessages[message],
+        responseMessage,
+        defaultMessages[normalizedMessage],
         { domain: getDomain(store.getState()) },
         errors,
       ));
