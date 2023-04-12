@@ -46,9 +46,15 @@
 }
 
 
-// Bootstrap overrides
+// Bootstrap overrides + disabled layer added to table element
 // sass-lint:disable force-element-nesting, no-qualifying-elements, class-name-format
 .table-bordered > tbody > tr > td.PageTreeSelector__column-td {
   padding: 0;
+}
+.disable-layer {
+  cursor: not-allowed;
+  z-index: 9;
+  pointer-events: none;
+  opacity: .5;
 }
 // sass-lint:enable force-element-nesting, no-qualifying-elements, class-name-format
