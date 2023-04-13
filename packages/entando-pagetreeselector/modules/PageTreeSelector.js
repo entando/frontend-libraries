@@ -92,10 +92,12 @@ class PageTreeSelector extends Component {
   }
 
   render() {
-    const { onExpandAll, onCollapseAll, loading } = this.props;
+    const {
+      onExpandAll, onCollapseAll, loading, disabled,
+    } = this.props;
     return (
-      <div>
-        <table className="PageTreeSelector table table-bordered table-hover table-treegrid">
+      <div className={`PageTreeSelector ${disabled ? 'disable-layer' : ''}`}>
+        <table className="PageTreeSelector__table table table-bordered table-hover table-treegrid">
           <thead>
             <tr>
               <th width="70%">
@@ -154,6 +156,7 @@ PageTreeSelector.propTypes = {
   onExpandAll: PropTypes.func,
   onCollapseAll: PropTypes.func,
   loading: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 PageTreeSelector.defaultProps = {
@@ -165,6 +168,7 @@ PageTreeSelector.defaultProps = {
   onExpandAll: () => {},
   onCollapseAll: () => {},
   loading: false,
+  disabled: false,
 };
 
 export default PageTreeSelector;

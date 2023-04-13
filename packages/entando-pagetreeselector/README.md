@@ -45,6 +45,7 @@ The component expects the following props:
   onExpandAll: PropTypes.func,
   onCollapseAll: PropTypes.func,
   loading: PropTypes.bool,
+  disabled: PropTypes.bool,
 }
 ```
 
@@ -61,3 +62,5 @@ the `onExpandAll` function will be fired when `Expand` button is clicked to expa
 the `onCollapseAll` function will be fired when `Collapse` button is clicked to collapse whole tree
 
 the `loading` boolean is used to indicate if the page data is loading
+
+the `disabled` boolean is used to indicate the state of the table
