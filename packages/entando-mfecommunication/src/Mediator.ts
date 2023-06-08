@@ -126,7 +126,7 @@ export class Mediator {
     return subscribers;
   }
   // It takes in an eventType parameter of type string
-  // and returns subscribers an array of strings
+  // and returns subscribers as an array of strings
   listSubscribersForEvent(eventType: string): string[] {
     const subscribers: string[] = [];
     if (this.events[eventType]) {
