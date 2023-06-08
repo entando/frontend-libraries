@@ -21,7 +21,6 @@ yeah
 
 ## List of Methods implemented
 
-The `errors` slorem
 
 ### subscribe(eventType,eventCallback) 
 
