@@ -146,13 +146,13 @@ Unsubscribes all subscribers from all event types.
 
 Publishes an event of a specific type with optional data. All subscribers of this event type will receive the data.
 
-#### `publishToSubscriber(eventType: string, callerId: string, data?: unknown): void`
+#### `publishToSubscribers(eventType: string, callerIds: string[], data?: unknown): void`
 
-Publishes an event of a specific type with optional data to a specific subscriber.
+Publishes an event of a specific type with optional data to a specific subscribers.
 
-#### `publishExceptToSubscriber(eventType: string, callerId: string, data?: unknown): void`
+#### `publishExceptToSubscribers(eventType: string, callerIds: string[], data?: unknown): void`
 
-Publishes an event of a specific type with optional data to all subscribers except for a specified one.
+Publishes an event of a specific type with optional data to all subscribers except for the specified ones.
 
 #### `listSubscribers(): Array<{eventType: string, subscriber: string}>`
 

@@ -20,6 +20,18 @@ export class Mediator {
     }
   }
 
+  private verifyArrayOfStrings(name: string, arr: unknown[]): void {
+    if (!Array.isArray(arr)) {
+      throw new Error(`${name} must be an array`);
+    }
+    arr.forEach(str => {
+      if (typeof str !== 'string') {
+        throw new Error(`${name} must be an array of strings`);
+      }
+    }
+    );
+  }
+
   private verifyCallback(name: string, callback: Callback): void {
     if (typeof callback !== 'function' || !callback) {
       throw new Error(`${name} must be a function`);
@@ -79,24 +91,24 @@ export class Mediator {
     }
   }
 
-  publishToSubscriber(eventType: string, callerId: string, data?: unknown): void {
+  publishToSubscribers(eventType: string, callerIds: string[], data?: unknown): void {
     this.verifyString('eventType', eventType);
-    this.verifyString('callerId', callerId);
+    this.verifyArrayOfStrings('callerIds', callerIds);
     if (this.events[eventType]) {
       this.events[eventType].forEach(cb => {
-        if (cb.callerId === callerId) {
+        if (callerIds.includes(cb.callerId)) {
           cb.callback(data);
         }
       });
     }
   }
 
-  publishExceptToSubscriber(eventType: string, callerId: string, data?: unknown): void {
+  publishExceptToSubscribers(eventType: string, callerIds: string[], data?: unknown): void {
     this.verifyString('eventType', eventType);
-    this.verifyString('callerId', callerId);
+    this.verifyArrayOfStrings('callerIds', callerIds);
     if (this.events[eventType]) {
       this.events[eventType].forEach(cb => {
-        if (cb.callerId !== callerId) {
+        if (!callerIds.includes(cb.callerId)) {
           cb.callback(data);
         }
       });

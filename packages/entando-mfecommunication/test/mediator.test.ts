@@ -82,7 +82,7 @@ describe('Mediator', () => {
     }
     mediator.subscribe(eventType, eventCallback1)
     mediator.subscribe(eventType, eventCallback2)
-    mediator.publishToSubscriber(eventType, 'caller2', 'data')
+    mediator.publishToSubscribers(eventType, ['caller2'], 'data')
     expect(eventCallback1.callback).not.toHaveBeenCalled()
     expect(eventCallback2.callback).toHaveBeenCalledWith('data')
   })
@@ -98,7 +98,7 @@ describe('Mediator', () => {
     }
     mediator.subscribe(eventType, eventCallback1)
     mediator.subscribe(eventType, eventCallback2)
-    mediator.publishExceptToSubscriber(eventType, 'caller2', 'data')
+    mediator.publishExceptToSubscribers(eventType, ['caller2'], 'data')
     expect(eventCallback1.callback).toHaveBeenCalledWith('data')
     expect(eventCallback2.callback).not.toHaveBeenCalled()
   })

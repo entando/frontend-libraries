@@ -1,6 +1,5 @@
 {
   "name": "@entando/mfecommunication",
-  "private": true,
   "version": "1.0.0",
   "type": "module",
   "license": "LGPL-2.1",
