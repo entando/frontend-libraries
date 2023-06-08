@@ -1,4 +1,4 @@
-# Entando Microfrontend Mediator Library
+# Entando Microfrontend Communication Library
 
 A powerful and lightweight JavaScript library that facilitates seamless communication between microfrontends through a centralized event-based communication mechanism.
 
@@ -25,29 +25,29 @@ A powerful and lightweight JavaScript library that facilitates seamless communic
 
 ## Installation
 
-Install `entando-mfecommunication` via npm:
+Install `@entando/mfecommunication` via npm:
 
 ```sh
-npm install @entando/entando-mfecommunication --save
+npm install @entando/mfecommunication --save
 ```
 
 ## Usage
 
-The `entando-mfecommunication` mediator is a singleton and should be used to facilitate communication between different microfrontends on the same page. Always remember to unsubscribe when you're done to avoid any memory leaks.  `entando-mfecommunication` mediator can be used in all JS libraries, frameworks and environments.
+The `@entando/mfecommunication` mediator is a singleton and should be used to facilitate communication between different microfrontends on the same page. Always remember to unsubscribe when you're done to avoid any memory leaks.  `@entando/mfecommunication` mediator can be used in all JS libraries, frameworks and environments.
 
-There are 3 different ways to use the `entando-mfecommunication` mediator functionality.
+There are 3 different ways to use the `@entando/mfecommunication` mediator functionality.
 
 1. Here is an example of how to use the mediator by importing the instance from the library:
 
 ```javascript
-import { mediatorInstance } from '@entando/entando-mfecommunication';
+import { mediatorInstance } from '@entando/mfecommunication';
 ```
 
-2. `entando-mfecommunication` library exposes the `mediatorInstance` to the window object. As soon as you import the `entando-mfecommunication` build file into html, then `window.entando.globals.mediator` will be available for any JS code.
+2. `entando-mfecommunication` library exposes the `mediatorInstance` to the window object. As soon as you import the `@entando/mfecommunication` build file into html, then `window.entando.globals.mediator` will be available for any JS code.
 Here is an example:
 ```html
     <!-- Include the bundled script -->
-    <script src="path/to/dist/entando-mfecommunication.umd.cjs"></script>
+    <script src="https://www.npmjs.com/package/@entando/mfecommunication/dist/entando-mfecommunication.umd.cjs"></script>
 
     <script>
         // The library is available as a global variable
@@ -62,11 +62,10 @@ Here is an example:
         mediator.publish("eventName", {message: "Hello World!"});
     </script>
 ```
-In order to build the library just run: `npm install && npm run build` command which will output `dist/entando-mfecommunication.umd.cjs` file that you can import anywhere.
 
-3. Since using singleton pattern might not be suitable for all the usecases `entando-mfecommunication` exports the `Mediator` class itself and the developer can create instance of it whenever and however they seem to be appropriate. This is how it can be used:
+3. Since using singleton pattern might not be suitable for all the usecases `@entando/mfecommunication` exports the `Mediator` class itself and the developer can create instance of it whenever and however they seem to be appropriate. This is how it can be used:
 ```javascript
-import { Mediator } from '@entando/entando-mfecommunication';
+import { Mediator } from '@entando/mfecommunication';
 
 const myMediatorInstance = new Mediator();
 ```

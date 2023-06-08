@@ -1,5 +1,5 @@
 {
-  "name": "@entando/entando-mfecommunication",
+  "name": "@entando/mfecommunication",
   "private": true,
   "version": "1.0.0",
   "type": "module",
