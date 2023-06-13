@@ -1,6 +1,6 @@
 {
   "name": "@entando/mfecommunication",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "type": "module",
   "license": "LGPL-2.1",
   "description": "mfe communications manager used in entando ecosystem",
