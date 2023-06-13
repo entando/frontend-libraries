@@ -1,6 +1,6 @@
 {
   "name": "@entando/mfecommunication",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "license": "LGPL-2.1",
   "description": "mfe communications manager used in entando ecosystem",
@@ -48,8 +48,8 @@
     "!test",
     "!modules"
   ],
-  "main": "./dist/entando-mfecommunication.umd.cjs",
-  "module": "./dist/entando-mfecommunication.js",
+  "main": "dist/entando-mfecommunication.umd.cjs",
+  "module": "dist/entando-mfecommunication.js",
   "exports": {
     ".": {
       "import": "./dist/entando-mfecommunication.js",
