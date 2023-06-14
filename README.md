@@ -39,6 +39,7 @@ command used to publish on `npm` the latest versions of the libraries
 - `messages`: states used to manage toasts and errors
 - `pages`: common pages used across Entando applications
 - `pagetreeselector`: table based view of pages that lets user to select from
+- `mfecommunication`: communication management mechanism for multiple mfes among each other on the same page
 
 ---
 

@@ -47,7 +47,7 @@ import { mediatorInstance } from '@entando/mfecommunication';
 Here is an example:
 ```html
     <!-- Include the bundled script -->
-    <script src="https://www.npmjs.com/package/@entando/mfecommunication/dist/entando-mfecommunication.umd.cjs"></script>
+    <script src="https://unpkg.com/@entando/mfecommunication/dist/entando-mfecommunication.umd.cjs"></script>
 
     <script>
         // The library is available as a global variable
