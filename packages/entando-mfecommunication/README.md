@@ -2,8 +2,7 @@
 
 A powerful and lightweight JavaScript library that facilitates seamless communication between microfrontends through a centralized event-based communication mechanism.
 
-[![npm version](https://img.shields.io/npm/v/microfrontend-mediator.svg?style=flat)](https://www.npmjs.com/entando/entando-mfecommunication)
-[![Build Status](https://travis-ci.org/yourusername/microfrontend-mediator.svg?branch=master)](https://travis-ci.org/entando/entando-mfecommunication)
+[![npm version](https://img.shields.io/npm/v/microfrontend-mediator.svg?style=flat)](https://www.npmjs.com/package/@entando/mfecommunication)
 
 ## Table of Contents
 
