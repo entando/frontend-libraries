@@ -152,15 +152,15 @@ export class Mediator {
   }
 }
 
-// BEWARE, this is a singleton, so it will be shared across all mfe, ALWAYS clean up with unsubscribe when done
-export const mediatorInstance = new Mediator();
-export type MediatorType = typeof mediatorInstance;
-
-// export default mediatorInstance to window for every mfe to access
-if (typeof window === 'undefined') {
-  console.warn('window is undefined, cannot export mediatorInstance');
-} else {
+// Check if mediatorInstance already exists in window object
+if (typeof window !== 'undefined') {
   window.entando = window.entando || {};
   window.entando.globals = window.entando.globals || {};
-  window.entando.globals.mediator = window.entando.globals.mediator || mediatorInstance;
+
+  // Only create new Mediator instance if one does not already exist
+  if (!window.entando.globals.mediator) {
+    window.entando.globals.mediator = new Mediator();
+  }
 }
+export const mediatorInstance = (typeof window !== 'undefined' && window?.entando?.globals?.mediator) ? window.entando.globals.mediator : new Mediator();
+export type MediatorType = Mediator;
